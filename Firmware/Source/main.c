@@ -13,13 +13,19 @@ int main()
 	
 	// Настройка портов
 	INITCFG_ConfigIO();
+
+	// Настройка SPI
+	INITCFG_ConfigSPI();
 	
 	// Настройка CAN
 	INITCFG_ConfigCAN();
 	
 	// Настройка UART
 	INITCFG_ConfigUART();
-	
+
+	// Настройка ADC
+	INITCFG_ConfigADC();
+
 	// Настройка системного счетчика
 	INITCFG_ConfigTimer7();
 	

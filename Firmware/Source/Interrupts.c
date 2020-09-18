@@ -33,7 +33,7 @@ void USB_LP_CAN_RX0_IRQHandler()
 
 void TIM7_IRQHandler()
 {
-	static uint16_t LED_BlinkTimeCounter = 0;
+static uint16_t LED_BlinkTimeCounter = 0;
 
 	if(TIM_StatusCheck(TIM7))
 	{
@@ -43,7 +43,6 @@ void TIM7_IRQHandler()
 			LL_ToggleBoardLED();
 			LED_BlinkTimeCounter = 0;
 		}
-
 		TIM_StatusClear(TIM7);
 	}
 }

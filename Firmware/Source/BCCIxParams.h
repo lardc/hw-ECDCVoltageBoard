@@ -13,19 +13,19 @@
 
 // Конфигурация Slave
 //
-#define CAN_SALVE_NID				101				// Node ID устройства
-#define CAN_SLAVE_NID_MASK			0x0003FC00		// Маска Slave node ID
-#define CAN_SLAVE_NID_MPY			10				// Смещение адреса Slave
+#define CAN_SLAVE_NID				101				// Node ID устройства		//TODO update field
+#define CAN_SLAVE_NID_MASK			0x0003FC00		// Маска Slave node ID		//TODO update field
+#define CAN_SLAVE_NID_MPY			10				// Смещение адреса Slave	//TODO update field
 
 // Конфигурация Master
 //
-#define CAN_MASTER_NID				20				// Node ID устройства
-#define CAN_MASTER_NID_MASK			0x03FC0000		// Маска Master node ID
-#define CAN_MASTER_NID_MPY			18				// Смещение адреса Master
+#define CAN_MASTER_NID				20				// Node ID устройства		//TODO update field
+#define CAN_MASTER_NID_MASK			0x03FC0000		// Маска Master node ID		//TODO update field
+#define CAN_MASTER_NID_MPY			18				// Смещение адреса Master	//TODO update field
 
 // CAN фильтр
 //
-#define CAN_SLAVE_FILTER_ID				(CAN_SALVE_NID << CAN_SLAVE_NID_MPY)
+#define CAN_SLAVE_FILTER_ID				(CAN_SLAVE_NID << CAN_SLAVE_NID_MPY)
 #define CAN_MASTER_FILTER_ID			(CAN_MASTER_NID << CAN_MASTER_NID_MPY)
 
 #endif // __BCCI_PARAMS_H

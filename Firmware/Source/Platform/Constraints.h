@@ -10,6 +10,8 @@
 #define NO		0
 #define YES		1
 
+//TODO add more const
+
 // Types
 typedef struct __TableItemConstraint
 {

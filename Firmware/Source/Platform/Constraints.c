@@ -6,7 +6,7 @@
 #include "Constraints.h"
 
 // Constants
-//
+//TODO see Constrain.h
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{0, 0, 0},																	// 0
 		{0, 0, 0},																	// 1

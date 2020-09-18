@@ -26,4 +26,9 @@
 #define CAN_BAUDRATE					1000000		// Битрейт CAN
 // ----------------------------------------------
 
+// SPI
+#define SPI1_BAUDRATE_BITS				0x5			//101b:pClk/64	// Baud rate control
+#define SPI1_LSB_FIRST					false
+
+// ----------------------------------------------
 #endif // __SYSCONFIG_H

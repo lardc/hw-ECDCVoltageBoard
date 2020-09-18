@@ -1,14 +1,22 @@
 // Header
+#include <string.h>
+
 #include "LowLevel.h"
 // Include
 #include "Board.h"
 #include "Delay.h"
+#include "Controller.h"
+
+// Variables
+//
+uint8_t CONTROL_UnitCtrls[CTRL_SIZE];
+uint8_t CONTROL_UnitRanges;
 
 // Functions
 //
 void LL_ToggleBoardLED()
 {
-	GPIO_Toggle(GPIO_INT_LED);
+	GPIO_Toggle(GPIO_LED);
 }
 //-----------------------------
 
@@ -18,44 +26,126 @@ void LL_SetStateExtLed(bool State)
 }
 //-----------------------------
 
-void LL_SetStateFan(bool State)
+void LL_SetStateLineSync1(bool State)
 {
-	GPIO_SetState(GPIO_FAN, State);
+	GPIO_SetState(GPIO_SYNC1_OUT, State);
 }
 //-----------------------------
 
-void LL_SetStateExtLineSync1(bool State)
+void LL_SetStateLineSync2(bool State)
 {
-	GPIO_SetState(GPIO_EXT_SYNC1_OUT, State);
+	GPIO_SetState(GPIO_SYNC2_OUT, State);
 }
 //-----------------------------
 
-void LL_SetStateExtLineSync2(bool State)
+bool LL_GetStateLineSync1()
 {
-	GPIO_SetState(GPIO_EXT_SYNC2_OUT, State);
+	return GPIO_GetState(GPIO_SYNC1_IN);
 }
 //-----------------------------
 
-void LL_SetStateIntLineSync1(bool State)
+bool LL_GetStateLineSync2()
 {
-	GPIO_SetState(GPIO_INT_SYNC1_OUT, State);
+	return GPIO_GetState(GPIO_SYNC2_IN);
 }
 //-----------------------------
 
-void LL_SetStateIntLineSync2(bool State)
+// ”правление выходами CTRL
+void LL_UpdateStateCtrls()
 {
-	GPIO_SetState(GPIO_INT_SYNC2_OUT, State);
+	//no need CS control
+	for(uint32_t i=0;i<CTRL_SIZE;i++) 	SPI_WriteByte(SPI1, CONTROL_UnitCtrls[i]);
+	//latch DATA/ update state pin
+	GPIO_SetState(GPIO_RCK, true);
+	//TODO ???delay???
+	GPIO_SetState(GPIO_RCK, false);
 }
 //-----------------------------
 
-bool LL_GetStateIntLineSync1()
+void LL_ResetStateCtrls()
 {
-	return GPIO_GetState(GPIO_INT_SYNC1_IN);
+	memset(CONTROL_UnitCtrls,0,CTRL_SIZE);
+	LL_UpdateStateCtrls();
+}
+//-----------------------------
+void LL_SetStateCtrls(SetCtrls Pin, bool State)
+{
+	uint32_t Nbyte;
+	uint32_t Nbit;
+
+	Nbyte = Pin/8;
+	Nbit = Pin%8;
+	if (State)
+	{
+		CONTROL_UnitCtrls[Nbyte] |= 1<<Nbit;
+	}
+	else
+	{
+		CONTROL_UnitCtrls[Nbyte] &= ~(1<<Nbit);
+	}
+	LL_UpdateStateCtrls();
 }
 //-----------------------------
 
-bool LL_GetStateIntLineSync2()
+// ”правление выходами RANGE
+void LL_UpdateStateRanges()
 {
-	return GPIO_GetState(GPIO_INT_SYNC2_IN);
+	GPIO_SetState(GPIO_SREG_CS, false);
+	SPI_WriteByte(SPI1, CONTROL_UnitRanges);
+	GPIO_SetState(GPIO_SREG_CS, true);
 }
 //-----------------------------
+
+void LL_ResetStateRanges()
+{
+	CONTROL_UnitRanges = 0;
+	LL_UpdateStateCtrls();
+}
+//-----------------------------
+void LL_SetStateRangess(SetRanges Pin, bool State)
+{
+	uint32_t Nbit;
+
+	Nbit = Pin%8;
+	if (State)
+	{
+		CONTROL_UnitRanges |= 1<<Nbit;
+	}
+	else
+	{
+		CONTROL_UnitRanges &= ~(1<<Nbit);
+	}
+	LL_UpdateStateCtrls();
+}
+//-----------------------------
+
+void LL_WriteDAC_LH(uint16_t Data)
+{
+	GPIO_SetState(GPIO_DAC_CS, false);
+	SPI_WriteByte(SPI1, Data);
+	GPIO_SetState(GPIO_DAC_CS, true);
+}
+//-----------------------------
+
+void LL_SelectDACx(SelDacX dac)
+{
+	switch (dac){
+	case SELECT_DAC_LV:
+		GPIO_SetState(GPIO_LDAC1, false);
+		GPIO_SetState(GPIO_LDAC2, true);
+		break;
+
+	case SELECT_DAC_HV:
+		GPIO_SetState(GPIO_LDAC1, false);
+		GPIO_SetState(GPIO_LDAC2, true);
+		break;
+
+	case SELECT_DAC_NONE:
+	default:
+		GPIO_SetState(GPIO_LDAC1, true);
+		GPIO_SetState(GPIO_LDAC2, true);
+		break;
+	}
+}
+
+

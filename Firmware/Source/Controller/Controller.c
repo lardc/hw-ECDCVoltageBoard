@@ -2,6 +2,7 @@
 #include "Controller.h"
 //
 // Includes
+#include "BCCIxParams.h"
 #include "Board.h"
 #include "Delay.h"
 #include "DeviceProfile.h"
@@ -31,15 +32,19 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
+void CONTROL_ResetHardware();
 
 // Functions
 //
 void CONTROL_Init()
 {
+//TODO 	// Переменные для конфигурации EndPoint
+
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
 	DT_Init(EPROMService, false);
+	DT_SaveFirmwareInfo(CAN_SLAVE_NID, 0);
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	// Сброс значений
@@ -59,9 +64,17 @@ void CONTROL_ResetToDefaultState()
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
+	CONTROL_ResetHardware();
+
 	CONTROL_SetDeviceState(DS_None);
 }
+//------------------------------------------
 
+void CONTROL_ResetHardware()
+{
+	LL_SetStateExtLed(false);
+//TODO more devices
+}
 //------------------------------------------
 
 void CONTROL_Idle()
@@ -97,6 +110,19 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
+			break;
+
+		case ACT_FAULT_CLEAR:
+			{
+				if(CONTROL_State == DS_Fault)
+				{
+					CONTROL_ResetToDefaultState();
+				}
+			}
+			break;
+
+		case ACT_WARNING_CLEAR:
+			DataTable[REG_WARNING] = 0;
 			break;
 
 		default:

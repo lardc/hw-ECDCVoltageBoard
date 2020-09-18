@@ -3,18 +3,20 @@
 
 // Include
 #include "stdinc.h"
-
+#include "Controller.h"
 // Functions
 //
 void LL_ToggleBoardLED();
 void LL_SetStateExtLed(bool State);
-void LL_SetStateFan(bool State);
-void LL_SetStateExtLineSync1(bool State);
-void LL_SetStateExtLineSync2(bool State);
-void LL_SetStateIntLineSync1(bool State);
-void LL_SetStateIntLineSync2(bool State);
+void LL_SetStateLineSync1(bool State);
+void LL_SetStateLineSync2(bool State);
 
-bool LL_GetStateIntLineSync1();
-bool LL_GetStateIntLineSync2();
+bool LL_GetStateLineSync1();
+bool LL_GetStateLineSync2();
+
+void LL_ResetStateCtrls();
+void LL_SetStateCtrls(SetCtrls Pin, bool State);
+void LL_ResetStateRanges();
+void LL_SetStateRangess(SetRanges Pin, bool State);
 
 #endif //__LOWLEVEL_H
