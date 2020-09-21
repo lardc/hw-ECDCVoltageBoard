@@ -101,6 +101,15 @@ void INITCFG_ConfigTimer7()
 }
 //------------------------------------------------
 
+void INITCFG_ConfigIna128U()
+{
+	;//set V_HV_CTRL_RANGE_0
+	;//set V_HV_CTRL_RANGE_1
+	;//set V_HV_CTRL_RANGE_2
+	;//set V_HV_CTRL_RANGE_3
+}
+//------------------------------------------------
+
 void INITCFG_ConfigWatchDog()
 {
 	IWDG_Config();

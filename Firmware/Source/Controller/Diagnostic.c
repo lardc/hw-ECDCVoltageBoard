@@ -43,6 +43,92 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 
+		case ACT_DBG_RELAY_ON:
+			{
+				DBGACT_RelayCtrlsOn();	//Relay = DataTable[REG_DBG_STATE]; //1..8
+			}
+			break;
+		case ACT_DBG_RELAY_OFF:
+			{
+				DBGACT_RelayCtrlsOff();	//Relay = DataTable[REG_DBG_STATE]; //1..8
+			}
+			break;
+
+		case ACT_DBG_LHVSELECT_LOW:
+			{
+				DBGACT_LHVSelectLow();
+			}
+			break;
+
+		case ACT_DBG_LHVSELECT_HIGH:
+			{
+				DBGACT_LHVSelectHigh();
+			}
+			break;
+
+		case ACT_DBG_CTRL48V_ENABLE:
+			{
+				DBGACT_Ctrls48VEnable();
+			}
+			break;
+
+		case ACT_DBG_CTRL48V_DISABLE:
+			{
+				DBGACT_Ctrls48VDisable();
+			}
+			break;
+
+		case ACT_DBG_CTRL350V_ENABLE:
+			{
+				DBGACT_Ctrls350VEnable();
+			}
+			break;
+
+		case ACT_DBG_CTRL350V_DISABLE:
+			{
+				DBGACT_Ctrls350VDisable();
+			}
+			break;
+
+		case ACT_DBG_SELECT_VHV_CTRLS:
+			{
+				DBGACT_SelectRg();		//Range = DataTable[REG_DBG_STATE]; //1..4
+			}
+			break;
+
+		case ACT_DBG_VSENS_SELECT_SRC:
+			{
+				DBGACT_SelectVSensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_SENS_EN, 2:HV_SENS_EN	//TODO in the future add POT as source
+			}
+			break;
+
+		case ACT_DBG_ISENS_SELECT_SRC:
+			{
+				DBGACT_SelectISensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_SENS_EN, 2:HV_SENS_EN	//TODO in the future add POT as source
+			}
+			break;
+
+		case ACT_DBG_SELECT_DAC:
+			{
+				DBGACT_SelectDACx();		//dacx = DataTable[REG_DBG_STATE]; //
+			}
+			break;
+		case ACT_DBG_WRITE_DAC:
+			{
+				DBGACT_WriteDACx();			//data = DataTable[REG_DBG_STATE]; //
+			}
+			break;
+		case ACT_DBG_SELECT_LV_CTRLS:
+			{
+				DBGACT_SelectLVCtrls();			//data = DataTable[REG_DBG_STATE]; //
+			}
+			break;
+		case ACT_DBG_SELECT_HV_CTRLS:
+			{
+				DBGACT_SelectHVCtrls();			//data = DataTable[REG_DBG_STATE]; //
+			}
+			break;
+
 //TODO need more actions here
 
 		default:

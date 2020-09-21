@@ -49,12 +49,12 @@ bool LL_GetStateLineSync2()
 	return GPIO_GetState(GPIO_SYNC2_IN);
 }
 //-----------------------------
-
+//TODO see SPI wide 8 or 16 bit??
 // ”правление выходами CTRL
 void LL_UpdateStateCtrls()
 {
 	//no need CS control
-	for(uint32_t i=0;i<CTRL_SIZE;i++) 	SPI_WriteByte(SPI1, CONTROL_UnitCtrls[i]);
+	for(uint32_t i=0;i<CTRL_SIZE;i++) 	SPI_WriteByte(SPI1, CONTROL_UnitCtrls[i]);//TODO SPI 8 bit
 	//latch DATA/ update state pin
 	GPIO_SetState(GPIO_RCK, true);
 	//TODO ???delay???
@@ -119,7 +119,7 @@ void LL_SetStateRangess(SetRanges Pin, bool State)
 }
 //-----------------------------
 
-void LL_WriteDAC_LH(uint16_t Data)
+void LL_WriteDAC_LH(uint16_t Data)	//TODO SPI 16 bit
 {
 	GPIO_SetState(GPIO_DAC_CS, false);
 	SPI_WriteByte(SPI1, Data);
@@ -131,18 +131,18 @@ void LL_SelectDACx(SelDacX dac)
 {
 	switch (dac){
 	case SELECT_DAC_LV:
+		GPIO_SetState(GPIO_LDAC2, true);	//off(), next on()
 		GPIO_SetState(GPIO_LDAC1, false);
-		GPIO_SetState(GPIO_LDAC2, true);
 		break;
 
 	case SELECT_DAC_HV:
+		GPIO_SetState(GPIO_LDAC2, true);	//off(), next on()
 		GPIO_SetState(GPIO_LDAC1, false);
-		GPIO_SetState(GPIO_LDAC2, true);
 		break;
 
 	case SELECT_DAC_NONE:
 	default:
-		GPIO_SetState(GPIO_LDAC1, true);
+		GPIO_SetState(GPIO_LDAC1, true);	//off(), off()
 		GPIO_SetState(GPIO_LDAC2, true);
 		break;
 	}

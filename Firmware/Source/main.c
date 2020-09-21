@@ -23,6 +23,10 @@ int main()
 	// Настройка UART
 	INITCFG_ConfigUART();
 
+//TODO
+	//init INA128U
+	INITCFG_ConfigIna128U();	//need set default Rg
+
 	// Настройка ADC
 	INITCFG_ConfigADC();
 

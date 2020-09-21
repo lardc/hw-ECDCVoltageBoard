@@ -17,6 +17,24 @@
 #define ACT_DBG_IS_STATE_SYNC_1			54	// Состояние цепи SYNC_1
 #define ACT_DBG_IS_STATE_SYNC_2			55	// Состояние цепи SYNC_2
 #define ACT_DBG_PULSE_EXT_LED			56	// Одиночный импусль внешнего светодиода
+
+#define ACT_DBG_RELAY_ON				57	// Включение реле [REG_DBG_STATE]
+#define ACT_DBG_RELAY_OFF				58	// Выключение реле [REG_DBG_STATE]
+
+#define ACT_DBG_LHVSELECT_LOW			59	// Подключение низковольтного источника
+#define ACT_DBG_LHVSELECT_HIGH			60	// Подключение высоковольтного источника
+#define ACT_DBG_CTRL48V_ENABLE			61	// Включение источника 48В
+#define ACT_DBG_CTRL48V_DISABLE			62	// Включение источника 48В
+#define ACT_DBG_CTRL350V_ENABLE			63	// Включение источника 350В
+#define ACT_DBG_CTRL350V_DISABLE		64	// Включение источника 350В
+#define ACT_DBG_SELECT_VHV_CTRLS		65	// Выбор диапазона измерения напряжения
+#define ACT_DBG_VSENS_SELECT_SRC		66	// Выбор источника для измерения напряжения
+#define ACT_DBG_ISENS_SELECT_SRC		67	// Выбор источника для измерения тока
+#define ACT_DBG_SELECT_DAC				68	// Выбор рабочего источника тока/напряжения
+#define ACT_DBG_WRITE_DAC				69	// Запись параметров в источник тока/напряжения
+
+#define ACT_DBG_SELECT_LV_CTRLS			70	// Выбор диапазона ... напряжения
+#define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
 //TODO add more DBG_CMD !!!
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора

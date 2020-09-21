@@ -18,5 +18,7 @@ void LL_ResetStateCtrls();
 void LL_SetStateCtrls(SetCtrls Pin, bool State);
 void LL_ResetStateRanges();
 void LL_SetStateRangess(SetRanges Pin, bool State);
+void LL_WriteDAC_LH(uint16_t Data);
+void LL_SelectDACx(SelDacX dac);
 
 #endif //__LOWLEVEL_H
