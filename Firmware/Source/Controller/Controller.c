@@ -38,8 +38,9 @@ void CONTROL_ResetHardware();
 //
 void CONTROL_Init()
 {
-//TODO 	// Переменные для конфигурации EndPoint
 
+	// Переменные для конфигурации EndPoint
+	//TODO :beta
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
@@ -73,7 +74,16 @@ void CONTROL_ResetToDefaultState()
 void CONTROL_ResetHardware()
 {
 	LL_SetStateExtLed(false);
-//TODO more devices
+//TODO :debugging stage: set default state CTLRS & RANGE
+//TODO :debugging stage: set CS1,CS2,CS3 H/L
+//TODO :debugging stage: set GPIO_SREG_OE1 H/L
+
+//TODO :debugging stage: init INA128U
+	;//set V_HV_CTRL_RANGE_0
+	;//set V_HV_CTRL_RANGE_1
+	;//set V_HV_CTRL_RANGE_2
+	;//set V_HV_CTRL_RANGE_3
+
 }
 //------------------------------------------
 

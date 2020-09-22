@@ -14,20 +14,20 @@ bool DBGACT_ReadStateLineSync1();
 bool DBGACT_ReadStateLineSync2();
 
 //TODO check & update return type
-bool DBGACT_RelayCtrlsOn();
-bool DBGACT_RelayCtrlsOff();
-bool DBGACT_LHVSelectLow();
-bool DBGACT_LHVSelectHigh();
-bool DBGACT_Ctrls48VEnable();
-bool DBGACT_Ctrls48VDisable();
-bool DBGACT_Ctrls350VEnable();
-bool DBGACT_Ctrls350VDisable();
-bool DBGACT_SelectRg();
-bool DBGACT_SelectVSensSrc();
-bool DBGACT_SelectISensSrc();
-bool DBGACT_SelectDACx();
-bool DBGACT_WriteDACx();
-bool DBGACT_SelectLVCtrls();
-bool DBGACT_SelectHVCtrls();
+void DBGACT_RelayCtrlsOn();
+void DBGACT_RelayCtrlsOff();
+void DBGACT_LHVSelectLow();
+void DBGACT_LHVSelectHigh();
+void DBGACT_Ctrls48VEnable();
+void DBGACT_Ctrls48VDisable();
+void DBGACT_Ctrls350VEnable();
+void DBGACT_Ctrls350VDisable();
+void DBGACT_SelectRg();
+void DBGACT_SelectVSensSrc();
+void DBGACT_SelectISensSrc();
+void DBGACT_SelectDACx();
+void DBGACT_WriteDACx();
+void DBGACT_SelectLVCtrls();
+void DBGACT_SelectHVCtrls();
 
 #endif //__DEBUGACTIONS_H

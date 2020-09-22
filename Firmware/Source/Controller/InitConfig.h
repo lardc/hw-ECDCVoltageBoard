@@ -13,5 +13,4 @@ void INITCFG_ConfigSPI();
 void INITCFG_ConfigADC();
 void INITCFG_ConfigTimer7();
 void INITCFG_ConfigWatchDog();
-void INITCFG_ConfigIna128U();
 #endif //__INITCONFIG_H

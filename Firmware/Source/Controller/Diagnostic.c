@@ -6,6 +6,7 @@
 #include "LowLevel.h"
 #include "Controller.h"
 #include "DebugActions.h"
+#include "Board.h"
 
 // Functions
 bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
@@ -128,8 +129,18 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 				DBGACT_SelectHVCtrls();			//data = DataTable[REG_DBG_STATE]; //
 			}
 			break;
+		case ACT_DBG_READ_ADC_VCH:
+			{
+				DataTable[REG_DBG_STATE] = ADC_Measure(ADC2,1);			//ADC V-chanel
+			}
+			break;
 
-//TODO need more actions here
+		case ACT_DBG_READ_ADC_ICH:
+			{
+				DataTable[REG_DBG_STATE] = ADC_Measure(ADC1,1);			//ADC I-chanel
+			}
+			break;
+//TODO need more ActionID here
 
 		default:
 			return false;
@@ -137,3 +148,4 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 
 	return true;
 }
+

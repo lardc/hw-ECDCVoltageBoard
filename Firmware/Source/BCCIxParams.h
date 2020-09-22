@@ -13,15 +13,15 @@
 
 // Конфигурация Slave
 //
-#define CAN_SLAVE_NID				101				// Node ID устройства		//TODO update field
-#define CAN_SLAVE_NID_MASK			0x0003FC00		// Маска Slave node ID		//TODO update field
-#define CAN_SLAVE_NID_MPY			10				// Смещение адреса Slave	//TODO update field
+#define CAN_SLAVE_NID				101				// Node ID устройства		//TODO change CAN_SLAVE_NID
+#define CAN_SLAVE_NID_MASK			0x0003FC00		// Маска Slave node ID		//TODO change CAN_SLAVE_NID_MASK
+#define CAN_SLAVE_NID_MPY			10				// Смещение адреса Slave	//TODO change CAN_SLAVE_NID_MPY
 
 // Конфигурация Master
 //
-#define CAN_MASTER_NID				20				// Node ID устройства		//TODO update field
-#define CAN_MASTER_NID_MASK			0x03FC0000		// Маска Master node ID		//TODO update field
-#define CAN_MASTER_NID_MPY			18				// Смещение адреса Master	//TODO update field
+#define CAN_MASTER_NID				20				// Node ID устройства		//TODO change CAN_MASTER_NID
+#define CAN_MASTER_NID_MASK			0x03FC0000		// Маска Master node ID		//TODO change CAN_MASTER_NID_MASK
+#define CAN_MASTER_NID_MPY			18				// Смещение адреса Master	//TODO change CAN_MASTER_NID_MPY
 
 // CAN фильтр
 //

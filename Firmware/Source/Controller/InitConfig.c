@@ -49,9 +49,6 @@ void INITCFG_ConfigIO()
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_CLK, AltFn_5);
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_MOSI, AltFn_5);
 
-//TODO set default state CTLRS & RANGE
-//TODO set CS1,CS2,CS3 H/L
-//TODO set GPIO_SREG_OE1 H/L
 }
 
 //------------------------------------------------
@@ -103,10 +100,7 @@ void INITCFG_ConfigTimer7()
 
 void INITCFG_ConfigIna128U()
 {
-	;//set V_HV_CTRL_RANGE_0
-	;//set V_HV_CTRL_RANGE_1
-	;//set V_HV_CTRL_RANGE_2
-	;//set V_HV_CTRL_RANGE_3
+
 }
 //------------------------------------------------
 

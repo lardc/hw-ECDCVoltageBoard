@@ -35,7 +35,10 @@
 
 #define ACT_DBG_SELECT_LV_CTRLS			70	// Выбор диапазона ... напряжения
 #define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
-//TODO add more DBG_CMD !!!
+#define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
+#define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
+
+//TODO add more ACT_DBG !!!
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
