@@ -16,7 +16,8 @@ typedef enum __DeviceState
 	DS_InProcess = 4
 } DeviceState;
 
-typedef enum __SetCtrls{
+typedef enum __SetCtrls {
+//-0-
 	CTRLS_NONE = 0,			//none		//-+-
 	V_HV_CTRL_RANGE_2 = 0,	//@CS1.0	//dbg+	//EN_VOL_SENS_2
 	V_HV_CTRL_RANGE_3,		//@CS1.1	//dbg+	//EN_VOL_SENS_3
@@ -26,7 +27,7 @@ typedef enum __SetCtrls{
 	HV_CUR_SENS_EN,			//@CS1.5	//dbg+
 	V_HV_CTRL_RANGE_0,		//@CS1.6	//dbg+	//EN_VOL_SENS_0
 	V_HV_CTRL_RANGE_1,		//@CS1.7	//dbg+	//EN_VOL_SENS_1
-
+//-1-
 	CTRLS_RESERVED1,		//@CS2.0	//-+-
 	RLC_CTRL2,				//@CS2.1	//dbg+	//PS1
 	RLC_CTRL3,				//@CS2.2	//dbg+	//PS2
@@ -35,9 +36,9 @@ typedef enum __SetCtrls{
 	RLC_CTRL6,				//@CS2.5	//dbg+	//POT_CTRL
 	RLC_CTRL7,				//@CS2.6	//dbg+	//POT+ LV|LH
 	RLC_CTRL8,				//@CS2.7	//dbg+	//POT- LV|LH
-
-	LV_HV_CTRL2,			//@CS3.0	//dbg+	//off: [LV-] connect, on: [HV-]
-	LV_HV_CTRL1,			//@CS3.1	//dbg+	//off: [LV+] connect, on: [HV+]
+//-2-
+	LV_HV_CTRL2,			//@CS3.0	//dbg+	//low: [LV-] connect, high: [HV-]
+	LV_HV_CTRL1,			//@CS3.1	//dbg+	//low: [LV+] connect, high: [HV+]
 	RLC_CTRL1,				//@CS3.2	//dbg+	//BUS
 	CTRLS_RESERVED2,		//@CS3.3	//-+-
 	EN_48V_CTRL,			//@CS3.4	//dbg+	//add +5VDC to 24VDC
@@ -47,7 +48,7 @@ typedef enum __SetCtrls{
 	LAST_CTRLS_NUM			//last num	//-+-
 } SetCtrls;
 
-typedef enum __SetRanges{
+typedef enum __SetRanges {
 	RANGES_NONE = 0,		//none			//-+-
 	LV_CTRL_RANGE_1 = 0,	//@SREG_CS.0	//dbg+
 	LV_CTRL_RANGE_2,		//@SREG_CS.1	//dbg+
@@ -59,7 +60,7 @@ typedef enum __SetRanges{
 	RANGES_RESERVED1		//@SREG_CS.7	//-+-
 } SetRanges;
 
-typedef enum __SelDacX{
+typedef enum __SelDacX {
 	SELECT_DAC_NONE=0,
 	SELECT_DAC_LV,
 	SELECT_DAC_HV

@@ -135,11 +135,13 @@ void LL_SelectDACx(SelDacX dac)
 	switch (dac){
 	case SELECT_DAC_LV:
 		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
+		//TODO ???delay??? :debugging stage
 		GPIO_SetState(GPIO_LDAC1, false);
 		break;
 
 	case SELECT_DAC_HV:
 		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
+		//TODO ???delay??? :debugging stage
 		GPIO_SetState(GPIO_LDAC1, false);
 		break;
 

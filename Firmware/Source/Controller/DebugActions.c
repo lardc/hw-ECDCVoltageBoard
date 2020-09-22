@@ -365,7 +365,6 @@ void DBGACT_SelectLVCtrls()
 }
 //-----------------------------
 
-//-----------------------------
 void DBGACT_SelectHVCtrls()
 {
 	Int16U Range = DataTable[REG_DBG_STATE];
