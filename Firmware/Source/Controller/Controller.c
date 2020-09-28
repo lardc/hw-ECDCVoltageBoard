@@ -77,7 +77,9 @@ void CONTROL_ResetHardware()
 //TODO :debugging stage: set default state CTLRS & RANGE
 //TODO :debugging stage: set CS1,CS2,CS3 H/L
 //TODO :debugging stage: set GPIO_SREG_OE1 H/L
-
+	GPIO_SetState(GPIO_CS1, false);
+	GPIO_SetState(GPIO_CS2, false);
+	GPIO_SetState(GPIO_CS3, false);
 //TODO :debugging stage: init INA128U
 	;//set V_HV_CTRL_RANGE_0
 	;//set V_HV_CTRL_RANGE_1

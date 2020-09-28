@@ -70,7 +70,7 @@ void INITCFG_ConfigUART()
 
 void INITCFG_ConfigSPI()
 {
-	SPI_Init(SPI1, SPI1_BAUDRATE_BITS, SPI1_LSB_FIRST);
+	SPI_Init8b(SPI1, SPI1_BAUDRATE_BITS, SPI1_LSB_FIRST);
 }
 //------------------------------------------------------------------------------
 

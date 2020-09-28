@@ -9,6 +9,7 @@
 //Definitions
 #define NO		0
 #define YES		1
+#define MAX_DBG	65535
 
 // Types
 typedef struct __TableItemConstraint

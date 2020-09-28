@@ -54,7 +54,8 @@ bool LL_GetStateLineSync2()
 void LL_UpdateStateCtrls()
 {
 	//no need CS control
-	for(uint32_t i=0;i<CTRL_SIZE;i++) 	SPI_WriteByte(SPI1, CONTROL_UnitCtrls[i]);
+	uint32_t i = CTRL_SIZE;
+	while(i--) 	SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
 	//latch DATA / update state pin
 	GPIO_SetState(GPIO_RCK, true);
 	//TODO ???delay??? :debugging stage
@@ -91,7 +92,7 @@ void LL_SetStateCtrls(SetCtrls Pin, bool State)
 void LL_UpdateStateRanges()
 {
 	GPIO_SetState(GPIO_SREG_CS, false);
-	SPI_WriteByte(SPI1, CONTROL_UnitRanges);
+	SPI_WriteByte8b(SPI1, CONTROL_UnitRanges);
 	GPIO_SetState(GPIO_SREG_CS, true);
 }
 //-----------------------------
@@ -102,7 +103,7 @@ void LL_ResetStateRanges()
 	LL_UpdateStateRanges();
 }
 //-----------------------------
-void LL_SetStateRangess(SetRanges Pin, bool State)
+void LL_SetStateRanges(SetRanges Pin, bool State)
 {
 	uint32_t Nbit;
 
@@ -123,8 +124,9 @@ void LL_WriteDAC_LH(uint16_t Data)
 {
 	GPIO_SetState(GPIO_DAC_CS, false);
 
-	SPI_WriteByte(SPI1, Data&0xff);
-	SPI_WriteByte(SPI1, (Data>>8)&0xff);
+
+	SPI_WriteByte8b(SPI1, (Data>>8)&0xff);
+	SPI_WriteByte8b(SPI1, Data&0xff);
 
 	GPIO_SetState(GPIO_DAC_CS, true);
 }

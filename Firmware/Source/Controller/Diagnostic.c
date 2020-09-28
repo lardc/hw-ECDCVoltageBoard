@@ -140,6 +140,12 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 				DataTable[REG_DBG_STATE] = ADC_Measure(ADC1,1);			//ADC I-chanel
 			}
 			break;
+
+		case ACT_DBG_TEST_WAVEFORM:
+			{
+				DBGACT_TestWaveform();			//Triangle channel A&B (LV/LC domain)
+			}
+			break;
 //TODO need more ActionID here
 
 		default:

@@ -17,7 +17,7 @@ bool LL_GetStateLineSync2();
 void LL_ResetStateCtrls();
 void LL_SetStateCtrls(SetCtrls Pin, bool State);
 void LL_ResetStateRanges();
-void LL_SetStateRangess(SetRanges Pin, bool State);
+void LL_SetStateRanges(SetRanges Pin, bool State);
 void LL_WriteDAC_LH(uint16_t Data);
 void LL_SelectDACx(SelDacX dac);
 

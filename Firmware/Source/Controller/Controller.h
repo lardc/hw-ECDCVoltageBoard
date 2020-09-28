@@ -68,7 +68,9 @@ typedef enum __SelDacX {
 
 // Defines
 #define CTRL_SIZE ((LAST_CTRLS_NUM-1)/8+1)
-
+#define DAC_MAX_VALUE	4095
+#define DAC_SELECT_CHU	(0<<15)	//channel A
+#define DAC_SELECT_CHI	(1<<15)	//channel B
 // Variables
 //
 extern volatile Int64U CONTROL_TimeCounter;
@@ -80,5 +82,6 @@ extern Int64U CONTROL_LEDTimeout;
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);
+void CONTROL_UpdateWatchDog();
 
 #endif // __CONTROLLER_H

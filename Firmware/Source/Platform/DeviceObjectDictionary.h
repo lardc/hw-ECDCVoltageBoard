@@ -38,6 +38,7 @@
 #define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
+#define ACT_DBG_TEST_WAVEFORM			74	// Формирование тестового сигнала
 
 //TODO add more ACT_DBG !!!
 

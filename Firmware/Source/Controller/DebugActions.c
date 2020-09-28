@@ -324,41 +324,41 @@ void DBGACT_SelectLVCtrls()
 	{
 		case 1:
 			{
-				LL_SetStateCtrls(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
 				//
-				LL_SetStateCtrls(LV_CTRL_RANGE_1,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_2,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
 			}
 			break;
 
 		case 2:
 			{
-				LL_SetStateCtrls(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
 				//
-				LL_SetStateCtrls(LV_CTRL_RANGE_0,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_2,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
 			}
 			break;
 
 		case 3:
 			{
-				LL_SetStateCtrls(LV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
 				//
-				LL_SetStateCtrls(LV_CTRL_RANGE_0,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_1,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
 			}
 			break;
 
 		case 4:
 			{
-				LL_SetStateCtrls(LV_CTRL_RANGE_3,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
 				//
-				LL_SetStateCtrls(LV_CTRL_RANGE_0,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_1,true);
-				LL_SetStateCtrls(LV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
 			}
 			break;
 	}
@@ -373,31 +373,56 @@ void DBGACT_SelectHVCtrls()
 	{
 		case 1:
 			{
-				LL_SetStateCtrls(HV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(HV_CTRL_RANGE_0,false);
 				//
-				LL_SetStateCtrls(HV_CTRL_RANGE_1,true);
-				LL_SetStateCtrls(HV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_1,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_2,true);
 			}
 			break;
 
 		case 2:
 			{
-				LL_SetStateCtrls(HV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(HV_CTRL_RANGE_1,false);
 				//
-				LL_SetStateCtrls(HV_CTRL_RANGE_0,true);
-				LL_SetStateCtrls(HV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_0,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_2,true);
 			}
 			break;
 
 		case 3:
 			{
-				LL_SetStateCtrls(HV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(HV_CTRL_RANGE_2,false);
 				//
-				LL_SetStateCtrls(HV_CTRL_RANGE_0,true);
-				LL_SetStateCtrls(HV_CTRL_RANGE_1,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_0,true);
+				LL_SetStateRanges(HV_CTRL_RANGE_1,true);
 			}
 			break;
 	}
+}
+//-----------------------------
+
+void DBGACT_TestWaveform()
+{
+uint16_t i = 0;
+
+	LL_SelectDACx(SELECT_DAC_LV);
+	do
+	{
+		LL_WriteDAC_LH(i | DAC_SELECT_CHU);
+		LL_WriteDAC_LH((DAC_MAX_VALUE-i) | DAC_SELECT_CHI);
+		i++;
+	} while (i<=DAC_MAX_VALUE);
+	i--;
+	CONTROL_UpdateWatchDog();
+	do
+	{
+		LL_WriteDAC_LH(i | DAC_SELECT_CHU);
+		LL_WriteDAC_LH((DAC_MAX_VALUE-i) | DAC_SELECT_CHI);
+	} while (i--);
+	CONTROL_UpdateWatchDog();
+
+	LL_SelectDACx(SELECT_DAC_NONE);
+
 }
 //-----------------------------
 

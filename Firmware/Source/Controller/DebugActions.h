@@ -13,7 +13,6 @@ void DBGACT_GenerateImpulseToLineSync2();
 bool DBGACT_ReadStateLineSync1();
 bool DBGACT_ReadStateLineSync2();
 
-//TODO check & update return type
 void DBGACT_RelayCtrlsOn();
 void DBGACT_RelayCtrlsOff();
 void DBGACT_LHVSelectLow();
@@ -29,5 +28,6 @@ void DBGACT_SelectDACx();
 void DBGACT_WriteDACx();
 void DBGACT_SelectLVCtrls();
 void DBGACT_SelectHVCtrls();
+void DBGACT_TestWaveform();
 
 #endif //__DEBUGACTIONS_H
