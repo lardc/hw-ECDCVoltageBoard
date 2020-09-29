@@ -1,4 +1,4 @@
-#include "InitConfig.h"
+п»ї#include "InitConfig.h"
 #include "Board.h"
 #include "SysConfig.h"
 #include "BCCIxParams.h"
@@ -13,16 +13,16 @@ Boolean INITCFG_ConfigSystemClock()
 
 void INITCFG_ConfigIO()
 {
-// Включение тактирования портов
+// Р’РєР»СЋС‡РµРЅРёРµ С‚Р°РєС‚РёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ
 	RCC_GPIO_Clk_EN(PORTA);
 	RCC_GPIO_Clk_EN(PORTB);
 	RCC_GPIO_Clk_EN(PORTC);
 	
-// Аналоговые входы
+// РђРЅР°Р»РѕРіРѕРІС‹Рµ РІС…РѕРґС‹
 	GPIO_InitAnalog(GPIO_MEASURE_V);
 	GPIO_InitAnalog(GPIO_MEASURE_I);
 	
-// Выходы
+// Р’С‹С…РѕРґС‹
 	GPIO_InitPushPullOutput(GPIO_CS1);
 	GPIO_InitPushPullOutput(GPIO_CS2);
 	GPIO_InitPushPullOutput(GPIO_CS3);
@@ -35,11 +35,11 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_LED);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED);
 	
-// Линия синхронизации (выходы)
+// Р›РёРЅРёСЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё (РІС‹С…РѕРґС‹)
 	GPIO_InitPushPullOutput(GPIO_SYNC1_OUT);
 	GPIO_InitPushPullOutput(GPIO_SYNC2_OUT);
 	
-// Альтернативные функции
+// РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ С„СѓРЅРєС†РёРё
 	GPIO_InitAltFunction(GPIO_ALT_CAN_RX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_CAN_TX, AltFn_9);
 	

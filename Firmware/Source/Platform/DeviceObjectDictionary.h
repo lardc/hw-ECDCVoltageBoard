@@ -1,67 +1,67 @@
-#ifndef __DEV_OBJ_DIC_H
+п»ї#ifndef __DEV_OBJ_DIC_H
 #define __DEV_OBJ_DIC_H
 
-// Команды
-#define ACT_ENABLE_POWER				1	// Переход в состояние ожидания
-#define ACT_DISABLE_POWER				2	// Отключение блока
-#define ACT_FAULT_CLEAR					3	// Очистка fault
-#define ACT_WARNING_CLEAR				4	// Очистка warning
+// РљРѕРјР°РЅРґС‹
+#define ACT_ENABLE_POWER				1	// РџРµСЂРµС…РѕРґ РІ СЃРѕСЃС‚РѕСЏРЅРёРµ РѕР¶РёРґР°РЅРёСЏ
+#define ACT_DISABLE_POWER				2	// РћС‚РєР»СЋС‡РµРЅРёРµ Р±Р»РѕРєР°
+#define ACT_FAULT_CLEAR					3	// РћС‡РёСЃС‚РєР° fault
+#define ACT_WARNING_CLEAR				4	// РћС‡РёСЃС‚РєР° warning
 
-#define ACT_START_PROCESS				100	// Страрт процесса формирования импульса
-#define ACT_STOP_PROCESS				101	// Остановка процесса формирования импульса
+#define ACT_START_PROCESS				100	// РЎС‚СЂР°СЂС‚ РїСЂРѕС†РµСЃСЃР° С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РёРјРїСѓР»СЊСЃР°
+#define ACT_STOP_PROCESS				101	// РћСЃС‚Р°РЅРѕРІРєР° РїСЂРѕС†РµСЃСЃР° С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РёРјРїСѓР»СЊСЃР°
 
 //debug commands
-#define ACT_DBG_PULSE_SYNC1				50	// Одиночный импульс SYNC_1
-#define ACT_DBG_PULSE_SYNC2				51	// Одиночный импульс SYNC_2
+#define ACT_DBG_PULSE_SYNC1				50	// РћРґРёРЅРѕС‡РЅС‹Р№ РёРјРїСѓР»СЊСЃ SYNC_1
+#define ACT_DBG_PULSE_SYNC2				51	// РћРґРёРЅРѕС‡РЅС‹Р№ РёРјРїСѓР»СЊСЃ SYNC_2
 
-#define ACT_DBG_IS_STATE_SYNC_1			54	// Состояние цепи SYNC_1
-#define ACT_DBG_IS_STATE_SYNC_2			55	// Состояние цепи SYNC_2
-#define ACT_DBG_PULSE_EXT_LED			56	// Одиночный импусль внешнего светодиода
+#define ACT_DBG_IS_STATE_SYNC_1			54	// РЎРѕСЃС‚РѕСЏРЅРёРµ С†РµРїРё SYNC_1
+#define ACT_DBG_IS_STATE_SYNC_2			55	// РЎРѕСЃС‚РѕСЏРЅРёРµ С†РµРїРё SYNC_2
+#define ACT_DBG_PULSE_EXT_LED			56	// РћРґРёРЅРѕС‡РЅС‹Р№ РёРјРїСѓСЃР»СЊ РІРЅРµС€РЅРµРіРѕ СЃРІРµС‚РѕРґРёРѕРґР°
 
-#define ACT_DBG_RELAY_ON				57	// Включение реле [REG_DBG_STATE]  //1..8
-#define ACT_DBG_RELAY_OFF				58	// Выключение реле [REG_DBG_STATE] //1..8
+#define ACT_DBG_RELAY_ON				57	// Р’РєР»СЋС‡РµРЅРёРµ СЂРµР»Рµ [REG_DBG_STATE]  //1..8
+#define ACT_DBG_RELAY_OFF				58	// Р’С‹РєР»СЋС‡РµРЅРёРµ СЂРµР»Рµ [REG_DBG_STATE] //1..8
 
-#define ACT_DBG_LHVSELECT_LOW			59	// Подключение низковольтного источника
-#define ACT_DBG_LHVSELECT_HIGH			60	// Подключение высоковольтного источника
-#define ACT_DBG_CTRL48V_ENABLE			61	// Включение источника 48В
-#define ACT_DBG_CTRL48V_DISABLE			62	// Выключение источника 48В
-#define ACT_DBG_CTRL350V_ENABLE			63	// Включение источника 350В
-#define ACT_DBG_CTRL350V_DISABLE		64	// Выключение источника 350В
-#define ACT_DBG_SELECT_VHV_CTRLS		65	// Выбор диапазона измерения напряжения [REG_DBG_STATE] //1..4
-#define ACT_DBG_VSENS_SELECT_SRC		66	// Выбор источника для измерения напряжения [REG_DBG_STATE] //1:LV_SENS_EN, 2:HV_SENS_EN
-#define ACT_DBG_ISENS_SELECT_SRC		67	// Выбор источника для измерения тока [REG_DBG_STATE] //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
-#define ACT_DBG_SELECT_DAC				68	// Выбор рабочего источника тока/напряжения [REG_DBG_STATE]
-#define ACT_DBG_WRITE_DAC				69	// Запись параметров в источник тока/напряжения [REG_DBG_STATE]
+#define ACT_DBG_LHVSELECT_LOW			59	// РџРѕРґРєР»СЋС‡РµРЅРёРµ РЅРёР·РєРѕРІРѕР»СЊС‚РЅРѕРіРѕ РёСЃС‚РѕС‡РЅРёРєР°
+#define ACT_DBG_LHVSELECT_HIGH			60	// РџРѕРґРєР»СЋС‡РµРЅРёРµ РІС‹СЃРѕРєРѕРІРѕР»СЊС‚РЅРѕРіРѕ РёСЃС‚РѕС‡РЅРёРєР°
+#define ACT_DBG_CTRL48V_ENABLE			61	// Р’РєР»СЋС‡РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° 48Р’
+#define ACT_DBG_CTRL48V_DISABLE			62	// Р’С‹РєР»СЋС‡РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° 48Р’
+#define ACT_DBG_CTRL350V_ENABLE			63	// Р’РєР»СЋС‡РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° 350Р’
+#define ACT_DBG_CTRL350V_DISABLE		64	// Р’С‹РєР»СЋС‡РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° 350Р’
+#define ACT_DBG_SELECT_VHV_CTRLS		65	// Р’С‹Р±РѕСЂ РґРёР°РїР°Р·РѕРЅР° РёР·РјРµСЂРµРЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ [REG_DBG_STATE] //1..4
+#define ACT_DBG_VSENS_SELECT_SRC		66	// Р’С‹Р±РѕСЂ РёСЃС‚РѕС‡РЅРёРєР° РґР»СЏ РёР·РјРµСЂРµРЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ [REG_DBG_STATE] //1:LV_SENS_EN, 2:HV_SENS_EN
+#define ACT_DBG_ISENS_SELECT_SRC		67	// Р’С‹Р±РѕСЂ РёСЃС‚РѕС‡РЅРёРєР° РґР»СЏ РёР·РјРµСЂРµРЅРёСЏ С‚РѕРєР° [REG_DBG_STATE] //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
+#define ACT_DBG_SELECT_DAC				68	// Р’С‹Р±РѕСЂ СЂР°Р±РѕС‡РµРіРѕ РёСЃС‚РѕС‡РЅРёРєР° С‚РѕРєР°/РЅР°РїСЂСЏР¶РµРЅРёСЏ [REG_DBG_STATE]
+#define ACT_DBG_WRITE_DAC				69	// Р—Р°РїРёСЃСЊ РїР°СЂР°РјРµС‚СЂРѕРІ РІ РёСЃС‚РѕС‡РЅРёРє С‚РѕРєР°/РЅР°РїСЂСЏР¶РµРЅРёСЏ [REG_DBG_STATE]
 
-#define ACT_DBG_SELECT_LV_CTRLS			70	// Выбор диапазона ... напряжения
-#define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
-#define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
-#define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
-#define ACT_DBG_TEST_WAVEFORM			74	// Формирование тестового сигнала
+#define ACT_DBG_SELECT_LV_CTRLS			70	// Р’С‹Р±РѕСЂ РґРёР°РїР°Р·РѕРЅР° ... РЅР°РїСЂСЏР¶РµРЅРёСЏ
+#define ACT_DBG_SELECT_HV_CTRLS			71	// Р’С‹Р±РѕСЂ РґРёР°РїР°Р·РѕРЅР° ... РЅР°РїСЂСЏР¶РµРЅРёСЏ
+#define ACT_DBG_READ_ADC_ICH			72	// РР·РјРµСЂРµРЅРёРµ С‚РѕРєР°
+#define ACT_DBG_READ_ADC_VCH			73	// РР·РјРµСЂРµРЅРёРµ РЅР°РїСЂСЏР¶РµРЅРёСЏ
+#define ACT_DBG_TEST_WAVEFORM			74	// Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ С‚РµСЃС‚РѕРІРѕРіРѕ СЃРёРіРЅР°Р»Р°
 
-#define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
-#define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
-#define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию
+#define ACT_SAVE_TO_ROM					200	// РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… РґР°РЅРЅС‹С… РІРѕ FLASH РїСЂРѕС†РµСЃСЃРѕСЂР°
+#define ACT_RESTORE_FROM_ROM			201	// Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РґР°РЅРЅС‹С… РёР· FLASH
+#define ACT_RESET_TO_DEFAULT			202	// РЎР±СЂРѕСЃ DataTable РІ СЃРѕСЃС‚РѕСЏРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
-#define ACT_BOOT_LOADER_REQUEST			320	// Перезапуск процессора с целью перепрограммирования
+#define ACT_BOOT_LOADER_REQUEST			320	// РџРµСЂРµР·Р°РїСѓСЃРє РїСЂРѕС†РµСЃСЃРѕСЂР° СЃ С†РµР»СЊСЋ РїРµСЂРµРїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёСЏ
 // -----------------------------
 
-// Регистры
-// Сохраняемые регистры
+// Р РµРіРёСЃС‚СЂС‹
+// РЎРѕС…СЂР°РЅСЏРµРјС‹Рµ СЂРµРіРёСЃС‚СЂС‹
 
-// Несохраняемы регистры чтения-записи
-#define REG_DBG_STATE					150	// Регистр режима Отладки
+// РќРµСЃРѕС…СЂР°РЅСЏРµРјС‹ СЂРµРіРёСЃС‚СЂС‹ С‡С‚РµРЅРёСЏ-Р·Р°РїРёСЃРё
+#define REG_DBG_STATE					150	// Р РµРіРёСЃС‚СЂ СЂРµР¶РёРјР° РћС‚Р»Р°РґРєРё
 
-// Регистры только чтение
-#define REG_DEV_STATE					192	// Регистр состояния
-#define REG_FAULT_REASON				193	// Регистр Fault
-#define REG_DISABLE_REASON				194	// Регистр Disable
-#define REG_WARNING						195	// Регистр Warning
-#define REG_PROBLEM						196	// Регистр Problem
-#define REG_OP_RESULT					197	// Регистр результата операции
+// Р РµРіРёСЃС‚СЂС‹ С‚РѕР»СЊРєРѕ С‡С‚РµРЅРёРµ
+#define REG_DEV_STATE					192	// Р РµРіРёСЃС‚СЂ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+#define REG_FAULT_REASON				193	// Р РµРіРёСЃС‚СЂ Fault
+#define REG_DISABLE_REASON				194	// Р РµРіРёСЃС‚СЂ Disable
+#define REG_WARNING						195	// Р РµРіРёСЃС‚СЂ Warning
+#define REG_PROBLEM						196	// Р РµРіРёСЃС‚СЂ Problem
+#define REG_OP_RESULT					197	// Р РµРіРёСЃС‚СЂ СЂРµР·СѓР»СЊС‚Р°С‚Р° РѕРїРµСЂР°С†РёРё
 
-#define REG_DBG_SYNC1				251	// Регистр состояния внутреннейи линии SYNC1
-#define REG_DBG_SYNC2				252	// Регистр состояния внутреннейи линии SYNC2
+#define REG_DBG_SYNC1				251	// Р РµРіРёСЃС‚СЂ СЃРѕСЃС‚РѕСЏРЅРёСЏ РІРЅСѓС‚СЂРµРЅРЅРµР№Рё Р»РёРЅРёРё SYNC1
+#define REG_DBG_SYNC2				252	// Р РµРіРёСЃС‚СЂ СЃРѕСЃС‚РѕСЏРЅРёСЏ РІРЅСѓС‚СЂРµРЅРЅРµР№Рё Р»РёРЅРёРё SYNC2
 
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
@@ -87,9 +87,9 @@
 
 //  User Errors
 #define ERR_NONE						0
-#define ERR_CONFIGURATION_LOCKED		1	//  Устройство защищено от записи
-#define ERR_OPERATION_BLOCKED			2	//  Операция не может быть выполнена в текущем состоянии устройства
-#define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
-#define ERR_WRONG_PWD					4	//  Неправильный ключ
+#define ERR_CONFIGURATION_LOCKED		1	//  РЈСЃС‚СЂРѕР№СЃС‚РІРѕ Р·Р°С‰РёС‰РµРЅРѕ РѕС‚ Р·Р°РїРёСЃРё
+#define ERR_OPERATION_BLOCKED			2	//  РћРїРµСЂР°С†РёСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РІС‹РїРѕР»РЅРµРЅР° РІ С‚РµРєСѓС‰РµРј СЃРѕСЃС‚РѕСЏРЅРёРё СѓСЃС‚СЂРѕР№СЃС‚РІР°
+#define ERR_DEVICE_NOT_READY			3	//  РЈСЃС‚СЂРѕР№СЃС‚РІРѕ РЅРµ РіРѕС‚РѕРІРѕ РґР»СЏ СЃРјРµРЅС‹ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+#define ERR_WRONG_PWD					4	//  РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РєР»СЋС‡
 
 #endif //  __DEV_OBJ_DIC_H

@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include <string.h>
 
 #include "LowLevel.h"
@@ -50,7 +50,7 @@ bool LL_GetStateLineSync2()
 }
 //-----------------------------
 
-// Управление выходами CTRL
+// РЈРїСЂР°РІР»РµРЅРёРµ РІС‹С…РѕРґР°РјРё CTRL
 void LL_UpdateStateCtrls()
 {
 	uint32_t i = CTRL_SIZE;
@@ -86,7 +86,7 @@ void LL_SetStateCtrls(SetCtrls Pin, bool State)
 }
 //-----------------------------
 
-// Управление выходами RANGE
+// РЈРїСЂР°РІР»РµРЅРёРµ РІС‹С…РѕРґР°РјРё RANGE
 void LL_UpdateStateRanges()
 {
 	GPIO_SetState(GPIO_SREG_CS, false);
