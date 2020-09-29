@@ -324,41 +324,50 @@ void DBGACT_SelectLVCtrls()
 	{
 		case 1:
 			{
-				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
 				//
-				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
 			}
 			break;
 
 		case 2:
 			{
-				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
 				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
 			}
 			break;
 
 		case 3:
 			{
-				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
 				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
 			}
 			break;
 
 		case 4:
 			{
-				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,true);
 				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_1,true);
-				LL_SetStateRanges(LV_CTRL_RANGE_2,true);
+				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
+			}
+			break;
+
+		default:
+			{
+				LL_SetStateRanges(LV_CTRL_RANGE_0,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_1,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_2,false);
+				LL_SetStateRanges(LV_CTRL_RANGE_3,false);
 			}
 			break;
 	}
