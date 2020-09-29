@@ -1,7 +1,6 @@
 #ifndef __DEV_OBJ_DIC_H
 #define __DEV_OBJ_DIC_H
 
-//TODO check define [1..4]
 // Команды
 #define ACT_ENABLE_POWER				1	// Переход в состояние ожидания
 #define ACT_DISABLE_POWER				2	// Отключение блока
@@ -39,8 +38,6 @@
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
 #define ACT_DBG_TEST_WAVEFORM			74	// Формирование тестового сигнала
-
-//TODO add more ACT_DBG !!!
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH

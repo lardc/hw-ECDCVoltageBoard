@@ -58,7 +58,6 @@ void LL_UpdateStateCtrls()
 	while(i--) 	SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
 	//latch DATA / update state pin
 	GPIO_SetState(GPIO_RCK, true);
-	//TODO ???delay??? :debugging stage
 	GPIO_SetState(GPIO_RCK, false);
 }
 //-----------------------------
@@ -137,13 +136,11 @@ void LL_SelectDACx(SelDacX dac)
 	switch (dac){
 	case SELECT_DAC_LV:
 		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-		//TODO ???delay??? :debugging stage
 		GPIO_SetState(GPIO_LDAC1, false);
 		break;
 
 	case SELECT_DAC_HV:
 		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-		//TODO ???delay??? :debugging stage
 		GPIO_SetState(GPIO_LDAC1, false);
 		break;
 

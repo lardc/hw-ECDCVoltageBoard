@@ -99,13 +99,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 
 		case ACT_DBG_VSENS_SELECT_SRC:
 			{
-				DBGACT_SelectVSensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_SENS_EN, 2:HV_SENS_EN	//TODO in the future add POT as source
+				DBGACT_SelectVSensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_SENS_EN, 2:HV_SENS_EN
 			}
 			break;
 
 		case ACT_DBG_ISENS_SELECT_SRC:
 			{
-				DBGACT_SelectISensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN	//TODO in the future add POT as source
+				DBGACT_SelectISensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
 			}
 			break;
 
@@ -146,7 +146,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 				DBGACT_TestWaveform();			//Triangle channel A&B (LV/LC domain)
 			}
 			break;
-//TODO need more ActionID here
 
 		default:
 			return false;
