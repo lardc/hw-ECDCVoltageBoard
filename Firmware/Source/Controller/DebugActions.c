@@ -8,13 +8,14 @@
 #include "Delay.h"
 #include "Controller.h"
 #include "DataTable.h"
+#include "Diagnostic.h"
 
 // Functions
 //
 void DBGACT_BlinkExtLed()
 {
 	LL_SetStateExtLed(TRUE);
-	CONTROL_DelayMs(1000);
+	CONTROL_DelayMs(TIME_EXT_LED_BLINK * 2);
 	LL_SetStateExtLed(FALSE);
 }
 //-----------------------------
@@ -22,7 +23,7 @@ void DBGACT_BlinkExtLed()
 void DBGACT_GenerateImpulseToLineSync1()
 {
 	LL_SetStateLineSync1(TRUE);
-	CONTROL_DelayMs(100);
+	CONTROL_DelayMs(TIME_PULSE_LINE_SYNC);
 	LL_SetStateLineSync1(FALSE);
 }
 //-----------------------------
@@ -30,7 +31,7 @@ void DBGACT_GenerateImpulseToLineSync1()
 void DBGACT_GenerateImpulseToLineSync2()
 {
 	LL_SetStateLineSync2(TRUE);
-	CONTROL_DelayMs(100);
+	CONTROL_DelayMs(TIME_PULSE_LINE_SYNC);
 	LL_SetStateLineSync2(FALSE);
 }
 //-----------------------------
@@ -51,49 +52,49 @@ void DBGACT_RelayCtrls(uint16_t Relay, bool State)
 {
 	switch (Relay)
 	{
-		case 1:
+		case RELAY_BUS:
 			{
 				LL_SetStateCtrls(RLC_CTRL1, State);
 			}
 			break;
-
-		case 2:
+			
+		case RELAY_PS1:
 			{
 				LL_SetStateCtrls(RLC_CTRL2, State);
 			}
 			break;
-
-		case 3:
+			
+		case RELAY_PS2:
 			{
 				LL_SetStateCtrls(RLC_CTRL3, State);
 			}
 			break;
-
-		case 4:
+			
+		case RELAY_CTRL1:
 			{
 				LL_SetStateCtrls(RLC_CTRL4, State);
 			}
 			break;
-
-		case 5:
+			
+		case RELAY_POT:
 			{
 				LL_SetStateCtrls(RLC_CTRL5, State);
 			}
 			break;
-
-		case 6:
+			
+		case RELAY_POT_CTRL:
 			{
 				LL_SetStateCtrls(RLC_CTRL6, State);
 			}
 			break;
-
-		case 7:
+			
+		case RELAY_POTP:
 			{
 				LL_SetStateCtrls(RLC_CTRL7, State);
 			}
 			break;
-
-		case 8:
+			
+		case RELAY_POTN:
 			{
 				LL_SetStateCtrls(RLC_CTRL8, State);
 			}
@@ -123,7 +124,6 @@ void DBGACT_Ctrls48V(bool State)
 }
 //-----------------------------
 
-
 void DBGACT_Ctrls350V(bool State)
 {
 	LL_SetStateCtrls(HP_CTRL_350V, State);
@@ -133,10 +133,10 @@ void DBGACT_Ctrls350V(bool State)
 void DBGACT_SelectRg()
 {
 	Int16U Range = DataTable[REG_DBG_STATE];
-
+	
 	switch (Range)
 	{
-		case 1:
+		case RANGE_V_HV_R0:
 			{
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
 				//
@@ -145,8 +145,8 @@ void DBGACT_SelectRg()
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
 			}
 			break;
-
-		case 2:
+			
+		case RANGE_V_HV_R1:
 			{
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
 				//
@@ -155,8 +155,8 @@ void DBGACT_SelectRg()
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
 			}
 			break;
-
-		case 3:
+			
+		case RANGE_V_HV_R2:
 			{
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
 				//
@@ -165,8 +165,8 @@ void DBGACT_SelectRg()
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
 			}
 			break;
-
-		case 4:
+			
+		case RANGE_V_HV_R3:
 			{
 				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
 				//
@@ -182,10 +182,10 @@ void DBGACT_SelectRg()
 void DBGACT_SelectVSensSrc()
 {
 	Int16U VSrc = DataTable[REG_DBG_STATE];
-
+	
 	switch (VSrc)
 	{
-		case 1:
+		case SENSOR_LV:
 			{
 				LL_SetStateCtrls(LV_SENS_EN, true);
 				LL_SetStateCtrls(HV_SENS_EN, true);
@@ -193,7 +193,7 @@ void DBGACT_SelectVSensSrc()
 				LL_SetStateCtrls(LV_SENS_EN, false);
 			}
 			break;
-		case 2:
+		case SENSOR_HV:
 			{
 				LL_SetStateCtrls(LV_SENS_EN, true);
 				LL_SetStateCtrls(HV_SENS_EN, true);
@@ -208,10 +208,10 @@ void DBGACT_SelectVSensSrc()
 void DBGACT_SelectISensSrc()
 {
 	Int16U ISrc = DataTable[REG_DBG_STATE];
-
+	
 	switch (ISrc)
 	{
-		case 1:
+		case SENSOR_I_LV:
 			{
 				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
 				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
@@ -219,7 +219,7 @@ void DBGACT_SelectISensSrc()
 				LL_SetStateCtrls(LV_CUR_SENS_EN, false);
 			}
 			break;
-		case 2:
+		case SENSOR_I_HV:
 			{
 				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
 				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
@@ -234,14 +234,14 @@ void DBGACT_SelectISensSrc()
 void DBGACT_SelectDACx()
 {
 	SelDacX dac = DataTable[REG_DBG_STATE];
-
+	
 	LL_SelectDACx(dac);
 }
 //-----------------------------
 void DBGACT_WriteDACx()
 {
 	uint16_t Data = DataTable[REG_DBG_STATE];
-
+	
 	LL_WriteDAC_LH(Data);
 }
 
@@ -249,10 +249,10 @@ void DBGACT_WriteDACx()
 void DBGACT_SelectLVCtrls()
 {
 	Int16U Range = DataTable[REG_DBG_STATE];
-
+	
 	switch (Range)
 	{
-		case 1:
+		case SELECT_LV_R0:
 			{
 				LL_SetStateRanges(LV_CTRL_RANGE_0, true);
 				//
@@ -261,8 +261,8 @@ void DBGACT_SelectLVCtrls()
 				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
 			}
 			break;
-
-		case 2:
+			
+		case SELECT_LV_R1:
 			{
 				LL_SetStateRanges(LV_CTRL_RANGE_1, true);
 				//
@@ -271,8 +271,8 @@ void DBGACT_SelectLVCtrls()
 				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
 			}
 			break;
-
-		case 3:
+			
+		case SELECT_LV_R2:
 			{
 				LL_SetStateRanges(LV_CTRL_RANGE_2, true);
 				//
@@ -281,8 +281,8 @@ void DBGACT_SelectLVCtrls()
 				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
 			}
 			break;
-
-		case 4:
+			
+		case SELECT_LV_R3:
 			{
 				LL_SetStateRanges(LV_CTRL_RANGE_3, true);
 				//
@@ -291,7 +291,7 @@ void DBGACT_SelectLVCtrls()
 				LL_SetStateRanges(LV_CTRL_RANGE_2, false);
 			}
 			break;
-
+			
 		default:
 			{
 				LL_SetStateRanges(LV_CTRL_RANGE_0, false);
@@ -307,10 +307,10 @@ void DBGACT_SelectLVCtrls()
 void DBGACT_SelectHVCtrls()
 {
 	Int16U Range = DataTable[REG_DBG_STATE];
-
+	
 	switch (Range)
 	{
-		case 1:
+		case SELECT_HV_R0:
 			{
 				LL_SetStateRanges(HV_CTRL_RANGE_0, false);
 				//
@@ -318,8 +318,8 @@ void DBGACT_SelectHVCtrls()
 				LL_SetStateRanges(HV_CTRL_RANGE_2, true);
 			}
 			break;
-
-		case 2:
+			
+		case SELECT_HV_R1:
 			{
 				LL_SetStateRanges(HV_CTRL_RANGE_1, false);
 				//
@@ -327,8 +327,8 @@ void DBGACT_SelectHVCtrls()
 				LL_SetStateRanges(HV_CTRL_RANGE_2, true);
 			}
 			break;
-
-		case 3:
+			
+		case SELECT_HV_R2:
 			{
 				LL_SetStateRanges(HV_CTRL_RANGE_2, false);
 				//
@@ -343,11 +343,11 @@ void DBGACT_SelectHVCtrls()
 void DBGACT_TestWaveform()
 {
 	uint16_t i = 0;
-
+	
 	LL_SelectDACx(SELECT_DAC_LV);
 	do
 	{
-		LL_WriteDAC_LH(i | DAC_SELECT_CHU);
+		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
 		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
 		i++;
 	}
@@ -356,14 +356,14 @@ void DBGACT_TestWaveform()
 	CONTROL_UpdateWatchDog();
 	do
 	{
-		LL_WriteDAC_LH(i | DAC_SELECT_CHU);
+		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
 		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
 	}
 	while(i--);
 	CONTROL_UpdateWatchDog();
-
+	
 	LL_SelectDACx(SELECT_DAC_NONE);
-
+	
 }
 //-----------------------------
 

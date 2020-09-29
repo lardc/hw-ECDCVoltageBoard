@@ -38,7 +38,7 @@ void CONTROL_ResetHardware();
 //
 void CONTROL_Init()
 {
-
+	
 	// Переменные для конфигурации EndPoint
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
@@ -65,7 +65,7 @@ void CONTROL_ResetToDefaultState()
 	DEVPROFILE_ResetEPReadState();
 	
 	CONTROL_ResetHardware();
-
+	
 	CONTROL_SetDeviceState(DS_None);
 }
 //------------------------------------------
@@ -113,7 +113,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
-
+			
 		case ACT_FAULT_CLEAR:
 			{
 				if(CONTROL_State == DS_Fault)
@@ -122,11 +122,11 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				}
 			}
 			break;
-
+			
 		case ACT_WARNING_CLEAR:
 			DataTable[REG_WARNING] = 0;
 			break;
-
+			
 		default:
 			return DIAG_HandleDiagnosticAction(ActionID, pUserError);
 			

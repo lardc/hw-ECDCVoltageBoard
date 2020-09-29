@@ -53,11 +53,9 @@ bool LL_GetStateLineSync2()
 // ”правление выходами CTRL
 void LL_UpdateStateCtrls()
 {
-	//no need CS control
 	uint32_t i = CTRL_SIZE;
 	while(i--)
 		SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
-	//latch DATA / update state pin
 	GPIO_SetState(GPIO_RCK, true);
 	GPIO_SetState(GPIO_RCK, false);
 }
@@ -73,7 +71,7 @@ void LL_SetStateCtrls(SetCtrls Pin, bool State)
 {
 	uint32_t Nbyte;
 	uint32_t Nbit;
-
+	
 	Nbyte = Pin / 8;
 	Nbit = Pin % 8;
 	if(State)
@@ -106,7 +104,7 @@ void LL_ResetStateRanges()
 void LL_SetStateRanges(SetRanges Pin, bool State)
 {
 	uint32_t Nbit;
-
+	
 	Nbit = Pin % 8;
 	if(State)
 	{
@@ -123,10 +121,8 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 void LL_WriteDAC_LH(uint16_t Data)
 {
 	GPIO_SetState(GPIO_DAC_CS, false);
-
 	SPI_WriteByte8b(SPI1, (Data >> 8) & 0xff);
 	SPI_WriteByte8b(SPI1, Data & 0xff);
-
 	GPIO_SetState(GPIO_DAC_CS, true);
 }
 //-----------------------------
@@ -139,12 +135,12 @@ void LL_SelectDACx(SelDacX dac)
 			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
 			GPIO_SetState(GPIO_LDAC1, false);
 			break;
-
+			
 		case SELECT_DAC_HV:
 			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
 			GPIO_SetState(GPIO_LDAC1, false);
 			break;
-
+			
 		case SELECT_DAC_NONE:
 		default:
 			GPIO_SetState(GPIO_LDAC1, true);	//off() & off()

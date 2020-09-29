@@ -10,10 +10,8 @@ void LL_ToggleBoardLED();
 void LL_SetStateExtLed(bool State);
 void LL_SetStateLineSync1(bool State);
 void LL_SetStateLineSync2(bool State);
-
 bool LL_GetStateLineSync1();
 bool LL_GetStateLineSync2();
-
 void LL_ResetStateCtrls();
 void LL_SetStateCtrls(SetCtrls Pin, bool State);
 void LL_ResetStateRanges();

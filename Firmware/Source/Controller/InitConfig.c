@@ -21,7 +21,7 @@ void INITCFG_ConfigIO()
 // Аналоговые входы
 	GPIO_InitAnalog(GPIO_MEASURE_V);
 	GPIO_InitAnalog(GPIO_MEASURE_I);
-
+	
 // Выходы
 	GPIO_InitPushPullOutput(GPIO_CS1);
 	GPIO_InitPushPullOutput(GPIO_CS2);
@@ -34,21 +34,21 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_RCK);
 	GPIO_InitPushPullOutput(GPIO_LED);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED);
-
+	
 // Линия синхронизации (выходы)
 	GPIO_InitPushPullOutput(GPIO_SYNC1_OUT);
 	GPIO_InitPushPullOutput(GPIO_SYNC2_OUT);
-
+	
 // Альтернативные функции
 	GPIO_InitAltFunction(GPIO_ALT_CAN_RX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_CAN_TX, AltFn_9);
-
+	
 	GPIO_InitAltFunction(GPIO_ALT_UART1_RX, AltFn_7);
 	GPIO_InitAltFunction(GPIO_ALT_UART1_TX, AltFn_7);
-
+	
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_CLK, AltFn_5);
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_MOSI, AltFn_5);
-
+	
 }
 
 //------------------------------------------------
@@ -85,7 +85,7 @@ void INITCFG_ConfigADC()
 	ADC_ChannelSet_SampleTime(ADC2, 1, ADC_SMPL_TIME_7_5);
 	ADC_Enable(ADC1);
 	ADC_Enable(ADC2);
-
+	
 }
 //------------------------------------------------
 
@@ -95,12 +95,6 @@ void INITCFG_ConfigTimer7()
 	TIM_Config(TIM7, SYSCLK, TIMER7_uS);
 	TIM_Interupt(TIM7, 0, true);
 	TIM_Start(TIM7);
-}
-//------------------------------------------------
-
-void INITCFG_ConfigIna128U()
-{
-
 }
 //------------------------------------------------
 
