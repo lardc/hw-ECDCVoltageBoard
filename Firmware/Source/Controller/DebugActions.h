@@ -4,7 +4,7 @@
 // Include
 //
 #include "ZwBase.h"
-
+#include "Controller.h"
 // Functions
 //
 void DBGACT_BlinkExtLed();
@@ -12,13 +12,11 @@ void DBGACT_GenerateImpulseToLineSync1();
 void DBGACT_GenerateImpulseToLineSync2();
 bool DBGACT_ReadStateLineSync1();
 bool DBGACT_ReadStateLineSync2();
+void DBGACT_RelayCtrls(uint16_t Relay, bool State);
+void DBGACT_LHVSelectSrc(SelVSrc src);
+void DBGACT_Ctrls48V(bool State);
+void DBGACT_Ctrls350V(bool State);
 
-void DBGACT_RelayCtrlsOn();
-void DBGACT_RelayCtrlsOff();
-void DBGACT_LHVSelectLow();
-void DBGACT_LHVSelectHigh();
-void DBGACT_Ctrls48VEnable();
-void DBGACT_Ctrls48VDisable();
 void DBGACT_Ctrls350VEnable();
 void DBGACT_Ctrls350VDisable();
 void DBGACT_SelectRg();

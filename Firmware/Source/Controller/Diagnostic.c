@@ -1,5 +1,6 @@
 // Header
 #include "Diagnostic.h"
+#include "Measurement.h"
 
 // Includes
 #include "DataTable.h"
@@ -45,104 +46,104 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 
 		case ACT_DBG_RELAY_ON:
 			{
-				DBGACT_RelayCtrlsOn();	//Relay = DataTable[REG_DBG_STATE]; //1..8
+				DBGACT_RelayCtrls(DataTable[REG_DBG_STATE], true);
 			}
 			break;
 		case ACT_DBG_RELAY_OFF:
 			{
-				DBGACT_RelayCtrlsOff();	//Relay = DataTable[REG_DBG_STATE]; //1..8
+				DBGACT_RelayCtrls(DataTable[REG_DBG_STATE], false);
 			}
 			break;
 
 		case ACT_DBG_LHVSELECT_LOW:
 			{
-				DBGACT_LHVSelectLow();
+				DBGACT_LHVSelectSrc(SELECT_VSRC_LOW);
 			}
 			break;
 
 		case ACT_DBG_LHVSELECT_HIGH:
 			{
-				DBGACT_LHVSelectHigh();
+				DBGACT_LHVSelectSrc(SELECT_VSRC_HIGH);
 			}
 			break;
 
 		case ACT_DBG_CTRL48V_ENABLE:
 			{
-				DBGACT_Ctrls48VEnable();
+				DBGACT_Ctrls48V(true);
 			}
 			break;
 
 		case ACT_DBG_CTRL48V_DISABLE:
 			{
-				DBGACT_Ctrls48VDisable();
+				DBGACT_Ctrls48V(false);
 			}
 			break;
 
 		case ACT_DBG_CTRL350V_ENABLE:
 			{
-				DBGACT_Ctrls350VEnable();
+				DBGACT_Ctrls350V(true);
 			}
 			break;
 
 		case ACT_DBG_CTRL350V_DISABLE:
 			{
-				DBGACT_Ctrls350VDisable();
+				DBGACT_Ctrls350V(false);
 			}
 			break;
 
 		case ACT_DBG_SELECT_VHV_CTRLS:
 			{
-				DBGACT_SelectRg();		//Range = DataTable[REG_DBG_STATE]; //1..4
+				DBGACT_SelectRg();
 			}
 			break;
 
 		case ACT_DBG_VSENS_SELECT_SRC:
 			{
-				DBGACT_SelectVSensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_SENS_EN, 2:HV_SENS_EN
+				DBGACT_SelectVSensSrc();
 			}
 			break;
 
 		case ACT_DBG_ISENS_SELECT_SRC:
 			{
-				DBGACT_SelectISensSrc();		//Src = DataTable[REG_DBG_STATE]; //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
+				DBGACT_SelectISensSrc();
 			}
 			break;
 
 		case ACT_DBG_SELECT_DAC:
 			{
-				DBGACT_SelectDACx();		//dacx = DataTable[REG_DBG_STATE]; //
+				DBGACT_SelectDACx();
 			}
 			break;
 		case ACT_DBG_WRITE_DAC:
 			{
-				DBGACT_WriteDACx();			//data = DataTable[REG_DBG_STATE]; //
+				DBGACT_WriteDACx();
 			}
 			break;
 		case ACT_DBG_SELECT_LV_CTRLS:
 			{
-				DBGACT_SelectLVCtrls();			//data = DataTable[REG_DBG_STATE]; //
+				DBGACT_SelectLVCtrls();
 			}
 			break;
 		case ACT_DBG_SELECT_HV_CTRLS:
 			{
-				DBGACT_SelectHVCtrls();			//data = DataTable[REG_DBG_STATE]; //
+				DBGACT_SelectHVCtrls();
 			}
 			break;
 		case ACT_DBG_READ_ADC_VCH:
 			{
-				DataTable[REG_DBG_STATE] = ADC_Measure(ADC2, 1);			//ADC V-chanel
+				DataTable[REG_DBG_STATE] = MEASURE_Voltage();
 			}
 			break;
 
 		case ACT_DBG_READ_ADC_ICH:
 			{
-				DataTable[REG_DBG_STATE] = ADC_Measure(ADC1, 1);			//ADC I-chanel
+				DataTable[REG_DBG_STATE] = MEASURE_Current();
 			}
 			break;
 
 		case ACT_DBG_TEST_WAVEFORM:
 			{
-				DBGACT_TestWaveform();			//Triangle channel A&B (LV/LC domain)
+				DBGACT_TestWaveform();
 			}
 			break;
 

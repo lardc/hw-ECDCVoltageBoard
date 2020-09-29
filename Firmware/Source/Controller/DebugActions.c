@@ -47,155 +47,86 @@ bool DBGACT_ReadStateLineSync2()
 }
 //-----------------------------
 
-void DBGACT_RelayCtrlsOn()
+void DBGACT_RelayCtrls(uint16_t Relay, bool State)
 {
-	Int16U Relay = DataTable[REG_DBG_STATE];
-
 	switch (Relay)
 	{
 		case 1:
 			{
-				LL_SetStateCtrls(RLC_CTRL1, true);
+				LL_SetStateCtrls(RLC_CTRL1, State);
 			}
 			break;
 
 		case 2:
 			{
-				LL_SetStateCtrls(RLC_CTRL2, true);
+				LL_SetStateCtrls(RLC_CTRL2, State);
 			}
 			break;
 
 		case 3:
 			{
-				LL_SetStateCtrls(RLC_CTRL3, true);
+				LL_SetStateCtrls(RLC_CTRL3, State);
 			}
 			break;
 
 		case 4:
 			{
-				LL_SetStateCtrls(RLC_CTRL4, true);
+				LL_SetStateCtrls(RLC_CTRL4, State);
 			}
 			break;
 
 		case 5:
 			{
-				LL_SetStateCtrls(RLC_CTRL5, true);
+				LL_SetStateCtrls(RLC_CTRL5, State);
 			}
 			break;
 
 		case 6:
 			{
-				LL_SetStateCtrls(RLC_CTRL6, true);
+				LL_SetStateCtrls(RLC_CTRL6, State);
 			}
 			break;
 
 		case 7:
 			{
-				LL_SetStateCtrls(RLC_CTRL7, true);
+				LL_SetStateCtrls(RLC_CTRL7, State);
 			}
 			break;
 
 		case 8:
 			{
-				LL_SetStateCtrls(RLC_CTRL8, true);
+				LL_SetStateCtrls(RLC_CTRL8, State);
 			}
 			break;
 	}
 }
 //-----------------------------
 
-void DBGACT_RelayCtrlsOff()
+void DBGACT_LHVSelectSrc(SelVSrc src)
 {
-	Int16U Relay = DataTable[REG_DBG_STATE];
-
-	switch (Relay)
+	if(src == SELECT_VSRC_HIGH)
 	{
-		case 1:
-			{
-				LL_SetStateCtrls(RLC_CTRL1, false);
-			}
-			break;
-
-		case 2:
-			{
-				LL_SetStateCtrls(RLC_CTRL2, false);
-			}
-			break;
-
-		case 3:
-			{
-				LL_SetStateCtrls(RLC_CTRL3, false);
-			}
-			break;
-
-		case 4:
-			{
-				LL_SetStateCtrls(RLC_CTRL4, false);
-			}
-			break;
-
-		case 5:
-			{
-				LL_SetStateCtrls(RLC_CTRL5, false);
-			}
-			break;
-
-		case 6:
-			{
-				LL_SetStateCtrls(RLC_CTRL6, false);
-			}
-			break;
-
-		case 7:
-			{
-				LL_SetStateCtrls(RLC_CTRL7, false);
-			}
-			break;
-
-		case 8:
-			{
-				LL_SetStateCtrls(RLC_CTRL8, false);
-			}
-			break;
+		LL_SetStateCtrls(LV_HV_CTRL1, true);
+		LL_SetStateCtrls(LV_HV_CTRL2, true);
+	}
+	else
+	{
+		LL_SetStateCtrls(LV_HV_CTRL1, false);
+		LL_SetStateCtrls(LV_HV_CTRL2, false);
 	}
 }
 //-----------------------------
 
-void DBGACT_LHVSelectLow()
+void DBGACT_Ctrls48V(bool State)
 {
-	LL_SetStateCtrls(LV_HV_CTRL1, false);	// set together 1&2
-	LL_SetStateCtrls(LV_HV_CTRL2, false);
+	LL_SetStateCtrls(EN_48V_CTRL, State);
 }
 //-----------------------------
 
-void DBGACT_LHVSelectHigh()
-{
-	LL_SetStateCtrls(LV_HV_CTRL1, true);		// set together 1&2
-	LL_SetStateCtrls(LV_HV_CTRL2, true);
-}
-//-----------------------------
 
-void DBGACT_Ctrls48VEnable()
+void DBGACT_Ctrls350V(bool State)
 {
-	LL_SetStateCtrls(EN_48V_CTRL, true);
-}
-//-----------------------------
-
-void DBGACT_Ctrls48VDisable()
-{
-	LL_SetStateCtrls(EN_48V_CTRL, false);
-}
-//-----------------------------
-
-void DBGACT_Ctrls350VEnable()
-{
-	LL_SetStateCtrls(HP_CTRL_350V, true);
-}
-//-----------------------------
-
-void DBGACT_Ctrls350VDisable()
-{
-	LL_SetStateCtrls(HP_CTRL_350V, false);
+	LL_SetStateCtrls(HP_CTRL_350V, State);
 }
 //-----------------------------
 
@@ -256,7 +187,7 @@ void DBGACT_SelectVSensSrc()
 	{
 		case 1:
 			{
-				LL_SetStateCtrls(LV_SENS_EN, true);		//off&off then ONE on
+				LL_SetStateCtrls(LV_SENS_EN, true);
 				LL_SetStateCtrls(HV_SENS_EN, true);
 				//
 				LL_SetStateCtrls(LV_SENS_EN, false);
@@ -264,7 +195,7 @@ void DBGACT_SelectVSensSrc()
 			break;
 		case 2:
 			{
-				LL_SetStateCtrls(LV_SENS_EN, true); //off&off then ONE on
+				LL_SetStateCtrls(LV_SENS_EN, true);
 				LL_SetStateCtrls(HV_SENS_EN, true);
 				//
 				LL_SetStateCtrls(HV_SENS_EN, false);
@@ -282,7 +213,7 @@ void DBGACT_SelectISensSrc()
 	{
 		case 1:
 			{
-				LL_SetStateCtrls(LV_CUR_SENS_EN, true); //off&off then ONE on
+				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
 				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
 				//
 				LL_SetStateCtrls(LV_CUR_SENS_EN, false);
@@ -290,7 +221,7 @@ void DBGACT_SelectISensSrc()
 			break;
 		case 2:
 			{
-				LL_SetStateCtrls(LV_CUR_SENS_EN, true); //off&off then ONE on
+				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
 				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
 				//
 				LL_SetStateCtrls(HV_CUR_SENS_EN, false);
