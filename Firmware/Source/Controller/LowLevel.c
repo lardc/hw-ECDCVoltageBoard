@@ -55,7 +55,8 @@ void LL_UpdateStateCtrls()
 {
 	//no need CS control
 	uint32_t i = CTRL_SIZE;
-	while(i--) 	SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
+	while(i--)
+		SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
 	//latch DATA / update state pin
 	GPIO_SetState(GPIO_RCK, true);
 	GPIO_SetState(GPIO_RCK, false);
@@ -64,7 +65,7 @@ void LL_UpdateStateCtrls()
 
 void LL_ResetStateCtrls()
 {
-	memset(CONTROL_UnitCtrls,0,CTRL_SIZE);
+	memset(CONTROL_UnitCtrls, 0, CTRL_SIZE);
 	LL_UpdateStateCtrls();
 }
 //-----------------------------
@@ -73,15 +74,15 @@ void LL_SetStateCtrls(SetCtrls Pin, bool State)
 	uint32_t Nbyte;
 	uint32_t Nbit;
 
-	Nbyte = Pin/8;
-	Nbit = Pin%8;
-	if (State)
+	Nbyte = Pin / 8;
+	Nbit = Pin % 8;
+	if(State)
 	{
-		CONTROL_UnitCtrls[Nbyte] |= 1<<Nbit;
+		CONTROL_UnitCtrls[Nbyte] |= 1 << Nbit;
 	}
 	else
 	{
-		CONTROL_UnitCtrls[Nbyte] &= ~(1<<Nbit);
+		CONTROL_UnitCtrls[Nbyte] &= ~(1 << Nbit);
 	}
 	LL_UpdateStateCtrls();
 }
@@ -106,14 +107,14 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 {
 	uint32_t Nbit;
 
-	Nbit = Pin%8;
-	if (State)
+	Nbit = Pin % 8;
+	if(State)
 	{
-		CONTROL_UnitRanges |= 1<<Nbit;
+		CONTROL_UnitRanges |= 1 << Nbit;
 	}
 	else
 	{
-		CONTROL_UnitRanges &= ~(1<<Nbit);
+		CONTROL_UnitRanges &= ~(1 << Nbit);
 	}
 	LL_UpdateStateRanges();
 }
@@ -123,9 +124,8 @@ void LL_WriteDAC_LH(uint16_t Data)
 {
 	GPIO_SetState(GPIO_DAC_CS, false);
 
-
-	SPI_WriteByte8b(SPI1, (Data>>8)&0xff);
-	SPI_WriteByte8b(SPI1, Data&0xff);
+	SPI_WriteByte8b(SPI1, (Data >> 8) & 0xff);
+	SPI_WriteByte8b(SPI1, Data & 0xff);
 
 	GPIO_SetState(GPIO_DAC_CS, true);
 }
@@ -133,23 +133,23 @@ void LL_WriteDAC_LH(uint16_t Data)
 
 void LL_SelectDACx(SelDacX dac)
 {
-	switch (dac){
-	case SELECT_DAC_LV:
-		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-		GPIO_SetState(GPIO_LDAC1, false);
-		break;
+	switch (dac)
+	{
+		case SELECT_DAC_LV:
+			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
+			GPIO_SetState(GPIO_LDAC1, false);
+			break;
 
-	case SELECT_DAC_HV:
-		GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-		GPIO_SetState(GPIO_LDAC1, false);
-		break;
+		case SELECT_DAC_HV:
+			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
+			GPIO_SetState(GPIO_LDAC1, false);
+			break;
 
-	case SELECT_DAC_NONE:
-	default:
-		GPIO_SetState(GPIO_LDAC1, true);	//off() & off()
-		GPIO_SetState(GPIO_LDAC2, true);
-		break;
+		case SELECT_DAC_NONE:
+		default:
+			GPIO_SetState(GPIO_LDAC1, true);	//off() & off()
+			GPIO_SetState(GPIO_LDAC2, true);
+			break;
 	}
 }
-
 

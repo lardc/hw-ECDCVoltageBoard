@@ -25,7 +25,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 
-
 		case ACT_DBG_IS_STATE_SYNC_1:
 			{
 				DataTable[REG_DBG_SYNC1] = DBGACT_ReadStateLineSync1();	//see DeviceObjectDictionary.h
@@ -131,13 +130,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			break;
 		case ACT_DBG_READ_ADC_VCH:
 			{
-				DataTable[REG_DBG_STATE] = ADC_Measure(ADC2,1);			//ADC V-chanel
+				DataTable[REG_DBG_STATE] = ADC_Measure(ADC2, 1);			//ADC V-chanel
 			}
 			break;
 
 		case ACT_DBG_READ_ADC_ICH:
 			{
-				DataTable[REG_DBG_STATE] = ADC_Measure(ADC1,1);			//ADC I-chanel
+				DataTable[REG_DBG_STATE] = ADC_Measure(ADC1, 1);			//ADC I-chanel
 			}
 			break;
 
