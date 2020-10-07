@@ -76,6 +76,8 @@ void CONTROL_ResetHardware()
 	GPIO_SetState(GPIO_CS1, false);
 	GPIO_SetState(GPIO_CS2, false);
 	GPIO_SetState(GPIO_CS3, false);
+	//safe state
+	LL_SetStateCtrls(HP_CTRL_350V, false);
 }
 //------------------------------------------
 

@@ -81,13 +81,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			
 		case ACT_DBG_CTRL350V_ENABLE:
 			{
-				DBGACT_Ctrls350V(true);
+				DBGACT_Ctrls350V(false);
 			}
 			break;
 			
 		case ACT_DBG_CTRL350V_DISABLE:
 			{
-				DBGACT_Ctrls350V(false);
+				DBGACT_Ctrls350V(true);
 			}
 			break;
 			
