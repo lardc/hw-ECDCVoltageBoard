@@ -68,4 +68,8 @@ void DT_ResetWRPart(FUNC_SetDefaultValues SetFunc);
 // Save firmware information to data table
 void DT_SaveFirmwareInfo(Int16U SlaveNID, Int16U MasterNID);
 
+void DT_Write32(Int16U RegL, Int16U RegM, Int32U Value);
+Int32U DT_Read32(Int16U RegL, Int16U RegM);
+
+
 #endif // __DATA_TABLE_H

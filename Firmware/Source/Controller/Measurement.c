@@ -6,10 +6,24 @@
 
 Int16U MEASURE_Voltage()
 {
-	return ADC_Measure(ADC2, ADC_CHANEL_V);
+	Int16U ReturnValue;
+	//dummy read;
+	ADC_Measure(ADC2, ADC_CHANEL_V);
+	ReturnValue = ADC_Measure(ADC2, ADC_CHANEL_V);
+	ReturnValue += ADC_Measure(ADC2, ADC_CHANEL_V);
+	ReturnValue += ADC_Measure(ADC2, ADC_CHANEL_V);
+
+	return ReturnValue/3;
 }
 
 Int16U MEASURE_Current()
 {
-	return ADC_Measure(ADC1, ADC_CHANEL_I);
+	Int16U ReturnValue;
+	//dummy read;
+	ADC_Measure(ADC1, ADC_CHANEL_I);
+	ReturnValue = ADC_Measure(ADC1, ADC_CHANEL_I);
+	ReturnValue += ADC_Measure(ADC1, ADC_CHANEL_I);
+	ReturnValue += ADC_Measure(ADC1, ADC_CHANEL_I);
+
+	return ReturnValue/3;
 }

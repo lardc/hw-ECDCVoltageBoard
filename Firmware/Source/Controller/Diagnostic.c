@@ -8,6 +8,11 @@
 #include "Controller.h"
 #include "DebugActions.h"
 #include "Board.h"
+#include "VoltageBoard.h"
+
+//Externs
+//
+extern ControllerConfig Config;
 
 // Functions
 bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
@@ -46,12 +51,12 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			
 		case ACT_DBG_RELAY_ON:
 			{
-				DBGACT_RelayCtrls(DataTable[REG_DBG_STATE], true);
+				LL_RelayCtrls(DataTable[REG_DBG_STATE], true);
 			}
 			break;
 		case ACT_DBG_RELAY_OFF:
 			{
-				DBGACT_RelayCtrls(DataTable[REG_DBG_STATE], false);
+				LL_RelayCtrls(DataTable[REG_DBG_STATE], false);
 			}
 			break;
 			
@@ -143,10 +148,36 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			
 		case ACT_DBG_TEST_WAVEFORM:
 			{
-				DBGACT_TestWaveform();
+
+				if(DataTable[REG_DBG_STATE] == 0)
+				{
+					DBGACT_TestVWaveform();
+				}
+				else
+				{
+					DBGACT_TestIWaveform();
+				}
 			}
 			break;
 			
+		case ACT_DBG_SELECT_V_RANGE:
+			{
+				DBGACT_SelectVRange();
+			}
+			break;
+
+		case ACT_DBG_PREPARE_BOARD:
+			{
+				VB_SaveParam(&Config);
+				LL_SelectRg720K();
+				VB_EnableVoltageChannel(&Config);
+				VB_EnableCurrentChannel(&Config);
+				LL_SelectAdcSrcVLV();
+				VB_RelayCommutation(&Config);
+
+			}
+			break;
+
 		default:
 			return false;
 	}

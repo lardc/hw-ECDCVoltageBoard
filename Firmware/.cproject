@@ -18,7 +18,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="com.atollic.truestudio.configuration.release.747096506" name="Release" parent="com.atollic.truestudio.configuration.release" prebuildStep="..\gen_git_info.bat &amp; ..\copy_git_info.bat">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="com.atollic.truestudio.configuration.release.747096506" name="Release" parent="com.atollic.truestudio.configuration.release" postbuildStep="arm-atollic-eabi-objcopy -O ihex ${BuildArtifactFileBaseName}.elf ${BuildArtifactFileBaseName}.hex" prebuildStep="..\gen_git_info.bat &amp; ..\copy_git_info.bat">
 					<folderInfo id="com.atollic.truestudio.configuration.release.747096506." name="/" resourcePath="">
 						<toolChain id="com.atollic.truestudio.exe.release.toolchain.630410713" name="Atollic ARM Tools" superClass="com.atollic.truestudio.exe.release.toolchain">
 							<option id="com.atollic.truestudio.general.runtimelib.1182456240" name="Runtime Library" superClass="com.atollic.truestudio.general.runtimelib" useByScannerDiscovery="false" value="com.atollic.truestudio.ld.general.clib.small" valueType="enumerated"/>
@@ -45,6 +45,9 @@
 							<tool id="com.atollic.truestudio.exe.release.toolchain.gcc.1782177642" name="C Compiler" superClass="com.atollic.truestudio.exe.release.toolchain.gcc">
 								<option id="com.atollic.truestudio.gcc.symbols.defined.792238220" name="Defined symbols" superClass="com.atollic.truestudio.gcc.symbols.defined" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F303xC"/>
+									<listOptionValue builtIn="false" value="__FPU_PRESENT"/>
+									<listOptionValue builtIn="false" value="ARM_MATH_CM4"/>
+									<listOptionValue builtIn="false" value="ARM_MATH_DSP"/>
 								</option>
 								<option id="com.atollic.truestudio.gcc.directories.select.1421806596" name="Include path" superClass="com.atollic.truestudio.gcc.directories.select" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../../hw-STM32-libs/System/Devices"/>
@@ -114,7 +117,7 @@
 								<option id="com.atollic.truestudio.common_options.target.interwork.174202890" name="Mix ARM/Thumb" superClass="com.atollic.truestudio.common_options.target.interwork"/>
 							</tool>
 							<tool id="com.atollic.truestudio.ar.base.1826200569" name="Archiver" superClass="com.atollic.truestudio.ar.base"/>
-							<tool id="com.atollic.truestudio.exe.release.toolchain.secoutput.1045485402" name="Other" superClass="com.atollic.truestudio.exe.release.toolchain.secoutput">
+							<tool commandLinePattern="${COMMAND} ${FLAGS}  ${INPUTS}" id="com.atollic.truestudio.exe.release.toolchain.secoutput.1045485402" name="Other" superClass="com.atollic.truestudio.exe.release.toolchain.secoutput">
 								<option id="com.atollic.truestudio.secoutput.general.convert.1488837383" name="Convert build output" superClass="com.atollic.truestudio.secoutput.general.convert" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.atollic.truestudio.mbs.convert.1650039295" name="Format" superClass="com.atollic.truestudio.mbs.convert" useByScannerDiscovery="false" value="com.atollic.truestudio.mbs.convert.bin" valueType="enumerated"/>
 							</tool>

@@ -1,70 +1,71 @@
 // -----------------------------------------
 // Global definitions
 // ----------------------------------------
-
 // Header
 #include "Constraints.h"
 
 // Constants
-const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {{0, 0, 0},			// 0
-		{0, 0, 0},																	// 1
-		{0, 0, 0},																	// 2
-		{0, 0, 0},																	// 3
-		{0, 0, 0},																	// 4
-		{0, 0, 0},																	// 5
-		{0, 0, 0},																	// 6
-		{0, 0, 0},																	// 7
-		{0, 0, 0},																	// 8
-		{0, 0, 0},																	// 9
-		{0, 0, 0},																	// 10
-		{0, 0, 0},																	// 11
-		{0, 0, 0},																	// 12
-		{0, 0, 0},																	// 13
-		{0, 0, 0},																	// 14
-		{0, 0, 0},																	// 15
-		{0, 0, 0},																	// 16
-		{0, 0, 0},																	// 17
-		{0, 0, 0},																	// 18
-		{0, 0, 0},																	// 19
-		{0, 0, 0},																	// 20
-		{0, 0, 0},																	// 21
-		{0, 0, 0},																	// 22
-		{0, 0, 0},																	// 23
-		{0, 0, 0},																	// 24
-		{0, 0, 0},																	// 25
-		{0, 0, 0},																	// 26
-		{0, 0, 0},																	// 27
-		{0, 0, 0},																	// 28
-		{0, 0, 0},																	// 29
-		{0, 0, 0},																	// 30
-		{0, 0, 0},																	// 31
-		{0, 0, 0},																	// 32
-		{0, 0, 0},																	// 33
-		{0, 0, 0},																	// 34
-		{0, 0, 0},																	// 35
-		{0, 0, 0},																	// 36
-		{0, 0, 0},																	// 37
-		{0, 0, 0},																	// 38
-		{0, 0, 0},																	// 39
-		{0, 0, 0},																	// 40
-		{0, 0, 0},																	// 41
-		{0, 0, 0},																	// 42
-		{0, 0, 0},																	// 43
-		{0, 0, 0},																	// 44
-		{0, 0, 0},																	// 45
-		{0, 0, 0},																	// 46
-		{0, 0, 0},																	// 47
-		{0, 0, 0},																	// 48
-		{0, 0, 0},																	// 49
-		{0, 0, 0},																	// 50
-		{0, 0, 0},																	// 51
-		{0, 0, 0},																	// 52
-		{0, 0, 0},																	// 53
-		{0, 0, 0},																	// 54
-		{0, 0, 0},																	// 55
-		{0, 0, 0},																	// 56
-		{0, 0, 0},																	// 57
-		{0, 0, 0},																	// 58
+const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
+		{0, 0, 0},										// 0
+		{0, DAC_MAX_VALUE, 0},							// 1	DAC_V200_NULL
+		{0, DAC_MAX_VALUE, DAC_V200_DEF},				// 2	DAC_V200_TOP
+		{0, DAC_MAX_VALUE, 0},							// 3	DAC_2V00_NULL
+		{0, DAC_MAX_VALUE, DAC_2V00_DEF},				// 4	DAC_2V00_TOP
+		{0, DAC_MAX_VALUE, 0},							// 5	DAC_20V0_NULL
+		{0, DAC_MAX_VALUE, DAC_20V0_DEF},				// 6	DAC_20V0_TOP
+		{0, DAC_MAX_VALUE, 0},							// 7	DAC_270V_NULL
+		{0, DAC_MAX_VALUE, DAC_270V_DEF},				// 8	DAC_270V_TOP
+
+		{0, 0, 0},										// 9	----
+		{0, ADC_MAX_VALUE, 0},							// 10	ADC_BLV_V200_NULL
+		{0, ADC_MAX_VALUE, ADC_BLV_V200_DEF},			// 11	ADC_BLV_V200_TOP
+		{0, ADC_MAX_VALUE, 0},							// 12	ADC_BLV_2V00_NULL
+		{0, ADC_MAX_VALUE, ADC_BLV_2V00_DEF},			// 13	ADC_BLV_2V00_TOP
+		{0, ADC_MAX_VALUE, 0},							// 14	ADC_BLV_20V0_NULL
+		{0, ADC_MAX_VALUE, ADC_BLV_20V0_DEF},			// 15	ADC_BLV_20V0_TOP
+		{0, ADC_MAX_VALUE, 0},							// 16	ADC_BHV_270V_NULL
+		{0, ADC_MAX_VALUE, ADC_BHV_270V_DEF},			// 17	ADC_BHV_270V_TOP
+		{0, ADC_MAX_VALUE, 0},							// 18	ADC_POT_V200_NULL
+		{0, ADC_MAX_VALUE, ADC_POT_V200_DEF},			// 19	ADC_POT_V200_TOP
+		{0, ADC_MAX_VALUE, 0},							// 20	ADC_POT_2V00_NULL
+		{0, ADC_MAX_VALUE, ADC_POT_2V00_DEF},			// 21	ADC_POT_2V00_TOP
+		{0, ADC_MAX_VALUE, 0},							// 22	ADC_POT_20V0_NULL
+		{0, ADC_MAX_VALUE, ADC_POT_20V0_DEF},			// 23	ADC_POT_20V0_TOP
+		{0, ADC_MAX_VALUE, 0},							// 24	ADC_PHV_270V_NULL
+		{0, ADC_MAX_VALUE, ADC_PHV_270V_DEF},			// 25	ADC_PHV_270V_TOP
+		{0, 0, 0},										// 26
+		{0, 0, 0},										// 27
+		{0, 0, 0},										// 28
+		{0, 0, 0},										// 29
+		{0, ADC_MAX_VALUE, 0},							// 30	ADC_ILV_R1_NULL
+		{0, ADC_MAX_VALUE, ADC_ILV_R1_DEF},				// 31	ADC_ILV_R1_TOP
+		{0, ADC_MAX_VALUE, 0},							// 32	ADC_ILV_R2_NULL
+		{0, ADC_MAX_VALUE, ADC_ILV_R2_DEF},				// 33	ADC_ILV_R2_TOP
+		{0, ADC_MAX_VALUE, 0},							// 34	ADC_ILV_R3_NULL
+		{0, ADC_MAX_VALUE, ADC_ILV_R3_DEF},				// 35	ADC_ILV_R3_TOP
+		{0, ADC_MAX_VALUE, 0},							// 36	ADC_ILV_R4_NULL
+		{0, ADC_MAX_VALUE, ADC_ILV_R4_DEF},				// 37	ADC_ILV_R4_TOP
+		{0, ADC_MAX_VALUE, 0},							// 38
+		{0, ADC_MAX_VALUE, 0},							// 39
+		{0, ADC_MAX_VALUE, 0},							// 40	ADC_IHV_R1_NULL
+		{0, ADC_MAX_VALUE, ADC_IHV_R1_DEF},				// 41	ADC_IHV_R1_TOP
+		{0, ADC_MAX_VALUE, 0},							// 42	ADC_IHV_R2_NULL
+		{0, ADC_MAX_VALUE, ADC_IHV_R2_DEF},				// 43	ADC_IHV_R2_TOP
+		{0, ADC_MAX_VALUE, 0},							// 44	ADC_IHV_R3_NULL
+		{0, ADC_MAX_VALUE, ADC_IHV_R3_DEF},				// 45	ADC_IHV_R3_TOP
+		{0, 0, 0},										// 46
+		{0, 0, 0},										// 47
+		{0, 0, 0},										// 48
+		{0, 0, 0},										// 49
+		{DAC_LIMIT_MIN, DAC_LIMIT_MAX, DAC_LIMIT_DEF},	// 50	DAC_110MA_LIMIT
+		{0, DAC_MAX_VALUE, 0},							// 51	DAC_100MKA_NULL
+		{0, DAC_MAX_VALUE, DAC_100MKA_DEF},				// 52	DAC_100MKA_TOP
+		{0, DAC_MAX_VALUE, 0},							// 53	DAC_1MA_NULL
+		{0, DAC_MAX_VALUE, DAC_1MA_DEF},				// 54	DAC_1MA_TOP
+		{0, DAC_MAX_VALUE, 0},							// 55	DAC_10MA_NULL
+		{0, DAC_MAX_VALUE, DAC_10MA_DEF},				// 56	DAC_10MA_TOP
+		{0, DAC_MAX_VALUE, 0},							// 57	DAC_110MA_NULL
+		{0, DAC_MAX_VALUE, DAC_110MA_DEF},				// 58	DAC_110MA_TOP
 		{0, 0, 0},																	// 59
 		{0, 0, 0},																	// 60
 		{0, 0, 0},																	// 61
@@ -135,19 +136,21 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {{0, 0, 0},			// 0
 		{0, 0, 0},																	// 126
 		{0, 0, 0}																	// 127
 };
+//Min;Max;Default;
 
-const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {{0, 0, 0},					// 128
-		{0, 0, 0},																	// 129
-		{0, 0, 0},																	// 130
-		{0, 0, 0},																	// 131
-		{0, 0, 0},																	// 132
-		{0, 0, 0},																	// 133
-		{0, 0, 0},																	// 134
-		{0, 0, 0},																	// 135
-		{0, 0, 0},																	// 136
-		{0, 0, 0},																	// 137
-		{0, 0, 0},																	// 138
-		{0, 0, 0},																	// 139
+const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {
+		{OUT_LINE_NONE, OUT_LINE_BUS, OUT_LINE_NONE},				// 128	REG_OUTPUT_LINE	// Регистр контроля выходных линий
+		{WORK_MODE_OFF, WORK_MODE_CURR, WORK_MODE_OFF},				// 129	REG_WORK_MODE	// Регистр режима работы
+		{SRC_TYPE_NONE, SRC_TYPE_PERMANENT, SRC_TYPE_NONE},			// 130	REG_PULSE_TYPE	// Регистр типа формируемого сигнала: импульс, постоянный
+		{0, INT16U_MAX, 0},											// 131	REG_PULSE_TIME	// Регистр длительности импульса
+		{0, INT16U_MAX, 0},											// 132	REG_I_SET_L		// Регистр установки источника тока LESS HALF
+		{0, 1, 0},													// 133	REG_I_SET_M		// Регистр установки источника тока MOST HALF
+		{0, 50000, 0},												// 134	REG_V_CUT_L		// Регистр напряжения отсечки в режиме источника тока LESS HALF
+		{0, 0, 0},													// 135	REG_V_CUT_M		// Регистр напряжения отсечки в режиме источника тока MOST HALF
+		{0, INT16U_MAX, 0},											// 136	REG_V_SET_L		// Регистр установки источника напряжения LESS HALF
+		{0, 3, 0},													// 137	REG_V_SET_M		// Регистр установки источника напряжения MOST HALF
+		{0, INT16U_MAX, 0},											// 138	REG_I_CUT_L		// Регистр тока отсечки в режиме источника напряжения LESS HALF
+		{0, 1, 0},													// 139	REG_I_CUT_M		// Регистр тока отсечки в режиме источника напряжения MOST HALF
 		{0, 0, 0},																	// 140
 		{0, 0, 0},																	// 141
 		{0, 0, 0},																	// 142
@@ -168,8 +171,8 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 157
 		{0, 0, 0},																	// 158
 		{0, 0, 0},																	// 159
-		{0, 0, 0},																	// 160
-		{0, 0, 0},																	// 161
+		{0, INT16U_MAX, 0},															// 160
+		{0, INT16U_MAX, 0},															// 161
 		{0, 0, 0},																	// 162
 		{0, 0, 0},																	// 163
 		{0, 0, 0},																	// 164

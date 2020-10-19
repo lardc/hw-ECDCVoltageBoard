@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Delay.h"
 #include "Controller.h"
+#include "VoltageBoard.h"
 #include "DataTable.h"
 #include "Diagnostic.h"
 
@@ -48,61 +49,6 @@ bool DBGACT_ReadStateLineSync2()
 }
 //-----------------------------
 
-void DBGACT_RelayCtrls(uint16_t Relay, bool State)
-{
-	switch (Relay)
-	{
-		case RELAY_BUS:
-			{
-				LL_SetStateCtrls(RLC_CTRL1, State);
-			}
-			break;
-			
-		case RELAY_PS1:
-			{
-				LL_SetStateCtrls(RLC_CTRL2, State);
-			}
-			break;
-			
-		case RELAY_PS2:
-			{
-				LL_SetStateCtrls(RLC_CTRL3, State);
-			}
-			break;
-			
-		case RELAY_CTRL1:
-			{
-				LL_SetStateCtrls(RLC_CTRL4, State);
-			}
-			break;
-			
-		case RELAY_POT:
-			{
-				LL_SetStateCtrls(RLC_CTRL5, State);
-			}
-			break;
-			
-		case RELAY_POT_CTRL:
-			{
-				LL_SetStateCtrls(RLC_CTRL6, State);
-			}
-			break;
-			
-		case RELAY_POTP:
-			{
-				LL_SetStateCtrls(RLC_CTRL7, State);
-			}
-			break;
-			
-		case RELAY_POTN:
-			{
-				LL_SetStateCtrls(RLC_CTRL8, State);
-			}
-			break;
-	}
-}
-//-----------------------------
-
 void DBGACT_LHVSelectSrc(SelVSrc src)
 {
 	if(src == SELECT_VSRC_HIGH)
@@ -137,43 +83,19 @@ void DBGACT_SelectRg()
 	switch (Range)
 	{
 		case RANGE_V_HV_R0:
-			{
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
-				//
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_1, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_2, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
-			}
+			LL_SelectRgK12();
 			break;
 			
 		case RANGE_V_HV_R1:
-			{
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
-				//
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_0, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_2, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
-			}
+			LL_SelectRg1K10();
 			break;
 			
 		case RANGE_V_HV_R2:
-			{
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
-				//
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_0, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_1, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
-			}
+			LL_SelectRg7K70();
 			break;
 			
 		case RANGE_V_HV_R3:
-			{
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
-				//
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_0, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_1, true);
-				LL_SetStateCtrls(V_HV_CTRL_RANGE_2, true);
-			}
+			LL_SelectRg720K();
 			break;
 	}
 }
@@ -186,20 +108,16 @@ void DBGACT_SelectVSensSrc()
 	switch (VSrc)
 	{
 		case SENSOR_LV:
-			{
-				LL_SetStateCtrls(LV_SENS_EN, true);
-				LL_SetStateCtrls(HV_SENS_EN, true);
-				//
-				LL_SetStateCtrls(LV_SENS_EN, false);
-			}
+			LL_SelectAdcSrcVLV();
 			break;
 		case SENSOR_HV:
-			{
-				LL_SetStateCtrls(LV_SENS_EN, true);
-				LL_SetStateCtrls(HV_SENS_EN, true);
-				//
-				LL_SetStateCtrls(HV_SENS_EN, false);
-			}
+			LL_SelectAdcSrcHV();
+			break;
+		case SENSOR_PT:
+			LL_SelectAdcSrcPT();
+			break;
+		case SENSOR_NO:
+			LL_SelectAdcSrcNO();
 			break;
 	}
 }
@@ -212,20 +130,10 @@ void DBGACT_SelectISensSrc()
 	switch (ISrc)
 	{
 		case SENSOR_I_LV:
-			{
-				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
-				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
-				//
-				LL_SetStateCtrls(LV_CUR_SENS_EN, false);
-			}
+			LL_SelectAdcSrcILV();
 			break;
 		case SENSOR_I_HV:
-			{
-				LL_SetStateCtrls(LV_CUR_SENS_EN, true);
-				LL_SetStateCtrls(HV_CUR_SENS_EN, true);
-				//
-				LL_SetStateCtrls(HV_CUR_SENS_EN, false);
-			}
+			LL_SelectAdcSrcIHV();
 			break;
 	}
 }
@@ -340,7 +248,7 @@ void DBGACT_SelectHVCtrls()
 }
 //-----------------------------
 
-void DBGACT_TestWaveform()
+void DBGACT_TestVWaveform()
 {
 	uint16_t i = 0;
 	
@@ -348,7 +256,6 @@ void DBGACT_TestWaveform()
 	do
 	{
 		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
-		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
 		i++;
 	}
 	while(i <= DAC_MAX_VALUE);
@@ -357,6 +264,30 @@ void DBGACT_TestWaveform()
 	do
 	{
 		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
+	}
+	while(i--);
+	CONTROL_UpdateWatchDog();
+
+	LL_SelectDACx(SELECT_DAC_NONE);
+
+}
+//-----------------------------
+
+void DBGACT_TestIWaveform()
+{
+	uint16_t i = 0;
+
+	LL_SelectDACx(SELECT_DAC_LV);
+	do
+	{
+		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
+		i++;
+	}
+	while(i <= DAC_MAX_VALUE);
+	i--;
+	CONTROL_UpdateWatchDog();
+	do
+	{
 		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
 	}
 	while(i--);
@@ -367,3 +298,30 @@ void DBGACT_TestWaveform()
 }
 //-----------------------------
 
+void DBGACT_SelectVRange() {
+	Int16U Range = DataTable[REG_DBG_STATE];
+
+	switch (Range)
+	{
+		case SELECT_LV_R0:
+			{
+				LL_SelectVOutMaxV200();
+			}
+			break;
+
+		case SELECT_LV_R1:
+			{
+				LL_SelectVOutMax2V00();
+			}
+			break;
+
+		case SELECT_LV_R2:
+			{
+				LL_SelectVOutMax20V0();
+			}
+			break;
+	}
+
+
+}
+//-----------------------------

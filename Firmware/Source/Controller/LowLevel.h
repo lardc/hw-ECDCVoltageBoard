@@ -19,4 +19,28 @@ void LL_SetStateRanges(SetRanges Pin, bool State);
 void LL_WriteDAC_LH(uint16_t Data);
 void LL_SelectDACx(SelDacX dac);
 
+void LL_SelectVOutMaxV200();
+void LL_SelectVOutMax2V00();
+void LL_SelectVOutMax20V0();
+void LL_SelectVrange270V();
+
+void LL_SelectRs27K();
+void LL_SelectRs2K7();
+void LL_SelectRsK27();
+void LL_SelectRsK020();
+
+void LL_SelectAdcSrcVLV();
+void LL_SelectAdcSrcHV();
+void LL_SelectAdcSrcPT();
+void LL_SelectAdcSrcNO();
+
+void LL_SelectRgK12();
+void LL_SelectRg1K10();
+void LL_SelectRg7K70();
+void LL_SelectRg720K();
+
+void LL_RelayCtrls(uint16_t Relay, bool State);
+void LL_SelectAdcSrcILV();
+void LL_SelectAdcSrcIHV();
+
 #endif //__LOWLEVEL_H

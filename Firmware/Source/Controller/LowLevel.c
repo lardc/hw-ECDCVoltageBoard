@@ -148,4 +148,217 @@ void LL_SelectDACx(SelDacX dac)
 			break;
 	}
 }
+//-----------------------------
 
+void LL_SelectVOutMaxV200()
+{
+	LL_SetStateCtrls(LV_RANGE0, true);
+	LL_SetStateCtrls(LV_RANGE1, false);
+	LL_SetStateCtrls(LV_RANGE2, false);
+}
+//-----------------------------
+
+void LL_SelectVOutMax2V00()
+{
+	LL_SetStateCtrls(LV_RANGE0, false);
+	LL_SetStateCtrls(LV_RANGE1, true);
+	LL_SetStateCtrls(LV_RANGE2, false);
+	;
+}
+//-----------------------------
+
+void LL_SelectVOutMax20V0()
+{
+	LL_SetStateCtrls(LV_RANGE0, false);
+	LL_SetStateCtrls(LV_RANGE1, false);
+	LL_SetStateCtrls(LV_RANGE2, true);
+}
+//-----------------------------
+
+void LL_SelectRs27K()
+{
+	LL_SetStateRanges(LV_CTRL_RANGE_0, true);
+	LL_SetStateRanges(LV_CTRL_RANGE_1, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+
+void LL_SelectRs2K7()
+{
+	LL_SetStateRanges(LV_CTRL_RANGE_0, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_1, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_3, true);
+}
+//-----------------------------
+
+void LL_SelectRsK27()
+{
+	LL_SetStateRanges(LV_CTRL_RANGE_0, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_1, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_2, true);
+	LL_SetStateRanges(LV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+
+void LL_SelectRsK020()
+{
+	LL_SetStateRanges(LV_CTRL_RANGE_0, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_1, true);
+	LL_SetStateRanges(LV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+
+void LL_SelectAdcSrcVLV()
+{
+	LL_SetStateCtrls(LV_SENS_EN, false);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(PT_SENS_EN, false);
+	//
+	LL_SetStateCtrls(LV_SENS_EN, true);
+}
+//-----------------------------
+
+void LL_SelectAdcSrcHV()
+{
+	LL_SetStateCtrls(LV_SENS_EN, false);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(PT_SENS_EN, false);
+	//
+	LL_SetStateCtrls(HV_SENS_EN, true);
+}
+//-----------------------------
+
+void LL_SelectAdcSrcPT()
+{
+	LL_SetStateCtrls(LV_SENS_EN, false);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(PT_SENS_EN, false);
+	//
+	LL_SetStateCtrls(PT_SENS_EN, true);
+}
+//-----------------------------
+
+void LL_SelectAdcSrcNO()
+{
+	LL_SetStateCtrls(LV_SENS_EN, true);
+	LL_SetStateCtrls(HV_SENS_EN, true);
+	LL_SetStateCtrls(PT_SENS_EN, true);
+}
+//-----------------------------
+
+void LL_SelectRgK12()
+{
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_0, true);
+	//
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+
+void LL_SelectRg1K10()
+{
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_1, true);
+	//
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+void LL_SelectRg7K70()
+{
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, true);
+	//
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+void LL_SelectRg720K()
+{
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
+	//
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
+	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
+}
+//-----------------------------
+
+void LL_RelayCtrls(uint16_t Relay, bool State)
+{
+	switch (Relay)
+	{
+		case RELAY_BUS:
+			{
+				LL_SetStateCtrls(RLC_CTRL1, State);
+			}
+			break;
+
+		case RELAY_PS1:
+			{
+				LL_SetStateCtrls(RLC_CTRL2, State);
+			}
+			break;
+
+		case RELAY_PS2:
+			{
+				LL_SetStateCtrls(RLC_CTRL3, State);
+			}
+			break;
+
+		case RELAY_CTRL:
+			{
+				LL_SetStateCtrls(RLC_CTRL4, State);
+			}
+			break;
+
+		case RELAY_POT:
+			{
+				LL_SetStateCtrls(RLC_CTRL5, State);
+			}
+			break;
+
+		case RELAY_POT_CTRLN:
+			{
+				LL_SetStateCtrls(RLC_CTRL6, State);
+			}
+			break;
+
+		case RELAY_POT_CTRLP:
+			{
+				LL_SetStateCtrls(RLC_CTRL7, State);
+			}
+			break;
+		case RELAY_LV_HV_CTRL1:
+			{
+				LL_SetStateCtrls(LV_HV_CTRL1, State);
+			}
+			break;
+		case RELAY_LV_HV_CTRL2:
+			{
+				LL_SetStateCtrls(LV_HV_CTRL2, State);
+			}
+			break;
+	}
+}
+
+void LL_SelectAdcSrcILV()
+{
+	LL_SetStateCtrls(LV_CUR_SENS_EN, false);
+	LL_SetStateCtrls(HV_CUR_SENS_EN, false);
+	//
+	LL_SetStateCtrls(LV_CUR_SENS_EN, true);
+}
+//-----------------------------
+
+void LL_SelectAdcSrcIHV()
+{
+	LL_SetStateCtrls(LV_CUR_SENS_EN, false);
+	LL_SetStateCtrls(HV_CUR_SENS_EN, false);
+	//
+	LL_SetStateCtrls(HV_CUR_SENS_EN, true);
+}
+//-----------------------------
