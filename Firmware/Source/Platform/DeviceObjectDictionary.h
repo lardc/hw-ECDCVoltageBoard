@@ -121,6 +121,7 @@
 #define REG_V_SET_M						137 // Регистр установки источника напряжения MOST HALF
 #define REG_I_CUT_L						138 // Регистр тока отсечки в режиме источника напряжения LESS HALF
 #define REG_I_CUT_M						139 // Регистр тока отсечки в режиме источника напряжения MOST HALF
+#define REG_SCOPE_RATE					148
 
 #define REG_DBG_STATE					150	// Регистр режима Отладки
 
@@ -139,6 +140,8 @@
 //
 #define REG_DBG_SYNC1				251	// Регистр состояния внутреннейи линии SYNC1
 #define REG_DBG_SYNC2				252	// Регистр состояния внутреннейи линии SYNC2
+
+#define REG_EP_LAST_POINTER		250	// Указатель на последий элемент быстрого логгирования
 
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)

@@ -198,5 +198,5 @@ void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
-
+void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, uint16_t VError);
 #endif // __CONTROLLER_H
