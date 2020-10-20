@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include <stdlib.h>
 #include "Controller.h"
 //
@@ -19,6 +19,13 @@
 
 #define sign(x) ((x)<0 ? -(1) : (1))
 #define EP_SIZE	1024
+#define EP_IMEASURE	1
+#define EP_VMEASURE	2
+#define EP_VERROR	3
+#define EP_IERROR	4
+
+
+
 // Types
 //
 typedef void (*FUNC_AsyncDelegate)();
@@ -58,7 +65,7 @@ void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, u
 {
 	static uint16_t ScopeLogStep = 0, LocalCounter = 0;
 
-	// Сброс локального счётчика в начале логгирования
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР° РІ РЅР°С‡Р°Р»Рµ Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ
 	if(CONTROL_Counter == 0)
 		LocalCounter = 0;
 
@@ -71,16 +78,16 @@ void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, u
 		CONTROL_VError[LocalCounter] = VError;
 		CONTROL_IError[LocalCounter] = CurError;
 
-		// Сохранение указателя на последний элемент
+		// РЎРѕС…СЂР°РЅРµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚
 		DataTable[REG_EP_LAST_POINTER] = LocalCounter;
 		++LocalCounter;
 	}
 
-	// Условие обновления глобального счётчика данных
+	// РЈСЃР»РѕРІРёРµ РѕР±РЅРѕРІР»РµРЅРёСЏ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР° РґР°РЅРЅС‹С…
 	if(CONTROL_Counter < EP_SIZE)
 		CONTROL_Counter = LocalCounter;
 
-	// Сброс локального счётчика
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР°
 	if(LocalCounter >= EP_SIZE)
 		LocalCounter = 0;
 }
@@ -88,33 +95,32 @@ void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, u
 
 void CONTROL_Init()
 {
-	// Переменные для конфигурации EndPoint
-	Int16U EPIndexes[4/*EP_COUNT*/] = {1, 2, 3, 4};
+	// РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РєРѕРЅС„РёРіСѓСЂР°С†РёРё EndPoint
+	Int16U EPIndexes[EP_COUNT] = {EP_IMEASURE, EP_VMEASURE, EP_VERROR, EP_IERROR};
 
-	Int16U EPSized[4/*EP_COUNT*/] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
+	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
 
-	// Сокращения
+	// РЎРѕРєСЂР°С‰РµРЅРёСЏ
 	pInt16U cc = (pInt16U)&CONTROL_Counter;
 
-	pInt16U EPCounters[4/*EP_COUNT*/] = {cc, cc, cc, cc};
+	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc};
 
-	pInt16U EPDatas[4/*EP_COUNT*/] = {
+	pInt16U EPDatas[EP_COUNT] = {
 			(pInt16U)CONTROL_IMeasure,
 			(pInt16U)CONTROL_VMeasure,
 			(pInt16U)CONTROL_VError,
 			(pInt16U)CONTROL_IError
 	};
 
-	//DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
-	// Конфигурация сервиса работы Data-table и EPROM
+	// РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ СЃРµСЂРІРёСЃР° СЂР°Р±РѕС‚С‹ Data-table Рё EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
-	// Инициализация data table
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ data table
 	DT_Init(EPROMService, false);
 	DT_SaveFirmwareInfo(CAN_SLAVE_NID, 0);
-	// Инициализация device profile
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
-	// Сброс значений
+	// РЎР±СЂРѕСЃ Р·РЅР°С‡РµРЅРёР№
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
 }
@@ -256,8 +262,6 @@ void CONTROL_PulseControl()
 					VB_SaveParam(&Config);
 					ReturnValue = VB_CheckParam(&Config);
 
-
-
 					if(ReturnValue)
 					{
 						VB_EnableVoltageChannel(&Config);
@@ -331,6 +335,8 @@ void CONTROL_PulseControl()
 						VB_RelayCommutation(&Config);
 						Config.CurrDac = 0;
 						Config.VDac = 0;
+						DEVPROFILE_ResetScopes(0);
+						DEVPROFILE_ResetEPReadState();
 						CONTROL_SetDeviceSubState(SS_PulseStart);
 						LL_SetStateExtLed(true);
 					}
@@ -359,7 +365,7 @@ void CONTROL_PulseControl()
 				break;
 			case SS_PulseProcess:
 				{
-					//контроль длительности
+					//РєРѕРЅС‚СЂРѕР»СЊ РґР»РёС‚РµР»СЊРЅРѕСЃС‚Рё
 					if(Config.PulseTime)
 					{
 						Time = CONTROL_TimeCounter;
@@ -377,11 +383,10 @@ void CONTROL_PulseControl()
 							CONTROL_SetDeviceSubState(SS_PulseStop);
 						}
 					}
-					//выход на заданные параметры
-					//регулятор напряжения
+					//СЂРµРіСѓР»СЏС‚РѕСЂ РЅР°РїСЂСЏР¶РµРЅРёСЏ
 					Config.VReal = MEASURE_Voltage();
 					VTempValue = Config.VWant - Config.VReal;
-					//масштабирование ошибки ADC->DAC
+					//РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ РѕС€РёР±РєРё ADC->DAC
 					VTempValue = (VTempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
 					do
 					{
@@ -400,10 +405,10 @@ void CONTROL_PulseControl()
 					Config.VError += VTempValue;
 					VNewDac = Config.VDac + Config.VError;
 
-					//регулятор тока
+					//СЂРµРіСѓР»СЏС‚РѕСЂ С‚РѕРєР°
 					Config.CurrReal = MEASURE_Current();
 					ITempValue = Config.CurrWant - Config.CurrReal;
-					//масштабирование ошибки ADC->DAC
+					//РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ РѕС€РёР±РєРё ADC->DAC
 					ITempValue = (ITempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
 					if(abs(ITempValue) > 25)
 						{
@@ -412,7 +417,7 @@ void CONTROL_PulseControl()
 					Config.IError += ITempValue;
 					INewDac = Config.CurrDac + Config.IError;
 
-					//ограничение по току или напряжению
+					//РѕРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ С‚РѕРєСѓ РёР»Рё РЅР°РїСЂСЏР¶РµРЅРёСЋ
 					if(INewDac < VNewDac)
 					{
 						TempValue = INewDac;
@@ -432,8 +437,7 @@ void CONTROL_PulseControl()
 						TempValue = DAC_MAX_VALUE;
 					}
 
-					//CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
-					CONTROL_EpLog(100, 200, 300, 400);
+					CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
 					LL_WriteDAC_LH(TempValue);
 				}
 				break;
