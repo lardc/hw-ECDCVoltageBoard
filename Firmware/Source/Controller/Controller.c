@@ -24,16 +24,14 @@
 #define EP_VERROR	3
 #define EP_IERROR	4
 
-
-
 // Types
 //
 typedef void (*FUNC_AsyncDelegate)();
 // Storage
-volatile Int16U CONTROL_IMeasure[EP_SIZE] = {100};
-volatile Int16U CONTROL_VMeasure[EP_SIZE] = {200};
-volatile Int16U CONTROL_VError[EP_SIZE] = {300};
-volatile Int16U CONTROL_IError[EP_SIZE] = {400};
+volatile Int16U CONTROL_IMeasure[EP_SIZE] = {0};
+volatile Int16U CONTROL_VMeasure[EP_SIZE] = {0};
+volatile Int16U CONTROL_VError[EP_SIZE] = {0};
+volatile Int16U CONTROL_IError[EP_SIZE] = {0};
 volatile Int16U CONTROL_Counter = 0;
 
 // Variables
@@ -105,12 +103,8 @@ void CONTROL_Init()
 
 	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc};
 
-	pInt16U EPDatas[EP_COUNT] = {
-			(pInt16U)CONTROL_IMeasure,
-			(pInt16U)CONTROL_VMeasure,
-			(pInt16U)CONTROL_VError,
-			(pInt16U)CONTROL_IError
-	};
+	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_IMeasure, (pInt16U)CONTROL_VMeasure, (pInt16U)CONTROL_VError,
+			(pInt16U)CONTROL_IError};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
@@ -151,6 +145,7 @@ void CONTROL_ResetHardware()
 	GPIO_SetState(GPIO_CS3, false);
 	//safe state
 	LL_SetStateCtrls(HP_CTRL_350V, true);
+	LL_SetStateCtrls(EN_48V_CTRL, true);
 }
 //------------------------------------------
 
@@ -313,12 +308,12 @@ void CONTROL_PulseControl()
 								}
 								break;
 							case CHANEL_LV_R3:
-							{
-								Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R3_TOP]) / IRANGE_R3_MAX;
-								Config.CurrDacRegionSize = DataTable[DAC_10MA_TOP] - DataTable[DAC_10MA_NULL];
-								Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
-							}
-							break;
+								{
+									Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R3_TOP]) / IRANGE_R3_MAX;
+									Config.CurrDacRegionSize = DataTable[DAC_10MA_TOP] - DataTable[DAC_10MA_NULL];
+									Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
+								}
+								break;
 							case CHANEL_LV_R4:
 							default:
 								{
@@ -331,6 +326,7 @@ void CONTROL_PulseControl()
 
 						LL_SelectAdcSrcVLV();
 						LL_SelectAdcSrcILV();
+						VB_SetCurrentLimit();
 						VB_SetCurrentLimit();
 						VB_RelayCommutation(&Config);
 						Config.CurrDac = 0;
@@ -390,9 +386,9 @@ void CONTROL_PulseControl()
 					VTempValue = (VTempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
 					do
 					{
-						if(abs(VTempValue) > 10)
+						if(abs(VTempValue) > 4)
 						{
-							VTempValue /= 10;
+							VTempValue /= 2;
 							break;
 						}
 						if(abs(VTempValue) > 0)
@@ -403,18 +399,31 @@ void CONTROL_PulseControl()
 					}
 					while(0);
 					Config.VError += VTempValue;
+					if(abs(Config.VError) > DAC_MAX_VALUE)
+						Config.VError = sign(Config.VError) * DAC_MAX_VALUE;
 					VNewDac = Config.VDac + Config.VError;
-
 					//регулятор тока
 					Config.CurrReal = MEASURE_Current();
 					ITempValue = Config.CurrWant - Config.CurrReal;
 					//масштабирование ошибки ADC->DAC
 					ITempValue = (ITempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
-					if(abs(ITempValue) > 25)
+					do
+					{
+						if(abs(ITempValue) > 4)
 						{
-							ITempValue = 25*sign(ITempValue);
+							ITempValue /= 2;
+							break;
 						}
+						if(abs(ITempValue) > 0)
+						{
+							ITempValue = sign(ITempValue);
+							break;
+						}
+					}
+					while(0);
 					Config.IError += ITempValue;
+					if(abs(Config.IError) > DAC_MAX_VALUE)
+						Config.IError = sign(Config.IError) * DAC_MAX_VALUE;
 					INewDac = Config.CurrDac + Config.IError;
 
 					//ограничение по току или напряжению
@@ -423,7 +432,8 @@ void CONTROL_PulseControl()
 						TempValue = INewDac;
 						Config.VError -= VTempValue;
 					}
-					else {
+					else
+					{
 						TempValue = VNewDac;
 						Config.IError -= ITempValue;
 					}

@@ -95,7 +95,7 @@
 #define ADC_IHV_R2_TOP	43
 #define ADC_IHV_R3_NULL	44
 #define ADC_IHV_R3_TOP	45
-
+#define VRANGE_20V0	46
 //калиброванные значения DAC для каждого диапазона тока
 #define DAC_110MA_LIMIT		50
 #define DAC_100MKA_NULL		51
