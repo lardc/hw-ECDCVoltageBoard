@@ -5,66 +5,33 @@
 #include "VoltageBoard.h"
 #include "DataTable.h"
 
-void VB_SaveParam(ControllerConfig *Config) {
+void VB_SaveParam(ControllerConfig *Config)
+{
 
 	Config->WorkMode = DataTable[REG_WORK_MODE];
 	Config->PulseType = DataTable[REG_PULSE_TYPE];
 	Config->PulseTime = DataTable[REG_PULSE_TIME];
 	Config->OutLine = DataTable[REG_OUTPUT_LINE];
-	Config->CurrSet = DT_Read32(REG_I_SET_L,REG_I_SET_M);
-	Config->CurrCut = DT_Read32(REG_I_CUT_L,REG_I_CUT_M);
-	Config->VSet = DT_Read32(REG_V_SET_L,REG_V_SET_M);
+	Config->CurrSet = DT_Read32(REG_I_SET_L, REG_I_SET_M);
+	Config->CurrCut = DT_Read32(REG_I_CUT_L, REG_I_CUT_M);
+	Config->VSet = DT_Read32(REG_V_SET_L, REG_V_SET_M);
 	Config->VCut = DT_Read32(REG_V_CUT_L, REG_V_CUT_M);
 
 }
 
-bool VB_CheckParam(ControllerConfig *Config){
+bool VB_CheckParam(ControllerConfig *Config)
+{
+	bool ReturnValue = true;
 
-	bool ReturnValue;
-
-	if((Config->WorkMode == WORK_MODE_VOLT) || (Config->WorkMode == WORK_MODE_CURR))
-	{
-		ReturnValue = true;
-	}
-	else
-	{
-		ReturnValue = false;
-	}
-
-	if((ReturnValue)
-			&& ((Config->PulseType == SRC_TYPE_SINGLE) || (Config->PulseType == SRC_TYPE_PERMANENT)))
-	{
-		ReturnValue = true;
-	}
-	else
-	{
-		ReturnValue = false;
-	}
-
-	if(((ReturnValue) && (Config->WorkMode == WORK_MODE_CURR) && (Config->CurrSet >= VB_IOUT_MIN)
+	ReturnValue &= (Config->WorkMode == WORK_MODE_VOLT) || (Config->WorkMode == WORK_MODE_CURR);
+	ReturnValue &= (Config->PulseType == SRC_TYPE_SINGLE) || (Config->PulseType == SRC_TYPE_PERMANENT);
+	ReturnValue &= ((Config->WorkMode == WORK_MODE_CURR) && (Config->CurrSet >= VB_IOUT_MIN)
 			&& (Config->CurrSet <= VB_IOUT_MAX))
-			|| ((ReturnValue) && (Config->WorkMode == WORK_MODE_VOLT) && (Config->VSet >= VB_VOUT_MIN)
-					&& (Config->VSet <= VB_VOUT_MAX)))
-	{
-		ReturnValue = true;
-	}
-	else
-	{
-		ReturnValue = false;
-	}
-
-	if((ReturnValue) && (Config->OutLine <= OUT_LINE_LAST))
-	{
-		ReturnValue = true;
-	}
-	else
-	{
-		ReturnValue = false;
-	}
+			|| ((Config->WorkMode == WORK_MODE_VOLT) && (Config->VSet >= VB_VOUT_MIN) && (Config->VSet <= VB_VOUT_MAX));
+	ReturnValue &= (Config->OutLine <= OUT_LINE_LAST);
 
 	return ReturnValue;
 }
-
 
 void VB_EnableVoltageChannel(ControllerConfig *Config)
 {
@@ -195,16 +162,15 @@ void VB_RelayCommutation(ControllerConfig *Config)
 			break;
 	}
 
-	if(Config->VChanel != CHANEL_NONE) {LL_RelayCtrls(Config->OutLine, true);}
+	if(Config->VChanel != CHANEL_NONE)
+	{
+		LL_RelayCtrls(Config->OutLine, true);
+	}
 }
 
 void VB_SetCurrentLimit()
 {
-//120ma max
-	LL_WriteDAC_LH(2300 | DAC_SELECT_CHI);
+	LL_WriteDAC_LH(DataTable[DAC_110MA_LIMIT] | DAC_SELECT_CHI);
 }
 //---------------------
-
-
-
 

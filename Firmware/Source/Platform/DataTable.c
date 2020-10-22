@@ -93,6 +93,6 @@ void DT_Write32(Int16U RegL, Int16U RegM, Int32U Value)
 
 Int32U DT_Read32(Int16U RegL, Int16U RegM)
 {
-	return DataTable[RegL] | (DataTable[RegM] << 16);
+	return (Int32U)DataTable[RegL] | ((Int32U)DataTable[RegM] << 16);
 }
 //------------------------------------------

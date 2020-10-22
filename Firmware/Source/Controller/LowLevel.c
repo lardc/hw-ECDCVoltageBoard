@@ -211,6 +211,15 @@ void LL_SelectRsK020()
 }
 //-----------------------------
 
+void LL_SelectRsNone()
+{
+	LL_SetStateRanges(LV_CTRL_RANGE_0, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_1, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(LV_CTRL_RANGE_3, false);
+}
+//-----------------------------
+
 void LL_SelectAdcSrcVLV()
 {
 	LL_SetStateCtrls(LV_SENS_EN, false);
@@ -268,6 +277,7 @@ void LL_SelectRg1K10()
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
 }
 //-----------------------------
+
 void LL_SelectRg7K70()
 {
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, true);
@@ -277,6 +287,7 @@ void LL_SelectRg7K70()
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, false);
 }
 //-----------------------------
+
 void LL_SelectRg720K()
 {
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_3, true);
@@ -284,6 +295,37 @@ void LL_SelectRg720K()
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_0, false);
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_1, false);
 	LL_SetStateCtrls(V_HV_CTRL_RANGE_2, false);
+}
+//-----------------------------
+
+
+void LL_SelectHV_R0()
+{
+	LL_SetStateRanges(HV_CTRL_RANGE_0, false);
+	//
+	LL_SetStateRanges(HV_CTRL_RANGE_1, true);
+	LL_SetStateRanges(HV_CTRL_RANGE_2, true);
+}
+//-----------------------------
+
+
+
+void LL_SelectHV_R1()
+{
+	LL_SetStateRanges(HV_CTRL_RANGE_1, false);
+	//
+	LL_SetStateRanges(HV_CTRL_RANGE_0, true);
+	LL_SetStateRanges(HV_CTRL_RANGE_2, true);
+}
+//-----------------------------
+
+
+void LL_SelectHV_R2()
+{
+	LL_SetStateRanges(HV_CTRL_RANGE_2, false);
+	//
+	LL_SetStateRanges(HV_CTRL_RANGE_0, true);
+	LL_SetStateRanges(HV_CTRL_RANGE_1, true);
 }
 //-----------------------------
 

@@ -1,6 +1,0 @@
-#ifndef CONTROLLER_LOGIC_H_
-#define CONTROLLER_LOGIC_H_
-
-
-
-#endif /* CONTROLLER_LOGIC_H_ */

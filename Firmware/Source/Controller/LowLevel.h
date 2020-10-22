@@ -28,6 +28,7 @@ void LL_SelectRs27K();
 void LL_SelectRs2K7();
 void LL_SelectRsK27();
 void LL_SelectRsK020();
+void LL_SelectRsNone();
 
 void LL_SelectAdcSrcVLV();
 void LL_SelectAdcSrcHV();
@@ -38,6 +39,10 @@ void LL_SelectRgK12();
 void LL_SelectRg1K10();
 void LL_SelectRg7K70();
 void LL_SelectRg720K();
+
+void LL_SelectHV_R0();
+void LL_SelectHV_R1();
+void LL_SelectHV_R2();
 
 void LL_RelayCtrls(uint16_t Relay, bool State);
 void LL_SelectAdcSrcILV();

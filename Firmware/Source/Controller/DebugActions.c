@@ -161,52 +161,23 @@ void DBGACT_SelectLVCtrls()
 	switch (Range)
 	{
 		case SELECT_LV_R0:
-			{
-				LL_SetStateRanges(LV_CTRL_RANGE_0, true);
-				//
-				LL_SetStateRanges(LV_CTRL_RANGE_1, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_2, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
-			}
+			LL_SelectRs27K();
 			break;
 			
 		case SELECT_LV_R1:
-			{
-				LL_SetStateRanges(LV_CTRL_RANGE_1, true);
-				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_2, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
-			}
+			LL_SelectRs2K7();
 			break;
 			
 		case SELECT_LV_R2:
-			{
-				LL_SetStateRanges(LV_CTRL_RANGE_2, true);
-				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_1, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
-			}
+			LL_SelectRsK27();
 			break;
 			
 		case SELECT_LV_R3:
-			{
-				LL_SetStateRanges(LV_CTRL_RANGE_3, true);
-				//
-				LL_SetStateRanges(LV_CTRL_RANGE_0, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_1, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_2, false);
-			}
+			LL_SelectRsK020();
 			break;
 			
 		default:
-			{
-				LL_SetStateRanges(LV_CTRL_RANGE_0, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_1, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_2, false);
-				LL_SetStateRanges(LV_CTRL_RANGE_3, false);
-			}
+			LL_SelectRsNone();
 			break;
 	}
 }
@@ -219,30 +190,15 @@ void DBGACT_SelectHVCtrls()
 	switch (Range)
 	{
 		case SELECT_HV_R0:
-			{
-				LL_SetStateRanges(HV_CTRL_RANGE_0, false);
-				//
-				LL_SetStateRanges(HV_CTRL_RANGE_1, true);
-				LL_SetStateRanges(HV_CTRL_RANGE_2, true);
-			}
+			LL_SelectHV_R0();
 			break;
 			
 		case SELECT_HV_R1:
-			{
-				LL_SetStateRanges(HV_CTRL_RANGE_1, false);
-				//
-				LL_SetStateRanges(HV_CTRL_RANGE_0, true);
-				LL_SetStateRanges(HV_CTRL_RANGE_2, true);
-			}
+			LL_SelectHV_R1();
 			break;
 			
 		case SELECT_HV_R2:
-			{
-				LL_SetStateRanges(HV_CTRL_RANGE_2, false);
-				//
-				LL_SetStateRanges(HV_CTRL_RANGE_0, true);
-				LL_SetStateRanges(HV_CTRL_RANGE_1, true);
-			}
+			LL_SelectHV_R2();
 			break;
 	}
 }
