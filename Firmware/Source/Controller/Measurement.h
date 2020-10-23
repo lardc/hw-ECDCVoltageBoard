@@ -10,10 +10,6 @@ float MEASURE_CurrentRaw();
 float MEASURE_Voltage();
 float MEASURE_Current();
 
-void MEASURE_CacheVoltageDAC(float VoltageSetpoint);
-void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
-
-void MEASURE_CacheVoltageADC(float VoltageSetpoint);
-void MEASURE_CacheCurrentADC(float VoltageSetpoint);
+void MEASURE_CacheConvertParameters(float VoltageSetpoint, float CurrentSetpoint);
 
 #endif // __MEASUREMENT_H

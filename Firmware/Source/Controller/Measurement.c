@@ -32,6 +32,10 @@ void MEASURE_CacheDACx(pDACConvertParameters Storage, uint16_t RegK_N, uint16_t 
 uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value);
 void MEASURE_CacheADCx(pADCConvertParameters Storage, uint16_t RegK_N, uint16_t RegK_D, uint16_t RegOffset,
 		uint16_t RegP2, uint16_t RegP1, uint16_t RegP0);
+void MEASURE_CacheVoltageDAC(float VoltageSetpoint);
+void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
+void MEASURE_CacheVoltageADC(float VoltageSetpoint);
+void MEASURE_CacheCurrentADC(float VoltageSetpoint);
 uint16_t MEASURE_ConvertVoltageToDAC(float Value);
 uint16_t MEASURE_ConvertCurrentToDAC(float Value);
 float MEASURE_ConvertADCToVoltage(float Value);
@@ -215,5 +219,15 @@ float MEASURE_ConvertADCToVoltage(float Value)
 float MEASURE_ConvertADCToCurrent(float Value)
 {
 	return MEASURE_ConvertADCToX(CurrentADC, Value);
+}
+//------------------------------------------
+
+void MEASURE_CacheConvertParameters(float VoltageSetpoint, float CurrentSetpoint)
+{
+	MEASURE_CacheVoltageDAC(VoltageSetpoint);
+	MEASURE_CacheVoltageADC(VoltageSetpoint);
+
+	MEASURE_CacheCurrentDAC(CurrentSetpoint);
+	MEASURE_CacheCurrentADC(CurrentSetpoint);
 }
 //------------------------------------------
