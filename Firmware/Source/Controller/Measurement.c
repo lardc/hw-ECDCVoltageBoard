@@ -7,6 +7,10 @@
 #include "Global.h"
 #include "ZwADC.h"
 
+// Definitions
+#define ADC_TO_VOLTAGE		0
+#define ADC_TO_CURRENT		1
+
 // Types
 typedef struct __DACConvertParameters
 {
@@ -26,16 +30,18 @@ typedef struct __ADCConvertParameters
 // Variables
 static DACConvertParameters VoltageDAC, CurrentDAC;
 static ADCConvertParameters VoltageADC, CurrentADC;
+static float ShuntResistance;
 
 // Forward functions
 void MEASURE_CacheDACx(pDACConvertParameters Storage, uint16_t RegK_N, uint16_t RegK_D, uint16_t RegOffset);
-uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value);
+float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value, bool ADCToCurrent);
 void MEASURE_CacheADCx(pADCConvertParameters Storage, uint16_t RegK_N, uint16_t RegK_D, uint16_t RegOffset,
 		uint16_t RegP2, uint16_t RegP1, uint16_t RegP0);
 void MEASURE_CacheVoltageDAC(float VoltageSetpoint);
 void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
 void MEASURE_CacheVoltageADC(float VoltageSetpoint);
 void MEASURE_CacheCurrentADC(float VoltageSetpoint);
+void MEASURE_CacheCurrentShunt(float CurrentSetpoint);
 uint16_t MEASURE_ConvertVoltageToDAC(float Value);
 uint16_t MEASURE_ConvertCurrentToDAC(float Value);
 float MEASURE_ConvertADCToVoltage(float Value);
@@ -202,9 +208,11 @@ void MEASURE_CacheCurrentADC(float CurrentSetpoint)
 }
 //------------------------------------------
 
-float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value)
+float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value, bool ADCToCurrent)
 {
 	float tmp = (Value / ADC_MAX_RESOLUTION * ADC_REF_VOLTAGE + Storage.Offset) * Storage.K;
+	if(ADCToCurrent)
+		tmp /= ShuntResistance;
 	tmp = tmp * tmp * Storage.P2 + tmp * Storage.P1 + Storage.P0;
 	return (tmp > 0) ? tmp : 0;
 }
@@ -212,13 +220,32 @@ float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value)
 
 float MEASURE_ConvertADCToVoltage(float Value)
 {
-	return MEASURE_ConvertADCToX(VoltageADC, Value);
+	return MEASURE_ConvertADCToX(VoltageADC, Value, ADC_TO_VOLTAGE);
 }
 //------------------------------------------
 
 float MEASURE_ConvertADCToCurrent(float Value)
 {
-	return MEASURE_ConvertADCToX(CurrentADC, Value);
+	return MEASURE_ConvertADCToX(CurrentADC, Value, ADC_TO_CURRENT);
+}
+//------------------------------------------
+
+void MEASURE_CacheCurrentShunt(float CurrentSetpoint)
+{
+	if(CurrentSetpoint <= DataTable[REG_I_RANGE1_LIMIT])
+	{
+		ShuntResistance = DataTable[REG_I_RANGE1_RES];
+	}
+	else if(CurrentSetpoint <= DataTable[REG_I_RANGE2_LIMIT])
+	{
+		ShuntResistance = DataTable[REG_I_RANGE2_RES];
+	}
+	else if(CurrentSetpoint <= DataTable[REG_I_RANGE3_LIMIT])
+	{
+		ShuntResistance = DataTable[REG_I_RANGE3_RES];
+	}
+	else
+		ShuntResistance = DataTable[REG_I_RANGE4_RES];
 }
 //------------------------------------------
 
@@ -229,5 +256,7 @@ void MEASURE_CacheConvertParameters(float VoltageSetpoint, float CurrentSetpoint
 
 	MEASURE_CacheCurrentDAC(CurrentSetpoint);
 	MEASURE_CacheCurrentADC(CurrentSetpoint);
+
+	MEASURE_CacheCurrentShunt(CurrentSetpoint);
 }
 //------------------------------------------
