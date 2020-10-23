@@ -6,10 +6,10 @@
 Int16U MEASURE_Voltage();
 Int16U MEASURE_Current();
 
-uint16_t MEASURE_ConvertVoltageToDAC(float Value);
-uint16_t MEASURE_ConvertCurrentToDAC(float Value);
-
-void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
 void MEASURE_CacheVoltageDAC(float VoltageSetpoint);
+void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
+
+void MEASURE_CacheVoltageADC(float VoltageSetpoint);
+void MEASURE_CacheCurrentADC(float VoltageSetpoint);
 
 #endif // __MEASUREMENT_H
