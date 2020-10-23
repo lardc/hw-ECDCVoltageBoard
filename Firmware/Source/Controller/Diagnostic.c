@@ -136,13 +136,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			break;
 		case ACT_DBG_READ_ADC_VCH:
 			{
-				DataTable[REG_DBG_STATE] = MEASURE_Voltage();
+				DataTable[REG_DBG_STATE] = MEASURE_VoltageRaw();
 			}
 			break;
 			
 		case ACT_DBG_READ_ADC_ICH:
 			{
-				DataTable[REG_DBG_STATE] = MEASURE_Current();
+				DataTable[REG_DBG_STATE] = MEASURE_CurrentRaw();
 			}
 			break;
 			

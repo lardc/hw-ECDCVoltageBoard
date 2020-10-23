@@ -36,31 +36,43 @@ uint16_t MEASURE_ConvertVoltageToDAC(float Value);
 uint16_t MEASURE_ConvertCurrentToDAC(float Value);
 float MEASURE_ConvertADCToVoltage(float Value);
 float MEASURE_ConvertADCToCurrent(float Value);
+float MEASURE_SampleX(ADC_TypeDef *ADCx, uint16_t Channel);
 
 // Functions
-Int16U MEASURE_Voltage()
+float MEASURE_SampleX(ADC_TypeDef *ADCx, uint16_t Channel)
 {
-	Int16U ReturnValue;
-	//dummy read;
-	ADC_Measure(ADC2, ADC_CHANEL_V);
-	ReturnValue = ADC_Measure(ADC2, ADC_CHANEL_V);
-	ReturnValue += ADC_Measure(ADC2, ADC_CHANEL_V);
-	ReturnValue += ADC_Measure(ADC2, ADC_CHANEL_V);
+	// dummy sample
+	ADC_Measure(ADCx, Channel);
 
-	return ReturnValue/3;
+	float result = 0;
+	for(uint8_t i = 0; i < ADC_AVG_COUNT; ++i)
+		result += (float)ADC_Measure(ADCx, Channel);
+
+	return result / ADC_AVG_COUNT;
 }
 //------------------------------------------
 
-Int16U MEASURE_Current()
+float MEASURE_VoltageRaw()
 {
-	Int16U ReturnValue;
-	//dummy read;
-	ADC_Measure(ADC1, ADC_CHANEL_I);
-	ReturnValue = ADC_Measure(ADC1, ADC_CHANEL_I);
-	ReturnValue += ADC_Measure(ADC1, ADC_CHANEL_I);
-	ReturnValue += ADC_Measure(ADC1, ADC_CHANEL_I);
+	return MEASURE_SampleX(ADC2, ADC_CHANEL_V);
+}
+//------------------------------------------
 
-	return ReturnValue/3;
+float MEASURE_CurrentRaw()
+{
+	return MEASURE_SampleX(ADC1, ADC_CHANEL_I);
+}
+//------------------------------------------
+
+float MEASURE_Voltage()
+{
+	return MEASURE_ConvertADCToVoltage(MEASURE_VoltageRaw());
+}
+//------------------------------------------
+
+float MEASURE_Current()
+{
+	return MEASURE_ConvertADCToCurrent(MEASURE_CurrentRaw());
 }
 //------------------------------------------
 

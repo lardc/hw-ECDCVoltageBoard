@@ -3,8 +3,12 @@
 
 #include "stdinc.h"
 
-Int16U MEASURE_Voltage();
-Int16U MEASURE_Current();
+// Functions
+float MEASURE_VoltageRaw();
+float MEASURE_CurrentRaw();
+
+float MEASURE_Voltage();
+float MEASURE_Current();
 
 void MEASURE_CacheVoltageDAC(float VoltageSetpoint);
 void MEASURE_CacheCurrentDAC(float CurrentSetpoint);
