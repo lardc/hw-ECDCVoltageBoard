@@ -10,6 +10,14 @@ float MEASURE_CurrentRaw();
 float MEASURE_Voltage();
 float MEASURE_Current();
 
-void MEASURE_CacheConvertParameters(float VoltageSetpoint, float CurrentSetpoint);
+void MEASURE_CacheConvertParametersV1();
+void MEASURE_CacheConvertParametersV2();
+void MEASURE_CacheConvertParametersV3();
+void MEASURE_CacheConvertParametersV4();
+
+void MEASURE_CacheConvertParametersI1();
+void MEASURE_CacheConvertParametersI2();
+void MEASURE_CacheConvertParametersI3();
+void MEASURE_CacheConvertParametersI4();
 
 #endif // __MEASUREMENT_H
