@@ -34,6 +34,11 @@
 #define IRANGE_R4_MAX		110000
 
 
+// Ïאנאלוענû ÀÖÏ, ÖÀÏ
+#define DAC_MAX_RESOLUTION		0xFFF
+#define DAC_REF_VOLTAGE			5000		// ג לÂ
 
+#define ADC_MAX_RESOLUTION		0xFFF
+#define ADC_REF_VOLTAGE			3000		// ג לÂ
 
 #endif //  __GLOBAL_H
