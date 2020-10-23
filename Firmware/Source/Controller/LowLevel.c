@@ -1,16 +1,21 @@
 ﻿// Header
-#include <string.h>
-
 #include "LowLevel.h"
 // Include
 #include "Board.h"
 #include "Delay.h"
 #include "Controller.h"
+#include <string.h>
+
+// Defines
+#define DAC_CHANNEL_B		BIT15
 
 // Variables
 //
 uint8_t CONTROL_UnitCtrls[CTRL_SIZE];
 uint8_t CONTROL_UnitRanges;
+
+// Forward functions
+void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx);
 
 // Functions
 //
@@ -67,6 +72,7 @@ void LL_ResetStateCtrls()
 	LL_UpdateStateCtrls();
 }
 //-----------------------------
+
 void LL_SetStateCtrls(SetCtrls Pin, bool State)
 {
 	uint32_t Nbyte;
@@ -101,6 +107,7 @@ void LL_ResetStateRanges()
 	LL_UpdateStateRanges();
 }
 //-----------------------------
+
 void LL_SetStateRanges(SetRanges Pin, bool State)
 {
 	uint32_t Nbit;
@@ -118,35 +125,42 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 }
 //-----------------------------
 
-void LL_WriteDAC_LH(uint16_t Data)
+void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 {
 	GPIO_SetState(GPIO_DAC_CS, false);
 	SPI_WriteByte8b(SPI1, (Data >> 8) & 0xff);
 	SPI_WriteByte8b(SPI1, Data & 0xff);
 	GPIO_SetState(GPIO_DAC_CS, true);
+	DELAY_US(1);
+
+	GPIO_SetState(GPIO_LDACx, false);
+	DELAY_US(1);
+	GPIO_SetState(GPIO_LDACx, true);
+	DELAY_US(1);
 }
 //-----------------------------
 
-void LL_SelectDACx(SelDacX dac)
+void LL_WriteDACLV_Voltage(uint16_t Data)
 {
-	switch (dac)
-	{
-		case SELECT_DAC_LV:
-			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-			GPIO_SetState(GPIO_LDAC1, false);
-			break;
-			
-		case SELECT_DAC_HV:
-			GPIO_SetState(GPIO_LDAC2, true);	//first: off(), then: on()
-			GPIO_SetState(GPIO_LDAC1, false);
-			break;
-			
-		case SELECT_DAC_NONE:
-		default:
-			GPIO_SetState(GPIO_LDAC1, true);	//off() & off()
-			GPIO_SetState(GPIO_LDAC2, true);
-			break;
-	}
+	LL_WriteDACx(Data & ~DAC_CHANNEL_B, GPIO_LDAC1);
+}
+//-----------------------------
+
+void LL_WriteDACLV_Current(uint16_t Data)
+{
+	LL_WriteDACx(Data | DAC_CHANNEL_B, GPIO_LDAC1);
+}
+//-----------------------------
+
+void LL_WriteDACHV_Voltage(uint16_t Data)
+{
+	LL_WriteDACx(Data | DAC_CHANNEL_B, GPIO_LDAC2);
+}
+//-----------------------------
+
+void LL_WriteDACHV_Current(uint16_t Data)
+{
+	LL_WriteDACx(Data & ~DAC_CHANNEL_B, GPIO_LDAC2);
 }
 //-----------------------------
 
@@ -163,7 +177,6 @@ void LL_SelectVOutMax2V00()
 	LL_SetStateCtrls(LV_RANGE0, false);
 	LL_SetStateCtrls(LV_RANGE1, true);
 	LL_SetStateCtrls(LV_RANGE2, false);
-	;
 }
 //-----------------------------
 
@@ -298,7 +311,6 @@ void LL_SelectRg720K()
 }
 //-----------------------------
 
-
 void LL_SelectHV_R0()
 {
 	LL_SetStateRanges(HV_CTRL_RANGE_0, false);
@@ -308,8 +320,6 @@ void LL_SelectHV_R0()
 }
 //-----------------------------
 
-
-
 void LL_SelectHV_R1()
 {
 	LL_SetStateRanges(HV_CTRL_RANGE_1, false);
@@ -318,7 +328,6 @@ void LL_SelectHV_R1()
 	LL_SetStateRanges(HV_CTRL_RANGE_2, true);
 }
 //-----------------------------
-
 
 void LL_SelectHV_R2()
 {
@@ -374,11 +383,13 @@ void LL_RelayCtrls(uint16_t Relay, bool State)
 				LL_SetStateCtrls(RLC_CTRL7, State);
 			}
 			break;
+
 		case RELAY_LV_HV_CTRL1:
 			{
 				LL_SetStateCtrls(LV_HV_CTRL1, State);
 			}
 			break;
+
 		case RELAY_LV_HV_CTRL2:
 			{
 				LL_SetStateCtrls(LV_HV_CTRL2, State);
@@ -386,6 +397,7 @@ void LL_RelayCtrls(uint16_t Relay, bool State)
 			break;
 	}
 }
+//-----------------------------
 
 void LL_SelectAdcSrcILV()
 {

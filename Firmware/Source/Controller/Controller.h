@@ -72,13 +72,6 @@ typedef enum __SetRanges
 	RANGES_RESERVED1		//@SREG_CS.7
 } SetRanges;
 
-typedef enum __SelDacX
-{
-	SELECT_DAC_NONE = 0,
-	SELECT_DAC_LV,
-	SELECT_DAC_HV
-} SelDacX;
-
 typedef enum __SelVSrc
 {
 	SELECT_VSRC_LOW = 0,
@@ -179,7 +172,7 @@ typedef struct __ControllerConfig
 #define ADC_CHANEL_V	1
 #define ADC_CHANEL_I	1
 
-//Диапазон выходых параметров:напряжение:*мВ, ток:*мкА
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:*пїЅпїЅ, пїЅпїЅпїЅ:*пїЅпїЅпїЅ
 #define VB_VOUT_MIN		40
 #define VB_VOUT_MAX		270000
 #define VB_VOUT_ICUT	100000

@@ -73,23 +73,17 @@ void VB_EnableVoltageChannel(ControllerConfig *Config)
 		case CHANEL_V200:
 		case CHANEL_2V00:
 		case CHANEL_20V0:
-			LL_SelectDACx(SELECT_DAC_LV);
+			// отключено LL_SelectDACx(SELECT_DAC_LV);
 			//Issue: disable 350V & delay
 			break;
 		case CHANEL_270V:
-			LL_SelectDACx(SELECT_DAC_HV);
+			// отключено LL_SelectDACx(SELECT_DAC_HV);
 			//Issue: enable 350V & delay
 			break;
 		default:
-			LL_SelectDACx(SELECT_DAC_NONE);
+			// отключено LL_SelectDACx(SELECT_DAC_NONE);
 			break;
 	}
-}
-//---------------------
-
-void VB_DisableVoltageChannel()
-{
-	LL_SelectDACx(SELECT_DAC_NONE);
 }
 //---------------------
 
@@ -167,10 +161,4 @@ void VB_RelayCommutation(ControllerConfig *Config)
 		LL_RelayCtrls(Config->OutLine, true);
 	}
 }
-
-void VB_SetCurrentLimit()
-{
-	LL_WriteDAC_LH(DataTable[DAC_110MA_LIMIT] | DAC_SELECT_CHI);
-}
 //---------------------
-

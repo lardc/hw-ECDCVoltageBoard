@@ -8,7 +8,6 @@
 
 // Define
 //
-
 #define RANGE_V_HV_R0	0
 #define RANGE_V_HV_R1	1
 #define RANGE_V_HV_R2	2
@@ -18,7 +17,6 @@
 #define SENSOR_LV	1
 #define SENSOR_HV	2
 #define SENSOR_PT	3
-
 
 #define SENSOR_I_LV	0
 #define SENSOR_I_HV	1
@@ -48,11 +46,8 @@ void DBGACT_Ctrls350VDisable();
 void DBGACT_SelectRg();
 void DBGACT_SelectVSensSrc();
 void DBGACT_SelectISensSrc();
-void DBGACT_SelectDACx();
-void DBGACT_WriteDACx();
 void DBGACT_SelectLVCtrls();
 void DBGACT_SelectHVCtrls();
-void DBGACT_TestVWaveform();
-void DBGACT_TestIWaveform();
 void DBGACT_SelectVRange();
-#endif //__DEBUGACTIONS_H
+
+#endif // __DEBUGACTIONS_H

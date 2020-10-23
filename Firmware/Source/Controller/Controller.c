@@ -326,8 +326,8 @@ void CONTROL_PulseControl()
 
 						LL_SelectAdcSrcVLV();
 						LL_SelectAdcSrcILV();
-						VB_SetCurrentLimit();
-						VB_SetCurrentLimit();
+						// отключено VB_SetCurrentLimit();
+						// отключено VB_SetCurrentLimit();
 						VB_RelayCommutation(&Config);
 						Config.CurrDac = 0;
 						Config.VDac = 0;
@@ -348,10 +348,10 @@ void CONTROL_PulseControl()
 					switch (Config.WorkMode)
 					{
 						case WORK_MODE_VOLT:
-							LL_WriteDAC_LH(Config.VDac);
+							// отключено LL_WriteDAC_LH(Config.VDac);
 							break;
 						case WORK_MODE_CURR:
-							LL_WriteDAC_LH(Config.CurrDac);
+							// отключено LL_WriteDAC_LH(Config.CurrDac);
 							break;
 					}
 					CONTROL_SetDeviceSubState(SS_PulseProcess);
@@ -448,7 +448,7 @@ void CONTROL_PulseControl()
 					}
 
 					CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
-					LL_WriteDAC_LH(TempValue);
+					// отключено  LL_WriteDAC_LH(TempValue);
 				}
 				break;
 
@@ -491,12 +491,11 @@ void CONTROL_PulseControl()
 
 					DT_Write32(REG_I_MEAS_L, REG_I_MEAS_M, Config.CurrMeas);
 					DT_Write32(REG_V_MEAS_L, REG_V_MEAS_M, Config.VMeas);
-					LL_WriteDAC_LH(0 | DAC_SELECT_CHV);
-					LL_WriteDAC_LH(0 | DAC_SELECT_CHI);
-					VB_DisableVoltageChannel();
+					// отключено LL_WriteDAC_LH(0 | DAC_SELECT_CHV);
+					// отключено LL_WriteDAC_LH(0 | DAC_SELECT_CHI);
 
 					LL_SetStateExtLed(false);
-					;
+
 					//clean configuration
 					Config.WorkMode = WORK_MODE_OFF;
 					Config.PulseType = SRC_TYPE_NONE;

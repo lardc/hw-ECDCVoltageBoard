@@ -114,26 +114,18 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 			
-		case ACT_DBG_SELECT_DAC:
-			{
-				DBGACT_SelectDACx();
-			}
-			break;
-		case ACT_DBG_WRITE_DAC:
-			{
-				DBGACT_WriteDACx();
-			}
-			break;
 		case ACT_DBG_SELECT_LV_CTRLS:
 			{
 				DBGACT_SelectLVCtrls();
 			}
 			break;
+
 		case ACT_DBG_SELECT_HV_CTRLS:
 			{
 				DBGACT_SelectHVCtrls();
 			}
 			break;
+
 		case ACT_DBG_READ_ADC_VCH:
 			{
 				DataTable[REG_DBG_STATE] = MEASURE_VoltageRaw();
@@ -143,20 +135,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 		case ACT_DBG_READ_ADC_ICH:
 			{
 				DataTable[REG_DBG_STATE] = MEASURE_CurrentRaw();
-			}
-			break;
-			
-		case ACT_DBG_TEST_WAVEFORM:
-			{
-
-				if(DataTable[REG_DBG_STATE] == 0)
-				{
-					DBGACT_TestVWaveform();
-				}
-				else
-				{
-					DBGACT_TestIWaveform();
-				}
 			}
 			break;
 			
@@ -174,7 +152,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 				VB_EnableCurrentChannel(&Config);
 				LL_SelectAdcSrcVLV();
 				VB_RelayCommutation(&Config);
-
 			}
 			break;
 
@@ -184,4 +161,3 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 	
 	return true;
 }
-

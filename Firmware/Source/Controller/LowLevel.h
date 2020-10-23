@@ -4,6 +4,7 @@
 // Include
 #include "stdinc.h"
 #include "Controller.h"
+
 // Functions
 //
 void LL_ToggleBoardLED();
@@ -12,12 +13,17 @@ void LL_SetStateLineSync1(bool State);
 void LL_SetStateLineSync2(bool State);
 bool LL_GetStateLineSync1();
 bool LL_GetStateLineSync2();
+
+void LL_WriteDACLV_Voltage(uint16_t Data);
+void LL_WriteDACLV_Current(uint16_t Data);
+
+void LL_WriteDACHV_Voltage(uint16_t Data);
+void LL_WriteDACHV_Current(uint16_t Data);
+
 void LL_ResetStateCtrls();
 void LL_SetStateCtrls(SetCtrls Pin, bool State);
 void LL_ResetStateRanges();
 void LL_SetStateRanges(SetRanges Pin, bool State);
-void LL_WriteDAC_LH(uint16_t Data);
-void LL_SelectDACx(SelDacX dac);
 
 void LL_SelectVOutMaxV200();
 void LL_SelectVOutMax2V00();

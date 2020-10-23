@@ -1,11 +1,12 @@
-#ifndef CONTROLLER_VOLTAGEBOARD_H_
-#define CONTROLLER_VOLTAGEBOARD_H_
+#ifndef __VOLTAGE_BOARD_H
+#define __VOLTAGE_BOARD_H
+
+#include "Controller.h"
 
 void VB_SaveParam(ControllerConfig *Config);
 bool VB_CheckParam(ControllerConfig *Config);
 void VB_EnableVoltageChannel(ControllerConfig *Config);
-void VB_DisableVoltageChannel();
 void VB_EnableCurrentChannel(ControllerConfig *Config);
 void VB_RelayCommutation(ControllerConfig *Config);
-void VB_SetCurrentLimit();
-#endif /* CONTROLLER_VOLTAGEBOARD_H_ */
+
+#endif // __VOLTAGE_BOARD_H

@@ -139,21 +139,6 @@ void DBGACT_SelectISensSrc()
 }
 //-----------------------------
 
-void DBGACT_SelectDACx()
-{
-	SelDacX dac = DataTable[REG_DBG_STATE];
-	
-	LL_SelectDACx(dac);
-}
-//-----------------------------
-void DBGACT_WriteDACx()
-{
-	uint16_t Data = DataTable[REG_DBG_STATE];
-	
-	LL_WriteDAC_LH(Data);
-}
-
-//-----------------------------
 void DBGACT_SelectLVCtrls()
 {
 	Int16U Range = DataTable[REG_DBG_STATE];
@@ -204,57 +189,8 @@ void DBGACT_SelectHVCtrls()
 }
 //-----------------------------
 
-void DBGACT_TestVWaveform()
+void DBGACT_SelectVRange()
 {
-	uint16_t i = 0;
-	
-	LL_SelectDACx(SELECT_DAC_LV);
-	do
-	{
-		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
-		i++;
-	}
-	while(i <= DAC_MAX_VALUE);
-	i--;
-	CONTROL_UpdateWatchDog();
-	do
-	{
-		LL_WriteDAC_LH(i | DAC_SELECT_CHV);
-	}
-	while(i--);
-	CONTROL_UpdateWatchDog();
-
-	LL_SelectDACx(SELECT_DAC_NONE);
-
-}
-//-----------------------------
-
-void DBGACT_TestIWaveform()
-{
-	uint16_t i = 0;
-
-	LL_SelectDACx(SELECT_DAC_LV);
-	do
-	{
-		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
-		i++;
-	}
-	while(i <= DAC_MAX_VALUE);
-	i--;
-	CONTROL_UpdateWatchDog();
-	do
-	{
-		LL_WriteDAC_LH((DAC_MAX_VALUE - i) | DAC_SELECT_CHI);
-	}
-	while(i--);
-	CONTROL_UpdateWatchDog();
-	
-	LL_SelectDACx(SELECT_DAC_NONE);
-	
-}
-//-----------------------------
-
-void DBGACT_SelectVRange() {
 	Int16U Range = DataTable[REG_DBG_STATE];
 
 	switch (Range)
@@ -277,7 +213,5 @@ void DBGACT_SelectVRange() {
 			}
 			break;
 	}
-
-
 }
 //-----------------------------

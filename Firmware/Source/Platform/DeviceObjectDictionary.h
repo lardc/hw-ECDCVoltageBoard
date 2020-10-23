@@ -30,14 +30,11 @@
 #define ACT_DBG_SELECT_VHV_CTRLS		65	// Выбор диапазона измерения напряжения [REG_DBG_STATE] //1..4
 #define ACT_DBG_VSENS_SELECT_SRC		66	// Выбор источника для измерения напряжения [REG_DBG_STATE] //1:LV_SENS_EN, 2:HV_SENS_EN
 #define ACT_DBG_ISENS_SELECT_SRC		67	// Выбор источника для измерения тока [REG_DBG_STATE] //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
-#define ACT_DBG_SELECT_DAC				68	// Выбор рабочего источника тока/напряжения [REG_DBG_STATE]
-#define ACT_DBG_WRITE_DAC				69	// Запись параметров в источник тока/напряжения [REG_DBG_STATE]
 
 #define ACT_DBG_SELECT_LV_CTRLS			70	// Выбор шунта
 #define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
-#define ACT_DBG_TEST_WAVEFORM			74	// Формирование тестового сигнала [REG_DBG_STATE] //0,1
 
 #define ACT_DBG_SELECT_V_RANGE			75	// Выбор диапазона низкого напряжения [REG_DBG_STATE] //1..3
 #define ACT_DBG_PREPARE_BOARD			76	// Установка всех сигналов согласно входным параметрам
