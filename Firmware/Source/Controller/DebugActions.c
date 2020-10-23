@@ -16,7 +16,7 @@
 void DBGACT_BlinkExtLed()
 {
 	LL_SetStateExtLed(TRUE);
-	CONTROL_DelayMs(TIME_EXT_LED_BLINK * 2);
+	DELAY_MS(TIME_EXT_LED_BLINK * 2);
 	LL_SetStateExtLed(FALSE);
 }
 //-----------------------------
@@ -24,7 +24,7 @@ void DBGACT_BlinkExtLed()
 void DBGACT_GenerateImpulseToLineSync1()
 {
 	LL_SetStateLineSync1(TRUE);
-	CONTROL_DelayMs(TIME_PULSE_LINE_SYNC);
+	DELAY_MS(TIME_PULSE_LINE_SYNC);
 	LL_SetStateLineSync1(FALSE);
 }
 //-----------------------------
@@ -32,7 +32,7 @@ void DBGACT_GenerateImpulseToLineSync1()
 void DBGACT_GenerateImpulseToLineSync2()
 {
 	LL_SetStateLineSync2(TRUE);
-	CONTROL_DelayMs(TIME_PULSE_LINE_SYNC);
+	DELAY_MS(TIME_PULSE_LINE_SYNC);
 	LL_SetStateLineSync2(FALSE);
 }
 //-----------------------------
