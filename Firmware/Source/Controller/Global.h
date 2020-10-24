@@ -42,4 +42,7 @@
 
 #define ADC_AVG_COUNT			4
 
+// Параметры регулятора
+#define REGLTR_ERROR_I_SAT_H	10000
+
 #endif //  __GLOBAL_H
