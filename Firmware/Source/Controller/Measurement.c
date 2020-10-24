@@ -176,7 +176,7 @@ void MEASURE_CacheConvertParametersV4()
 void MEASURE_CacheConvertParametersI1()
 {
 	ShuntResistance = DataTable[REG_I_RANGE1_RES];
-	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I1_CONV_K_N, REG_DAC_I1_CONV_K_D, REG_DAC_I1_OFFSET);
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I_CONV_K_N, REG_DAC_I_CONV_K_D, REG_DAC_I_OFFSET);
 	MEASURE_CacheADCx(&CurrentADC, REG_ADC_I1_CONV_K_N, REG_ADC_I1_CONV_K_D, REG_ADC_I1_CONV_OFFSET,
 			REG_ADC_I1_FINE_P2, REG_ADC_I1_FINE_P1, REG_ADC_I1_FINE_P0);
 }
@@ -185,7 +185,7 @@ void MEASURE_CacheConvertParametersI1()
 void MEASURE_CacheConvertParametersI2()
 {
 	ShuntResistance = DataTable[REG_I_RANGE2_RES];
-	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I2_CONV_K_N, REG_DAC_I2_CONV_K_D, REG_DAC_I2_OFFSET);
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I_CONV_K_N, REG_DAC_I_CONV_K_D, REG_DAC_I_OFFSET);
 	MEASURE_CacheADCx(&CurrentADC, REG_ADC_I2_CONV_K_N, REG_ADC_I2_CONV_K_D, REG_ADC_I2_CONV_OFFSET,
 			REG_ADC_I2_FINE_P2, REG_ADC_I2_FINE_P1, REG_ADC_I2_FINE_P0);
 }
@@ -194,7 +194,7 @@ void MEASURE_CacheConvertParametersI2()
 void MEASURE_CacheConvertParametersI3()
 {
 	ShuntResistance = DataTable[REG_I_RANGE3_RES];
-	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I3_CONV_K_N, REG_DAC_I3_CONV_K_D, REG_DAC_I3_OFFSET);
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I_CONV_K_N, REG_DAC_I_CONV_K_D, REG_DAC_I_OFFSET);
 	MEASURE_CacheADCx(&CurrentADC, REG_ADC_I3_CONV_K_N, REG_ADC_I3_CONV_K_D, REG_ADC_I3_CONV_OFFSET,
 			REG_ADC_I3_FINE_P2, REG_ADC_I3_FINE_P1, REG_ADC_I3_FINE_P0);
 }
@@ -203,8 +203,44 @@ void MEASURE_CacheConvertParametersI3()
 void MEASURE_CacheConvertParametersI4()
 {
 	ShuntResistance = DataTable[REG_I_RANGE4_RES];
-	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I4_CONV_K_N, REG_DAC_I4_CONV_K_D, REG_DAC_I4_OFFSET);
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_I_CONV_K_N, REG_DAC_I_CONV_K_D, REG_DAC_I_OFFSET);
 	MEASURE_CacheADCx(&CurrentADC, REG_ADC_I4_CONV_K_N, REG_ADC_I4_CONV_K_D, REG_ADC_I4_CONV_OFFSET,
 			REG_ADC_I4_FINE_P2, REG_ADC_I4_FINE_P1, REG_ADC_I4_FINE_P0);
+}
+//------------------------------------------
+
+void MEASURE_CacheConvertParametersHVI1()
+{
+	ShuntResistance = DataTable[REG_HV_I_RANGE1_RES];
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_HV_I_CONV_K_N, REG_DAC_HV_I_CONV_K_D, REG_DAC_HV_I_OFFSET);
+	MEASURE_CacheADCx(&CurrentADC, REG_ADC_HV_I1_CONV_K_N, REG_ADC_HV_I1_CONV_K_D, REG_ADC_HV_I1_CONV_OFFSET,
+			REG_ADC_HV_I1_FINE_P2, REG_ADC_HV_I1_FINE_P1, REG_ADC_HV_I1_FINE_P0);
+}
+//------------------------------------------
+
+void MEASURE_CacheConvertParametersHVI2()
+{
+	ShuntResistance = DataTable[REG_HV_I_RANGE2_RES];
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_HV_I_CONV_K_N, REG_DAC_HV_I_CONV_K_D, REG_DAC_HV_I_OFFSET);
+	MEASURE_CacheADCx(&CurrentADC, REG_ADC_HV_I2_CONV_K_N, REG_ADC_HV_I2_CONV_K_D, REG_ADC_HV_I2_CONV_OFFSET,
+			REG_ADC_HV_I2_FINE_P2, REG_ADC_HV_I2_FINE_P1, REG_ADC_HV_I2_FINE_P0);
+}
+//------------------------------------------
+
+void MEASURE_CacheConvertParametersHVI3()
+{
+	ShuntResistance = DataTable[REG_HV_I_RANGE3_RES];
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_HV_I_CONV_K_N, REG_DAC_HV_I_CONV_K_D, REG_DAC_HV_I_OFFSET);
+	MEASURE_CacheADCx(&CurrentADC, REG_ADC_HV_I3_CONV_K_N, REG_ADC_HV_I3_CONV_K_D, REG_ADC_HV_I3_CONV_OFFSET,
+			REG_ADC_HV_I3_FINE_P2, REG_ADC_HV_I3_FINE_P1, REG_ADC_HV_I3_FINE_P0);
+}
+//------------------------------------------
+
+void MEASURE_CacheConvertParametersHVI4()
+{
+	ShuntResistance = DataTable[REG_I_RANGE4_RES];
+	MEASURE_CacheDACx(&CurrentDAC, REG_DAC_HV_I_CONV_K_N, REG_DAC_HV_I_CONV_K_D, REG_DAC_HV_I_OFFSET);
+	MEASURE_CacheADCx(&CurrentADC, REG_ADC_HV_I4_CONV_K_N, REG_ADC_HV_I4_CONV_K_D, REG_ADC_HV_I4_CONV_OFFSET,
+			REG_ADC_HV_I4_FINE_P2, REG_ADC_HV_I4_FINE_P1, REG_ADC_HV_I4_FINE_P0);
 }
 //------------------------------------------

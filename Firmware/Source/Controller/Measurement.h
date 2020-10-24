@@ -20,4 +20,9 @@ void MEASURE_CacheConvertParametersI2();
 void MEASURE_CacheConvertParametersI3();
 void MEASURE_CacheConvertParametersI4();
 
+void MEASURE_CacheConvertParametersHVI1();
+void MEASURE_CacheConvertParametersHVI2();
+void MEASURE_CacheConvertParametersHVI3();
+void MEASURE_CacheConvertParametersHVI4();
+
 #endif // __MEASUREMENT_H
