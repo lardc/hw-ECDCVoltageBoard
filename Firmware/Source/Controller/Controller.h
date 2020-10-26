@@ -13,7 +13,7 @@ typedef enum __DeviceState
 	DS_None = 0,
 	DS_Fault = 1,
 	DS_Disabled = 2,
-	DS_Enabled = 3,
+	DS_Ready = 3,
 	DS_InProcess = 4
 } DeviceState;
 
@@ -78,6 +78,26 @@ typedef enum __SelVSrc
 	SELECT_VSRC_HIGH,
 } SelVSrc;
 
+typedef enum __DCV_OutputLine
+{
+	DC_BUS_LV = 1,
+	DC_CTRL = 2,
+	PS1 = 3,
+	PS2 = 4
+} DCV_OutputLine;
+
+typedef enum __DCV_OutputType
+{
+	Voltage = 1,
+	Current = 2
+} DCV_OutputType;
+
+typedef enum __DCV_OutputMode
+{
+	Pulse = 1,
+	Continuous = 2
+} DCV_OutputMode;
+
 typedef enum __WorkMode
 {
 	WORK_MODE_OFF = 0,
@@ -135,10 +155,16 @@ typedef enum __CurrentChannel
 
 typedef struct __ControllerConfig
 {
+	DCV_OutputLine OutputLine;
+	DCV_OutputType OutputType;
+	DCV_OutputMode OutputMode;
+	uint16_t PulseTime;
+	float VoltageSetpoint;
+	float CurrentSetpoint;
+
 	uint8_t WorkMode;
 	uint8_t OutLine;
 	uint8_t PulseType;
-	uint16_t PulseTime;
 	uint32_t CurrSet;
 	uint32_t VSet;
 	uint32_t VMeas;

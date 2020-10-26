@@ -44,20 +44,19 @@ ControllerConfig Config;
 
 volatile Int64U CONTROL_TimeCounter = 0;
 
-/// Forward functions
+// Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
-void CONTROL_SetDeviceState(DeviceState NewState);
-void CONTROL_SetDeviceSubState(DeviceSubState NewSubState);
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState);
 void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_UpdateWatchDog();
+void CONTROL_ResetEPRegisters();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
 void CONTROL_PulseControl();
 
 // Functions
 //
-
 void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, uint16_t VError)
 {
 	static uint16_t ScopeLogStep = 0, LocalCounter = 0;
@@ -94,55 +93,69 @@ void CONTROL_Init()
 {
 	// Переменные для конфигурации EndPoint
 	Int16U EPIndexes[EP_COUNT] = {EP_IMEASURE, EP_VMEASURE, EP_VERROR, EP_IERROR};
-
 	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
-
 	// Сокращения
 	pInt16U cc = (pInt16U)&CONTROL_Counter;
-
 	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc};
-
 	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_IMeasure, (pInt16U)CONTROL_VMeasure, (pInt16U)CONTROL_VError,
 			(pInt16U)CONTROL_IError};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
+
 	// Инициализация data table
 	DT_Init(EPROMService, false);
 	DT_SaveFirmwareInfo(CAN_SLAVE_NID, 0);
+
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
+
 	// Сброс значений
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
 }
 //------------------------------------------
 
-void CONTROL_ResetToDefaultState()
+void CONTROL_ResetEPRegisters()
 {
 	DataTable[REG_FAULT_REASON] = DF_NONE;
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
 	DataTable[REG_WARNING] = WARNING_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-	
+
+	DataTable[DCV_REG_CURRENT_RESULT] = 0;
+	DataTable[DCV_REG_CURRENT_RESULT_32] = 0;
+	DataTable[DCV_REG_VOLTAGE_RESULT] = 0;
+	DataTable[DCV_REG_VOLTAGE_RESULT_32] = 0;
+
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
-	
+}
+//------------------------------------------
+
+void CONTROL_ResetToDefaultState()
+{
+	CONTROL_ResetEPRegisters();
 	CONTROL_ResetHardware();
-	
-	CONTROL_SetDeviceState(DS_None);
+	CONTROL_SetDeviceState(DS_None, SS_None);
 }
 //------------------------------------------
 
 void CONTROL_ResetHardware()
 {
+	LL_WriteDACLV_Voltage(0);
+	LL_WriteDACLV_Current(0);
+
+	LL_WriteDACHV_Voltage(0);
+	LL_WriteDACHV_Current(0);
+
 	LL_SetStateExtLed(false);
 	GPIO_SetState(GPIO_CS1, false);
 	GPIO_SetState(GPIO_CS2, false);
 	GPIO_SetState(GPIO_CS3, false);
-	//safe state
+
 	LL_SetStateCtrls(HP_CTRL_350V, true);
 	LL_SetStateCtrls(EN_48V_CTRL, true);
 }
@@ -151,9 +164,7 @@ void CONTROL_ResetHardware()
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
-
 	CONTROL_PulseControl();
-
 	CONTROL_UpdateWatchDog();
 }
 //------------------------------------------
@@ -167,31 +178,25 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_ENABLE_POWER:
 			{
 				if(CONTROL_State == DS_None)
-				{
-					CONTROL_SetDeviceState(DS_Enabled);
-				}
-				else if(CONTROL_State != DS_Enabled)
-				{
+					CONTROL_SetDeviceState(DS_Ready, SS_None);
+				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_DEVICE_NOT_READY;
-				}
-				break;
 			}
+			break;
 			
 		case ACT_DISABLE_POWER:
-			if(CONTROL_State == DS_Enabled)
 			{
-				CONTROL_SetDeviceState(DS_None);
+				if(CONTROL_State == DS_Ready)
+					CONTROL_ResetToDefaultState();
+				else if(CONTROL_State != DS_None)
+					*pUserError = ERR_OPERATION_BLOCKED;
 			}
-			else
-				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 			
 		case ACT_FAULT_CLEAR:
 			{
 				if(CONTROL_State == DS_Fault)
-				{
 					CONTROL_ResetToDefaultState();
-				}
 			}
 			break;
 			
@@ -201,11 +206,16 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 		case ACT_START_PROCESS:
 			{
-				if((CONTROL_State == DS_Enabled) && (CONTROL_SubState == SS_None))
+				if((CONTROL_State == DS_Ready) && (CONTROL_SubState == SS_None))
 				{
-					CONTROL_SetDeviceState(DS_InProcess);
-					CONTROL_SetDeviceSubState(SS_PulsePrepare);
-					LL_SetStateExtLed(true);
+					if(VB_SaveOutputParameters(&Config))
+					{
+						CONTROL_ResetEPRegisters();
+						CONTROL_SetDeviceState(DS_InProcess, SS_PulsePrepare);
+						LL_SetStateExtLed(true);
+					}
+					else
+						*pUserError = ERR_BAD_CONFIG;
 				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
@@ -216,7 +226,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_InProcess)
 				{
-					CONTROL_SetDeviceSubState(SS_PulseStop);
+					//
 				}
 				else
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -232,7 +242,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
-	CONTROL_SetDeviceState(DS_Fault);
+	CONTROL_SetDeviceState(DS_Fault, SS_None);
 	DataTable[REG_FAULT_REASON] = Reason;
 }
 //------------------------------------------
@@ -253,8 +263,9 @@ void CONTROL_PulseControl()
 		{
 			case SS_PulsePrepare:
 				{
-					VB_SaveParam(&Config);
-					ReturnValue = VB_CheckParam(&Config);
+
+					//VB_SaveParam(&Config);
+					//ReturnValue = VB_CheckParam(&Config);
 
 					if(ReturnValue)
 					{
@@ -332,12 +343,12 @@ void CONTROL_PulseControl()
 						Config.VDac = 0;
 						DEVPROFILE_ResetScopes(0);
 						DEVPROFILE_ResetEPReadState();
-						CONTROL_SetDeviceSubState(SS_PulseStart);
+						//CONTROL_SetDeviceSubState(SS_PulseStart);
 						LL_SetStateExtLed(true);
 					}
 					else
 					{
-						CONTROL_SetDeviceSubState(SS_PulseStop);
+						//CONTROL_SetDeviceSubState(SS_PulseStop);
 					}
 				}
 				break;
@@ -353,7 +364,7 @@ void CONTROL_PulseControl()
 							// отключено LL_WriteDAC_LH(Config.CurrDac);
 							break;
 					}
-					CONTROL_SetDeviceSubState(SS_PulseProcess);
+					//CONTROL_SetDeviceSubState(SS_PulseProcess);
 					Config.VError = 0;
 					Config.IError = 0;
 				}
@@ -375,7 +386,7 @@ void CONTROL_PulseControl()
 						if(Time >= Config.PulseTime)
 						{
 
-							CONTROL_SetDeviceSubState(SS_PulseStop);
+							//CONTROL_SetDeviceSubState(SS_PulseStop);
 						}
 					}
 					//регулятор напряжения
@@ -505,8 +516,8 @@ void CONTROL_PulseControl()
 					Config.VSet = 0;
 					Config.VCut = 0;
 					VB_RelayCommutation(&Config);
-					CONTROL_SetDeviceSubState(SS_None);
-					CONTROL_SetDeviceState(DS_Enabled);
+					//CONTROL_SetDeviceSubState(SS_None);
+					CONTROL_SetDeviceState(DS_Ready, 0);
 				}
 				break;
 
@@ -517,16 +528,13 @@ void CONTROL_PulseControl()
 }
 //------------------------------------------
 
-void CONTROL_SetDeviceState(DeviceState NewState)
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
-}
-//------------------------------------------
 
-void CONTROL_SetDeviceSubState(DeviceSubState NewSubState)
-{
 	CONTROL_SubState = NewSubState;
+	DataTable[REG_SUB_STATE] = NewSubState;
 }
 //------------------------------------------
 
@@ -536,4 +544,3 @@ void CONTROL_UpdateWatchDog()
 		IWDG_Refresh();
 }
 //------------------------------------------
-

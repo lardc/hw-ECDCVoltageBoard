@@ -15,8 +15,8 @@ bool VB_SaveOutputParameters(ControllerConfig *Config)
 	Config->VoltageSetpoint = (float)DT_Read32(DCV_REG_VOLTAGE_SETPOINT, DCV_REG_VOLTAGE_SETPOINT_32);
 	Config->CurrentSetpoint = (float)DT_Read32(DCV_REG_CURRENT_SETPOINT, DCV_REG_CURRENT_SETPOINT_32);
 
-	return (Config->VoltageSetpoint > VB_VOUT_MAX || Config->VoltageSetpoint < VB_VOUT_MIN) ||
-			(Config->CurrentSetpoint > VB_IOUT_MAX || Config->VoltageSetpoint < VB_IOUT_MIN);
+	return !(Config->VoltageSetpoint > VB_VOUT_MAX || Config->VoltageSetpoint < VB_VOUT_MIN ||
+			Config->CurrentSetpoint > VB_IOUT_MAX || Config->VoltageSetpoint < VB_IOUT_MIN);
 }
 //------------------------------------------
 
