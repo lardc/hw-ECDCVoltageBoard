@@ -21,8 +21,10 @@ typedef enum __DeviceSubState
 {
 	SS_None = 0,
 	SS_PulsePrepare,
-	SS_PulseStart,
+	SS_PulseWaitSwitch,
 	SS_PulseProcess,
+	SS_PulseStart,
+	SS_PulseProcess2,
 	SS_PulseStop,
 } DeviceSubState;
 
@@ -161,6 +163,7 @@ typedef struct __ControllerConfig
 	uint16_t PulseTime;
 	float VoltageSetpoint;
 	float CurrentSetpoint;
+	float HWCurrentLimit;
 
 	uint8_t WorkMode;
 	uint8_t OutLine;

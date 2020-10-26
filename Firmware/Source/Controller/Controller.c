@@ -208,7 +208,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if((CONTROL_State == DS_Ready) && (CONTROL_SubState == SS_None))
 				{
-					if(VB_SaveOutputParameters(&Config))
+					if(VB_CacheParameters(&Config))
 					{
 						CONTROL_ResetEPRegisters();
 						CONTROL_SetDeviceState(DS_InProcess, SS_PulsePrepare);
@@ -249,7 +249,6 @@ void CONTROL_SwitchToFault(Int16U Reason)
 
 void CONTROL_PulseControl()
 {
-	bool ReturnValue;
 	int16_t TempValue;
 	int16_t VTempValue;
 	int16_t ITempValue;
@@ -257,101 +256,33 @@ void CONTROL_PulseControl()
 	int16_t INewDac;
 	uint64_t Time;
 
+	static uint64_t Timeout = 0;
+
 	if(CONTROL_State == DS_InProcess)
 	{
 		switch (CONTROL_SubState)
 		{
 			case SS_PulsePrepare:
 				{
-
-					//VB_SaveParam(&Config);
-					//ReturnValue = VB_CheckParam(&Config);
-
-					if(ReturnValue)
-					{
-						VB_EnableVoltageChannel(&Config);
-						VB_EnableCurrentChannel(&Config);
-
-						switch (Config.VChanel)
-						{
-							case CHANEL_V200:
-								{
-									LL_SelectRgK12();
-									Config.VWant = (Config.VSet * DataTable[ADC_BLV_V200_TOP]) / VRANGE_0V20_MAX;
-									Config.VDacRegionSize = DataTable[DAC_V200_TOP] - DataTable[DAC_V200_NULL];
-									Config.VAdcRegionSize = DataTable[ADC_BLV_V200_TOP] - DataTable[ADC_BLV_V200_NULL];
-								}
-								break;
-							case CHANEL_2V00:
-								{
-									LL_SelectRg7K70();
-									Config.VWant = (Config.VSet * DataTable[ADC_BLV_2V00_TOP]) / VRANGE_2V00_MAX;
-									Config.VDacRegionSize = DataTable[DAC_2V00_TOP] - DataTable[DAC_2V00_NULL];
-									Config.VAdcRegionSize = DataTable[ADC_BLV_2V00_TOP] - DataTable[ADC_BLV_2V00_NULL];
-								}
-								break;
-							case CHANEL_20V0:
-							default:
-								{
-									LL_SelectRg720K();
-									Config.VWant = (Config.VSet * DataTable[ADC_BLV_20V0_TOP]) / VRANGE_20V0_MAX;
-									Config.VDacRegionSize = DataTable[DAC_20V0_TOP] - DataTable[DAC_20V0_NULL];
-									Config.VAdcRegionSize = DataTable[ADC_BLV_20V0_TOP] - DataTable[ADC_BLV_20V0_NULL];
-								}
-								break;
-						}
-
-						switch (Config.CurrChanel)
-						{
-							case CHANEL_LV_R1:
-								{
-									Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R1_TOP]) / IRANGE_R1_MAX;
-									Config.CurrDacRegionSize = DataTable[DAC_100MKA_TOP] - DataTable[DAC_100MKA_NULL];
-									Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
-								}
-								break;
-							case CHANEL_LV_R2:
-								{
-									Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R2_TOP]) / IRANGE_R2_MAX;
-									Config.CurrDacRegionSize = DataTable[DAC_1MA_TOP] - DataTable[DAC_1MA_NULL];
-									Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
-								}
-								break;
-							case CHANEL_LV_R3:
-								{
-									Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R3_TOP]) / IRANGE_R3_MAX;
-									Config.CurrDacRegionSize = DataTable[DAC_10MA_TOP] - DataTable[DAC_10MA_NULL];
-									Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
-								}
-								break;
-							case CHANEL_LV_R4:
-							default:
-								{
-									Config.CurrWant = (Config.CurrSet * DataTable[ADC_ILV_R4_TOP]) / IRANGE_R4_MAX;
-									Config.CurrDacRegionSize = DataTable[DAC_110MA_TOP] - DataTable[DAC_110MA_NULL];
-									Config.CurrAdcRegionSize = DataTable[ADC_ILV_R1_TOP] - DataTable[ADC_ILV_R1_NULL];
-								}
-								break;
-						}
-
-						LL_SelectAdcSrcVLV();
-						LL_SelectAdcSrcILV();
-						// отключено VB_SetCurrentLimit();
-						// отключено VB_SetCurrentLimit();
-						VB_RelayCommutation(&Config);
-						Config.CurrDac = 0;
-						Config.VDac = 0;
-						DEVPROFILE_ResetScopes(0);
-						DEVPROFILE_ResetEPReadState();
-						//CONTROL_SetDeviceSubState(SS_PulseStart);
-						LL_SetStateExtLed(true);
-					}
-					else
-					{
-						//CONTROL_SetDeviceSubState(SS_PulseStop);
-					}
+					Timeout = CONTROL_TimeCounter + TIME_SWITCH_DELAY;
+					VB_ConfigVIChannels(&Config);
+					CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitSwitch);
 				}
 				break;
+
+			case SS_PulseWaitSwitch:
+				{
+					if(CONTROL_TimeCounter > Timeout)
+						CONTROL_SetDeviceState(DS_InProcess, SS_PulseProcess);
+				}
+				break;
+
+			case SS_PulseProcess:
+				{
+
+				}
+				break;
+
 			case SS_PulseStart:
 				{
 					Config.StartTime = CONTROL_TimeCounter;
@@ -369,7 +300,7 @@ void CONTROL_PulseControl()
 					Config.IError = 0;
 				}
 				break;
-			case SS_PulseProcess:
+			case SS_PulseProcess2:
 				{
 					//контроль длительности
 					if(Config.PulseTime)
@@ -515,7 +446,7 @@ void CONTROL_PulseControl()
 					Config.CurrCut = 0;
 					Config.VSet = 0;
 					Config.VCut = 0;
-					VB_RelayCommutation(&Config);
+					//VB_RelayCommutation(&Config);
 					//CONTROL_SetDeviceSubState(SS_None);
 					CONTROL_SetDeviceState(DS_Ready, 0);
 				}
