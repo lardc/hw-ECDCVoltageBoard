@@ -25,6 +25,9 @@ bool VB_CacheParameters(ControllerConfig *Config)
 	Config->CurrentSetpoint = (float)DT_Read32(DCV_REG_CURRENT_SETPOINT, DCV_REG_CURRENT_SETPOINT_32);
 	Config->HWCurrentLimit = Config->CurrentSetpoint * (1 + (float)DataTable[REG_CURRENT_LIMIT_MARGIN] / 100);
 
+	Config->VoltageHighRange = (Config->VoltageSetpoint > DataTable[REG_V_RANGE3_LIMIT]);
+	Config->CurrentHighRange = (Config->CurrentSetpoint > DataTable[REG_I_RANGE3_LIMIT]);
+
 	bool result = true;
 	// Проверка границ тока и напряжения
 	result &= Config->VoltageSetpoint >= VB_VOUT_MIN && Config->VoltageSetpoint <= VB_VOUT_MAX;

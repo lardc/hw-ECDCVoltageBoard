@@ -299,6 +299,13 @@
 #define OPRESULT_OK						1	// Operation was successful
 #define OPRESULT_FAIL					2	// Operation failed
 
+// EPs
+#define EP_I_MEASURE					1	// Измерение тока
+#define EP_V_MEASURE					2	// Измерение напряжения
+#define EP_SETPOINT						3	// Уставка
+#define EP_CONTROL						4	// Выход управления
+#define EP_RAW_CONTROL					5	// Сырой выход управления
+
 //  Fault and disable codes
 #define DF_NONE							0
 

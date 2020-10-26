@@ -18,7 +18,7 @@
 #include "Measurement.h"
 
 #define sign(x) ((x)<0 ? -(1) : (1))
-#define EP_SIZE	1024
+
 #define EP_IMEASURE	1
 #define EP_VMEASURE	2
 #define EP_VERROR	3
@@ -30,8 +30,9 @@ typedef void (*FUNC_AsyncDelegate)();
 // Storage
 volatile Int16U CONTROL_IMeasure[EP_SIZE] = {0};
 volatile Int16U CONTROL_VMeasure[EP_SIZE] = {0};
-volatile Int16U CONTROL_VError[EP_SIZE] = {0};
-volatile Int16U CONTROL_IError[EP_SIZE] = {0};
+volatile Int16U CONTROL_Setpoint[EP_SIZE] = {0};
+volatile Int16U CONTROL_Control[EP_SIZE] = {0};
+volatile Int16U CONTROL_RawControl[EP_SIZE] = {0};
 volatile Int16U CONTROL_Counter = 0;
 
 // Variables
@@ -57,9 +58,18 @@ void CONTROL_PulseControl();
 
 // Functions
 //
-void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, uint16_t VError)
+void CONTROL_EpLog(pControllerConfig ConfigPointer, float Current, float Voltage,
+		float Setpoint, float Control, uint16_t RawControl)
 {
 	static uint16_t ScopeLogStep = 0, LocalCounter = 0;
+	float ControlScale = 1;
+
+	// Выбор масштаба для данных регулятора
+	if((ConfigPointer->CurrentHighRange && ConfigPointer->OutputType == Current) ||
+		(ConfigPointer->VoltageHighRange && ConfigPointer->OutputType == Voltage))
+	{
+		ControlScale = 0.001;
+	}
 
 	// Сброс локального счётчика в начале логгирования
 	if(CONTROL_Counter == 0)
@@ -69,10 +79,11 @@ void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, u
 	{
 		ScopeLogStep = 0;
 
-		CONTROL_IMeasure[LocalCounter] = CurrMeasure;
-		CONTROL_VMeasure[LocalCounter] = Vmeasure;
-		CONTROL_VError[LocalCounter] = VError;
-		CONTROL_IError[LocalCounter] = CurError;
+		CONTROL_IMeasure[LocalCounter] = Current * (ConfigPointer->CurrentHighRange) ? 0.001 : 1;
+		CONTROL_VMeasure[LocalCounter] = Voltage * (ConfigPointer->VoltageHighRange) ? 0.001 : 1;
+		CONTROL_Setpoint[LocalCounter] = Setpoint * ControlScale;
+		CONTROL_Control[LocalCounter] = Control * ControlScale;
+		CONTROL_RawControl[LocalCounter] = RawControl;
 
 		// Сохранение указателя на последний элемент
 		DataTable[REG_EP_LAST_POINTER] = LocalCounter;
@@ -92,13 +103,13 @@ void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, u
 void CONTROL_Init()
 {
 	// Переменные для конфигурации EndPoint
-	Int16U EPIndexes[EP_COUNT] = {EP_IMEASURE, EP_VMEASURE, EP_VERROR, EP_IERROR};
-	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
+	Int16U EPIndexes[EP_COUNT] = {EP_I_MEASURE, EP_V_MEASURE, EP_SETPOINT, EP_CONTROL, EP_RAW_CONTROL};
+	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
 	// Сокращения
 	pInt16U cc = (pInt16U)&CONTROL_Counter;
-	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc};
-	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_IMeasure, (pInt16U)CONTROL_VMeasure, (pInt16U)CONTROL_VError,
-			(pInt16U)CONTROL_IError};
+	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc, cc};
+	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_IMeasure, (pInt16U)CONTROL_VMeasure, (pInt16U)CONTROL_Setpoint,
+			(pInt16U)CONTROL_Control, (pInt16U)CONTROL_RawControl};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
@@ -388,7 +399,7 @@ void CONTROL_PulseControl()
 						TempValue = DAC_MAX_VALUE;
 					}
 
-					CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
+					//CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
 					// отключено  LL_WriteDAC_LH(TempValue);
 				}
 				break;

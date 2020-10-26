@@ -164,6 +164,8 @@ typedef struct __ControllerConfig
 	float VoltageSetpoint;
 	float CurrentSetpoint;
 	float HWCurrentLimit;
+	bool VoltageHighRange;
+	bool CurrentHighRange;
 
 	uint8_t WorkMode;
 	uint8_t OutLine;
@@ -189,7 +191,7 @@ typedef struct __ControllerConfig
 	uint16_t CurrAdcRegionSize;
 	int16_t VError;
 	int16_t IError;
-} ControllerConfig;
+} ControllerConfig, *pControllerConfig;
 
 // Defines
 //
@@ -219,6 +221,7 @@ extern Int64U CONTROL_LEDTimeout;
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
-void CONTROL_EpLog(uint16_t CurrMeasure, uint16_t CurError, uint16_t Vmeasure, uint16_t VError);
+void CONTROL_EpLog(pControllerConfig ConfigPointer, float Current, float Voltage,
+		float Setpoint, float Control, uint16_t RawControl);
 
 #endif // __CONTROLLER_H
