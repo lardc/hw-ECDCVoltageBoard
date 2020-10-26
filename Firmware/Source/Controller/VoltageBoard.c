@@ -5,33 +5,20 @@
 #include "VoltageBoard.h"
 #include "DataTable.h"
 
-void VB_SaveParam(ControllerConfig *Config)
+bool VB_SaveOutputParameters(ControllerConfig *Config)
 {
+	Config->OutputLine = DataTable[DCV_REG_OUTPUT_LINE];
+	Config->OutputType = DataTable[DCV_REG_OUTPUT_TYPE];
+	Config->OutputMode = DataTable[DCV_REG_OUTPUT_MODE];
+	Config->PulseTime = DataTable[DCV_REG_PULSE_LENGTH];
 
-	Config->WorkMode = DataTable[REG_WORK_MODE];
-	Config->PulseType = DataTable[REG_PULSE_TYPE];
-	Config->PulseTime = DataTable[REG_PULSE_TIME];
-	Config->OutLine = DataTable[REG_OUTPUT_LINE];
-	Config->CurrSet = DT_Read32(REG_I_SET_L, REG_I_SET_M);
-	Config->CurrCut = DT_Read32(REG_I_CUT_L, REG_I_CUT_M);
-	Config->VSet = DT_Read32(REG_V_SET_L, REG_V_SET_M);
-	Config->VCut = DT_Read32(REG_V_CUT_L, REG_V_CUT_M);
+	Config->VoltageSetpoint = (float)DT_Read32(REG_V_SET_L, REG_V_SET_M);
+	Config->CurrentSetpoint = (float)DT_Read32(REG_I_SET_L, REG_I_SET_M);
 
+	return (Config->VoltageSetpoint > VB_VOUT_MAX || Config->VoltageSetpoint < VB_VOUT_MIN) ||
+			(Config->CurrentSetpoint > VB_IOUT_MAX || Config->VoltageSetpoint < VB_IOUT_MIN);
 }
-
-bool VB_CheckParam(ControllerConfig *Config)
-{
-	bool ReturnValue = true;
-
-	ReturnValue &= (Config->WorkMode == WORK_MODE_VOLT) || (Config->WorkMode == WORK_MODE_CURR);
-	ReturnValue &= (Config->PulseType == SRC_TYPE_SINGLE) || (Config->PulseType == SRC_TYPE_PERMANENT);
-	ReturnValue &= ((Config->WorkMode == WORK_MODE_CURR) && (Config->CurrSet >= VB_IOUT_MIN)
-			&& (Config->CurrSet <= VB_IOUT_MAX))
-			|| ((Config->WorkMode == WORK_MODE_VOLT) && (Config->VSet >= VB_VOUT_MIN) && (Config->VSet <= VB_VOUT_MAX));
-	ReturnValue &= (Config->OutLine <= OUT_LINE_LAST);
-
-	return ReturnValue;
-}
+//------------------------------------------
 
 void VB_EnableVoltageChannel(ControllerConfig *Config)
 {

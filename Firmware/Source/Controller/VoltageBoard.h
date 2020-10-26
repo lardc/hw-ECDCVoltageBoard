@@ -3,8 +3,7 @@
 
 #include "Controller.h"
 
-void VB_SaveParam(ControllerConfig *Config);
-bool VB_CheckParam(ControllerConfig *Config);
+bool VB_SaveOutputParameters(ControllerConfig *Config);
 void VB_EnableVoltageChannel(ControllerConfig *Config);
 void VB_EnableCurrentChannel(ControllerConfig *Config);
 void VB_RelayCommutation(ControllerConfig *Config);
