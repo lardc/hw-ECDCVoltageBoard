@@ -26,9 +26,10 @@
 #define SELECT_LV_R2	2
 #define SELECT_LV_R3	3
 
-#define SELECT_HV_R0	0
-#define SELECT_HV_R1	1
-#define SELECT_HV_R2	2
+#define SELECT_HV_R1	0
+#define SELECT_HV_R2	1
+#define SELECT_HV_R3	2
+#define SELECT_HV_R4	3
 
 // Functions
 //

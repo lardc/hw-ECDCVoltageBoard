@@ -174,16 +174,20 @@ void DBGACT_SelectHVCtrls()
 	
 	switch (Range)
 	{
-		case SELECT_HV_R0:
-			LL_SelectHV_R0();
-			break;
-			
 		case SELECT_HV_R1:
 			LL_SelectHV_R1();
 			break;
 			
 		case SELECT_HV_R2:
 			LL_SelectHV_R2();
+			break;
+
+		case SELECT_HV_R3:
+			LL_SelectHV_R3();
+			break;
+
+		case SELECT_HV_R4:
+			LL_SelectHV_R4();
 			break;
 	}
 }
