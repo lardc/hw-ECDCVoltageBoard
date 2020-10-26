@@ -36,9 +36,6 @@
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
 
-#define ACT_DBG_SELECT_V_RANGE			75	// Выбор диапазона низкого напряжения [REG_DBG_STATE] //1..3
-#define ACT_DBG_PREPARE_BOARD			76	// Установка всех сигналов согласно входным параметрам
-
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию
@@ -245,6 +242,12 @@
 
 
 // Несохраняемые регистры чтения-записи
+#define DCV_REG_OUTPUT_LINE				128	// Линия подачи выходного напряжения
+#define DCV_REG_OUTPUT_TYPE				129	// Тип выхода
+#define DCV_REG_OUTPUT_MODE				130	// Режим выхода
+#define DCV_REG_PULSE_LENGTH			131	// Длительность выходного импульса
+
+
 #define REG_OUTPUT_LINE					128	// Регистр контроля выходных линий
 #define REG_WORK_MODE					129	// Регистр режима работы
 #define REG_PULSE_TYPE					130	// Регистр типа формируемого сигнала: импульс, постоянный
@@ -257,6 +260,14 @@
 #define REG_V_SET_M						137 // Регистр установки источника напряжения MOST HALF
 #define REG_I_CUT_L						138 // Регистр тока отсечки в режиме источника напряжения LESS HALF
 #define REG_I_CUT_M						139 // Регистр тока отсечки в режиме источника напряжения MOST HALF
+
+
+#define DCV_REG_CURRENT_SETPOINT		135	// Значение задания тока (в мкА)
+#define DCV_REG_CURRENT_SETPOINT_32		136
+#define DCV_REG_VOLTAGE_SETPOINT		137	// Значение задания напряжения (в мВ)
+#define DCV_REG_VOLTAGE_SETPOINT_32		138
+
+
 #define REG_SCOPE_RATE					148
 
 #define REG_DBG_STATE					150	// Регистр режима Отладки
@@ -268,7 +279,17 @@
 #define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-//Результаты измерений
+#define REG_SUB_STATE					198	// Регистр вспомогательного состояния
+
+
+#define DCV_REG_CURRENT_RESULT			200	// Значение измерения тока (в мкА)
+#define DCV_REG_CURRENT_RESULT_32		201
+#define DCV_REG_VOLTAGE_RESULT			202	// Значение измерения напряжения (в мВ)
+#define DCV_REG_VOLTAGE_RESULT_32		203
+
+#define DCV_REG_VOLTAGE_READY			205	// Флаг выхода на уставку напряжения
+
+
 #define REG_V_MEAS_L						200 // Регистр установки источника напряжения LESS HALF
 #define REG_V_MEAS_M						201 // Регистр установки источника напряжения MOST HALF
 #define REG_I_MEAS_L						202 // Регистр тока отсечки в режиме источника напряжения LESS HALF
