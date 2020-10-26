@@ -3,9 +3,7 @@
 
 #include "Controller.h"
 
-bool VB_SaveOutputParameters(ControllerConfig *Config);
-void VB_EnableVoltageChannel(ControllerConfig *Config);
-void VB_EnableCurrentChannel(ControllerConfig *Config);
-void VB_RelayCommutation(ControllerConfig *Config);
+bool VB_CacheParameters(ControllerConfig *Config);
+void VB_ConfigVIChannels(ControllerConfig *Config);
 
 #endif // __VOLTAGE_BOARD_H

@@ -1,11 +1,20 @@
 // Header
+#include "VoltageBoard.h"
+
+// Includes
 #include "Global.h"
 #include "Controller.h"
 #include "LowLevel.h"
-#include "VoltageBoard.h"
 #include "DataTable.h"
+#include "Measurement.h"
+#include "Regulator.h"
 
-bool VB_SaveOutputParameters(ControllerConfig *Config)
+// Forward functions
+void VB_ConfigVoltageChannel(ControllerConfig *Config);
+void VB_ConfigCurrentChannel(ControllerConfig *Config);
+
+// Functions
+bool VB_CacheParameters(ControllerConfig *Config)
 {
 	Config->OutputLine = DataTable[DCV_REG_OUTPUT_LINE];
 	Config->OutputType = DataTable[DCV_REG_OUTPUT_TYPE];
@@ -14,138 +23,161 @@ bool VB_SaveOutputParameters(ControllerConfig *Config)
 
 	Config->VoltageSetpoint = (float)DT_Read32(DCV_REG_VOLTAGE_SETPOINT, DCV_REG_VOLTAGE_SETPOINT_32);
 	Config->CurrentSetpoint = (float)DT_Read32(DCV_REG_CURRENT_SETPOINT, DCV_REG_CURRENT_SETPOINT_32);
+	Config->HWCurrentLimit = Config->CurrentSetpoint * (1 + (float)DataTable[REG_CURRENT_LIMIT_MARGIN] / 100);
 
-	return !(Config->VoltageSetpoint > VB_VOUT_MAX || Config->VoltageSetpoint < VB_VOUT_MIN ||
-			Config->CurrentSetpoint > VB_IOUT_MAX || Config->VoltageSetpoint < VB_IOUT_MIN);
+	bool result = true;
+	// Проверка границ тока и напряжения
+	result &= Config->VoltageSetpoint >= VB_VOUT_MIN && Config->VoltageSetpoint <= VB_VOUT_MAX;
+	result &= Config->VoltageSetpoint >= VB_IOUT_MIN && Config->CurrentSetpoint <= VB_IOUT_MAX;
+	// Провекра границы напряжения для режима источника тока
+	result &= Config->OutputType == Current && Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT];
+
+	return result;
 }
 //------------------------------------------
 
-void VB_EnableVoltageChannel(ControllerConfig *Config)
+void VB_ConfigVoltageChannel(ControllerConfig *Config)
 {
-	do
+	// Режим источника напряжения
+	if(Config->OutputType == Voltage)
 	{
-		if((Config->VSet >= VRANGE_0V20_MIN) && (Config->VSet < VRANGE_0V20_MAX))
+		// Параметры канала напряжения
+		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE1_LIMIT])
 		{
-			Config->VChanel = CHANEL_V200;
+			LL_SelectRgK12();
 			LL_SelectVOutMaxV200();
-			break;
+			MEASURE_CacheConvertParametersV1();
+			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageLV);
 		}
-		if((Config->VSet >= VRANGE_2V00_MIN) && (Config->VSet < VRANGE_2V00_MAX))
+		else if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE2_LIMIT])
 		{
-			Config->VChanel = CHANEL_2V00;
+			LL_SelectRg7K70();
 			LL_SelectVOutMax2V00();
-			break;
+			MEASURE_CacheConvertParametersV2();
+			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageLV);
 		}
-		if((Config->VSet >= VRANGE_20V0_MIN) && (Config->VSet < VRANGE_20V0_MAX))
+		else if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
 		{
-			Config->VChanel = CHANEL_20V0;
+			LL_SelectRg720K();
 			LL_SelectVOutMax20V0();
-			break;
+			MEASURE_CacheConvertParametersV3();
+			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageLV);
 		}
-		if((Config->VSet >= VRANGE_270V_MIN) && (Config->VSet < VRANGE_270V_MAX))
+		else
 		{
-			Config->VChanel = CHANEL_270V;
-			//фиктивное переключение низковольтного канала
+			LL_SelectRg720K();
+			// (?) Фиктивное переключение низковольтного канала
 			LL_SelectVOutMax20V0();
-			break;
+			MEASURE_CacheConvertParametersV4();
+			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageHV);
 		}
-		Config->VChanel = CHANEL_NONE;
-		//фиктивное переключение низковольтного канала
-		LL_SelectVOutMaxV200();
 	}
-	while(0);
-
-	switch (Config->VChanel)
+	// Режим источника тока
+	else
 	{
-		case CHANEL_V200:
-		case CHANEL_2V00:
-		case CHANEL_20V0:
-			// отключено LL_SelectDACx(SELECT_DAC_LV);
-			//Issue: disable 350V & delay
-			break;
-		case CHANEL_270V:
-			// отключено LL_SelectDACx(SELECT_DAC_HV);
-			//Issue: enable 350V & delay
-			break;
-		default:
-			// отключено LL_SelectDACx(SELECT_DAC_NONE);
-			break;
+		LL_SelectRg720K();
+		LL_SelectVOutMax20V0();
+		MEASURE_CacheConvertParametersV3();
 	}
 }
-//---------------------
+//------------------------------------------
 
-void VB_EnableCurrentChannel(ControllerConfig *Config)
+void VB_ConfigCurrentChannel(ControllerConfig *Config)
 {
-	do
+	bool LowVoltageMode = (Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT]);
+
+	if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE1_LIMIT])
 	{
-		if((Config->CurrSet >= IRANGE_R1_MIN) && (Config->CurrSet < IRANGE_R1_MAX))
+		if(LowVoltageMode)
 		{
-			Config->CurrChanel = CHANEL_LV_R1;
+			MEASURE_CacheConvertParametersI1();
 			LL_SelectRs27K();
-			break;
 		}
-
-		if((Config->CurrSet >= IRANGE_R2_MIN) && (Config->CurrSet < IRANGE_R2_MAX))
+		else
 		{
-			Config->CurrChanel = CHANEL_LV_R2;
-			LL_SelectRs2K7();
-			break;
+			 MEASURE_CacheConvertParametersHVI1();
+			 LL_SelectHV_R1();
 		}
-
-		if((Config->CurrSet >= IRANGE_R3_MIN) && (Config->CurrSet < IRANGE_R3_MAX))
-		{
-			Config->CurrChanel = CHANEL_LV_R3;
-			LL_SelectRsK27();
-			break;
-		}
-
-		if((Config->CurrSet >= IRANGE_R4_MIN) && (Config->CurrSet < IRANGE_R4_MAX))
-		{
-			Config->CurrChanel = CHANEL_LV_R4;
-			LL_SelectRsK020();
-			break;
-		}
-		//если значение вне допустимого диапазона
-		Config->CurrChanel = CHANEL_LV_R4;
-		//максимальный ток
-		LL_SelectRsK020();
 	}
-	while(0);
+	else if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE2_LIMIT])
+	{
+		if(LowVoltageMode)
+		{
+			MEASURE_CacheConvertParametersI2();
+			LL_SelectRs2K7();
+		}
+		else
+		{
+			 MEASURE_CacheConvertParametersHVI2();
+			 LL_SelectHV_R2();
+		}
+	}
+	else if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE3_LIMIT])
+	{
+		if(LowVoltageMode)
+		{
+			MEASURE_CacheConvertParametersI3();
+			LL_SelectRsK27();
+		}
+		else
+		{
+			 MEASURE_CacheConvertParametersHVI3();
+			 LL_SelectHV_R3();
+		}
+	}
+	else
+	{
+		if(LowVoltageMode)
+		{
+			MEASURE_CacheConvertParametersI4();
+			LL_SelectRsK020();
+		}
+		else
+		{
+			 MEASURE_CacheConvertParametersHVI4();
+			 LL_SelectHV_R4();
+		}
+	}
+
+	// Режим источника тока
+	if(Config->OutputType == Current)
+		REGULATOR_ActivateCurrent(&MEASURE_WriteCurrentLV);
 }
-//---------------------
+//------------------------------------------
 
 void VB_RelayCommutation(ControllerConfig *Config)
 {
-//all OFF
+	// all OFF
 	LL_RelayCtrls(RELAY_BUS, false);
 	LL_RelayCtrls(RELAY_PS1, false);
 	LL_RelayCtrls(RELAY_PS2, false);
 	LL_RelayCtrls(RELAY_CTRL, false);
-//POT_CTRL+-
+
+	//POT_CTRL+-
 	LL_RelayCtrls(RELAY_POT_CTRLN, false);
 	LL_RelayCtrls(RELAY_POT_CTRLP, false);
 
-	switch (Config->VChanel)
+	if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
 	{
-		case CHANEL_V200:
-		case CHANEL_2V00:
-		case CHANEL_20V0:
-			LL_RelayCtrls(RELAY_LV_HV_CTRL1, false);
-			LL_RelayCtrls(RELAY_LV_HV_CTRL2, false);
-			LL_RelayCtrls(RELAY_POT, false);
-			break;
-		case CHANEL_270V:
-			LL_RelayCtrls(RELAY_LV_HV_CTRL1, true);
-			LL_RelayCtrls(RELAY_LV_HV_CTRL2, true);
-			LL_RelayCtrls(RELAY_POT, true);
-			break;
-		case CHANEL_NONE:
-			break;
+		LL_RelayCtrls(RELAY_LV_HV_CTRL1, false);
+		LL_RelayCtrls(RELAY_LV_HV_CTRL2, false);
+		LL_RelayCtrls(RELAY_POT, false);
+	}
+	else
+	{
+		LL_RelayCtrls(RELAY_LV_HV_CTRL1, true);
+		LL_RelayCtrls(RELAY_LV_HV_CTRL2, true);
+		LL_RelayCtrls(RELAY_POT, true);
 	}
 
-	if(Config->VChanel != CHANEL_NONE)
-	{
-		LL_RelayCtrls(Config->OutLine, true);
-	}
+	LL_RelayCtrls(Config->OutputLine, true);
 }
-//---------------------
+//------------------------------------------
+
+void VB_ConfigVIChannels(ControllerConfig *Config)
+{
+	VB_ConfigVoltageChannel(Config);
+	VB_ConfigCurrentChannel(Config);
+	VB_RelayCommutation(Config);
+}
+//------------------------------------------
