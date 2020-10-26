@@ -9,9 +9,10 @@ typedef void (*FUNC_CallbackSetControl)(float Value);
 
 // Functions
 //
-void REGULATOR_Cycle(float SampleValue);
+void REGULATOR_Cycle();
 void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction);
-void REGULATOR_UpdateTarget(float TargetValue);
+void REGULATOR_SetTargetMax(float TargetMaxValue);
+void REGULATOR_UpdateSampleValues(float Voltage, float Current);
 
 #endif // __REGULATOR_H

@@ -1,6 +1,9 @@
 #ifndef __GLOBAL_H
 #define __GLOBAL_H
 
+// Includes
+#include "SysConfig.h"
+
 // Definitions
 // 
 #define	SCCI_TIMEOUT_TICKS			1000	// Таймаут интерфейса SCCI (в мс)
@@ -46,5 +49,6 @@
 
 // Параметры регулятора
 #define REGLTR_ERROR_I_SAT_H	10000
+#define REGLTR_PERIOD			TIMER2_uS
 
 #endif //  __GLOBAL_H
