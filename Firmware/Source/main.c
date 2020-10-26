@@ -26,6 +26,9 @@ int main()
 	// Настройка ADC
 	INITCFG_ConfigADC();
 	
+	// Настройка таймера регулятора
+	INITCFG_ConfigTimer2();
+
 	// Настройка системного счетчика
 	INITCFG_ConfigTimer7();
 	

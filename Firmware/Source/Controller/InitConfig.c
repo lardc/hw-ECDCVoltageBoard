@@ -13,16 +13,16 @@ Boolean INITCFG_ConfigSystemClock()
 
 void INITCFG_ConfigIO()
 {
-// Включение тактирования портов
+	// Включение тактирования портов
 	RCC_GPIO_Clk_EN(PORTA);
 	RCC_GPIO_Clk_EN(PORTB);
 	RCC_GPIO_Clk_EN(PORTC);
 	
-// Аналоговые входы
+	// Аналоговые входы
 	GPIO_InitAnalog(GPIO_MEASURE_V);
 	GPIO_InitAnalog(GPIO_MEASURE_I);
 	
-// Выходы
+	// Выходы
 	GPIO_InitPushPullOutput(GPIO_CS1);
 	GPIO_InitPushPullOutput(GPIO_CS2);
 	GPIO_InitPushPullOutput(GPIO_CS3);
@@ -35,11 +35,11 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_LED);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED);
 	
-// Линия синхронизации (выходы)
+	// Линия синхронизации (выходы)
 	GPIO_InitPushPullOutput(GPIO_SYNC1_OUT);
 	GPIO_InitPushPullOutput(GPIO_SYNC2_OUT);
 	
-// Альтернативные функции
+	// Альтернативные функции
 	GPIO_InitAltFunction(GPIO_ALT_CAN_RX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_CAN_TX, AltFn_9);
 	
@@ -48,16 +48,15 @@ void INITCFG_ConfigIO()
 	
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_CLK, AltFn_5);
 	GPIO_InitAltFunction(GPIO_ALT_SPI1_MOSI, AltFn_5);
-	
 }
-
 //------------------------------------------------
+
 void INITCFG_ConfigCAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);
-	NCAN_Init(SYSCLK, CAN_BAUDRATE, FALSE);
-	NCAN_FIFOInterrupt(TRUE);
-	NCAN_FilterInit(0, CAN_SLAVE_FILTER_ID, CAN_MASTER_FILTER_ID);
+	NCAN_Init(SYSCLK, CAN_BAUDRATE, false);
+	NCAN_FIFOInterrupt(true);
+	NCAN_FilterInit(0, CAN_SLAVE_FILTER_ID, CAN_SLAVE_NID_MASK);
 }
 //------------------------------------------------
 
@@ -72,7 +71,7 @@ void INITCFG_ConfigSPI()
 {
 	SPI_Init8b(SPI1, SPI1_BAUDRATE_BITS, SPI1_LSB_FIRST);
 }
-//------------------------------------------------------------------------------
+//------------------------------------------------
 
 void INITCFG_ConfigADC()
 {
@@ -85,7 +84,14 @@ void INITCFG_ConfigADC()
 	ADC_ChannelSet_SampleTime(ADC2, 1, ADC_SMPL_TIME_7_5);
 	ADC_Enable(ADC1);
 	ADC_Enable(ADC2);
-	
+}
+//------------------------------------------------
+
+void INITCFG_ConfigTimer2()
+{
+	TIM_Clock_En(TIM_2);
+	TIM_Config(TIM2, SYSCLK, TIMER2_uS);
+	TIM_Interupt(TIM2, 0, true);
 }
 //------------------------------------------------
 
