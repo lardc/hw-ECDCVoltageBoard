@@ -6,6 +6,7 @@
 #include "LowLevel.h"
 #include "Board.h"
 #include "Delay.h"
+#include "Global.h"
 #include "Controller.h"
 #include "VoltageBoard.h"
 #include "DataTable.h"
@@ -16,7 +17,7 @@
 void DBGACT_BlinkExtLed()
 {
 	LL_SetStateExtLed(TRUE);
-	DELAY_MS(TIME_EXT_LED_BLINK * 2);
+	DELAY_MS(TIME_DBG_PULSE);
 	LL_SetStateExtLed(FALSE);
 }
 //-----------------------------
@@ -24,7 +25,7 @@ void DBGACT_BlinkExtLed()
 void DBGACT_GenerateImpulseToLineSync1()
 {
 	LL_SetStateLineSync1(TRUE);
-	DELAY_MS(TIME_PULSE_LINE_SYNC);
+	DELAY_MS(TIME_DBG_PULSE);
 	LL_SetStateLineSync1(FALSE);
 }
 //-----------------------------
@@ -32,7 +33,7 @@ void DBGACT_GenerateImpulseToLineSync1()
 void DBGACT_GenerateImpulseToLineSync2()
 {
 	LL_SetStateLineSync2(TRUE);
-	DELAY_MS(TIME_PULSE_LINE_SYNC);
+	DELAY_MS(TIME_DBG_PULSE);
 	LL_SetStateLineSync2(FALSE);
 }
 //-----------------------------
