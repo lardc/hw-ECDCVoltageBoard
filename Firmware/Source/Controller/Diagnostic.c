@@ -137,23 +137,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 				DataTable[REG_DBG_STATE] = MEASURE_CurrentRaw();
 			}
 			break;
-			
-		case ACT_DBG_SELECT_V_RANGE:
-			{
-				DBGACT_SelectVRange();
-			}
-			break;
-
-		case ACT_DBG_PREPARE_BOARD:
-			{
-				VB_SaveParam(&Config);
-				LL_SelectRg720K();
-				VB_EnableVoltageChannel(&Config);
-				VB_EnableCurrentChannel(&Config);
-				LL_SelectAdcSrcVLV();
-				VB_RelayCommutation(&Config);
-			}
-			break;
 
 		default:
 			return false;
