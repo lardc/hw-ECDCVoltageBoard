@@ -10,6 +10,12 @@ float MEASURE_CurrentRaw();
 float MEASURE_Voltage();
 float MEASURE_Current();
 
+void MEASURE_WriteVoltageLV(float Value);
+void MEASURE_WriteVoltageHV(float Value);
+
+void MEASURE_WriteCurrentLV(float Value);
+void MEASURE_WriteCurrentHV(float Value);
+
 void MEASURE_CacheConvertParametersV1();
 void MEASURE_CacheConvertParametersV2();
 void MEASURE_CacheConvertParametersV3();

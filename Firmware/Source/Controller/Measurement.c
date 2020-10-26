@@ -6,10 +6,11 @@
 #include "DeviceObjectDictionary.h"
 #include "Global.h"
 #include "ZwADC.h"
+#include "LowLevel.h"
 
 // Definitions
-#define ADC_TO_VOLTAGE		0
-#define ADC_TO_CURRENT		1
+#define DAC_ADC_TO_VOLTAGE		0
+#define DAC_ADC_TO_CURRENT		1
 
 // Types
 typedef struct __DACConvertParameters
@@ -81,8 +82,10 @@ float MEASURE_Current()
 }
 //------------------------------------------
 
-uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value)
+uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value, bool DACToCurrent)
 {
+	if(DACToCurrent)
+		Value *= ShuntResistance;
 	float result = (Value / Storage.K + Storage.Offset) / DAC_REF_VOLTAGE * DAC_MAX_RESOLUTION;
 	return (result > 0) ? (uint16_t)result : 0;
 }
@@ -90,13 +93,37 @@ uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value)
 
 uint16_t MEASURE_ConvertVoltageToDAC(float Value)
 {
-	return MEASURE_ConvertXToDAC(VoltageDAC, Value);
+	return MEASURE_ConvertXToDAC(VoltageDAC, Value, DAC_ADC_TO_VOLTAGE);
 }
 //------------------------------------------
 
 uint16_t MEASURE_ConvertCurrentToDAC(float Value)
 {
-	return MEASURE_ConvertXToDAC(CurrentDAC, Value);
+	return MEASURE_ConvertXToDAC(CurrentDAC, Value, DAC_ADC_TO_CURRENT);
+}
+//------------------------------------------
+
+void MEASURE_WriteVoltageLV(float Value)
+{
+	LL_WriteDACLV_Voltage(MEASURE_ConvertVoltageToDAC(Value));
+}
+//------------------------------------------
+
+void MEASURE_WriteVoltageHV(float Value)
+{
+	LL_WriteDACHV_Voltage(MEASURE_ConvertVoltageToDAC(Value));
+}
+//------------------------------------------
+
+void MEASURE_WriteCurrentLV(float Value)
+{
+	LL_WriteDACLV_Current(MEASURE_ConvertCurrentToDAC(Value));
+}
+//------------------------------------------
+
+void MEASURE_WriteCurrentHV(float Value)
+{
+	LL_WriteDACHV_Current(MEASURE_ConvertCurrentToDAC(Value));
 }
 //------------------------------------------
 
@@ -131,13 +158,13 @@ float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value, bool ADCT
 
 float MEASURE_ConvertADCToVoltage(float Value)
 {
-	return MEASURE_ConvertADCToX(VoltageADC, Value, ADC_TO_VOLTAGE);
+	return MEASURE_ConvertADCToX(VoltageADC, Value, DAC_ADC_TO_VOLTAGE);
 }
 //------------------------------------------
 
 float MEASURE_ConvertADCToCurrent(float Value)
 {
-	return MEASURE_ConvertADCToX(CurrentADC, Value, ADC_TO_CURRENT);
+	return MEASURE_ConvertADCToX(CurrentADC, Value, DAC_ADC_TO_CURRENT);
 }
 //------------------------------------------
 
