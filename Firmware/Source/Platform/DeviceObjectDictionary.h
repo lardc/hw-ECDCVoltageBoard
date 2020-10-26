@@ -247,30 +247,14 @@
 #define DCV_REG_OUTPUT_MODE				130	// Режим выхода
 #define DCV_REG_PULSE_LENGTH			131	// Длительность выходного импульса
 
-
-#define REG_OUTPUT_LINE					128	// Регистр контроля выходных линий
-#define REG_WORK_MODE					129	// Регистр режима работы
-#define REG_PULSE_TYPE					130	// Регистр типа формируемого сигнала: импульс, постоянный
-#define REG_PULSE_TIME					131 // Регистр длительности импульса
-#define REG_I_SET_L						132 // Регистр установки источника тока LESS HALF
-#define REG_I_SET_M						133 // Регистр установки источника тока MOST HALF
-#define REG_V_CUT_L						134 // Регистр напряжения отсечки в режиме источника тока LESS HALF
-#define REG_V_CUT_M						135 // Регистр напряжения отсечки в режиме источника тока MOST HALF
-#define REG_V_SET_L						136 // Регистр установки источника напряжения LESS HALF
-#define REG_V_SET_M						137 // Регистр установки источника напряжения MOST HALF
-#define REG_I_CUT_L						138 // Регистр тока отсечки в режиме источника напряжения LESS HALF
-#define REG_I_CUT_M						139 // Регистр тока отсечки в режиме источника напряжения MOST HALF
-
-
 #define DCV_REG_CURRENT_SETPOINT		135	// Значение задания тока (в мкА)
 #define DCV_REG_CURRENT_SETPOINT_32		136
 #define DCV_REG_VOLTAGE_SETPOINT		137	// Значение задания напряжения (в мВ)
 #define DCV_REG_VOLTAGE_SETPOINT_32		138
 
+#define REG_SCOPE_RATE					150	// Коэффициент деления частоты сэмплинга сохраняемых данных
 
-#define REG_SCOPE_RATE					148
-
-#define REG_DBG_STATE					150	// Регистр режима Отладки
+#define REG_DEBUG						190	// Регистр режима Отладки
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

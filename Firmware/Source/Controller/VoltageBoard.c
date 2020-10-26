@@ -12,8 +12,8 @@ bool VB_SaveOutputParameters(ControllerConfig *Config)
 	Config->OutputMode = DataTable[DCV_REG_OUTPUT_MODE];
 	Config->PulseTime = DataTable[DCV_REG_PULSE_LENGTH];
 
-	Config->VoltageSetpoint = (float)DT_Read32(REG_V_SET_L, REG_V_SET_M);
-	Config->CurrentSetpoint = (float)DT_Read32(REG_I_SET_L, REG_I_SET_M);
+	Config->VoltageSetpoint = (float)DT_Read32(DCV_REG_VOLTAGE_SETPOINT, DCV_REG_VOLTAGE_SETPOINT_32);
+	Config->CurrentSetpoint = (float)DT_Read32(DCV_REG_CURRENT_SETPOINT, DCV_REG_CURRENT_SETPOINT_32);
 
 	return (Config->VoltageSetpoint > VB_VOUT_MAX || Config->VoltageSetpoint < VB_VOUT_MIN) ||
 			(Config->CurrentSetpoint > VB_IOUT_MAX || Config->VoltageSetpoint < VB_IOUT_MIN);

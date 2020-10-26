@@ -51,12 +51,12 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			
 		case ACT_DBG_RELAY_ON:
 			{
-				LL_RelayCtrls(DataTable[REG_DBG_STATE], true);
+				LL_RelayCtrls(DataTable[REG_DEBUG], true);
 			}
 			break;
 		case ACT_DBG_RELAY_OFF:
 			{
-				LL_RelayCtrls(DataTable[REG_DBG_STATE], false);
+				LL_RelayCtrls(DataTable[REG_DEBUG], false);
 			}
 			break;
 			
@@ -128,13 +128,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 
 		case ACT_DBG_READ_ADC_VCH:
 			{
-				DataTable[REG_DBG_STATE] = MEASURE_VoltageRaw();
+				DataTable[REG_DEBUG] = MEASURE_VoltageRaw();
 			}
 			break;
 			
 		case ACT_DBG_READ_ADC_ICH:
 			{
-				DataTable[REG_DBG_STATE] = MEASURE_CurrentRaw();
+				DataTable[REG_DEBUG] = MEASURE_CurrentRaw();
 			}
 			break;
 

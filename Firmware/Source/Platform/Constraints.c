@@ -139,18 +139,18 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 //Min;Max;Default;
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {
-		{OUT_LINE_NONE, OUT_LINE_BUS, OUT_LINE_NONE},				// 128	REG_OUTPUT_LINE	// ������� �������� �������� �����
-		{WORK_MODE_OFF, WORK_MODE_CURR, WORK_MODE_OFF},				// 129	REG_WORK_MODE	// ������� ������ ������
-		{SRC_TYPE_NONE, SRC_TYPE_PERMANENT, SRC_TYPE_NONE},			// 130	REG_PULSE_TYPE	// ������� ���� ������������ �������: �������, ����������
-		{0, INT16U_MAX, 0},											// 131	REG_PULSE_TIME	// ������� ������������ ��������
-		{0, INT16U_MAX, 0},											// 132	REG_I_SET_L		// ������� ��������� ��������� ���� LESS HALF
-		{0, 1, 0},													// 133	REG_I_SET_M		// ������� ��������� ��������� ���� MOST HALF
-		{0, 50000, 0},												// 134	REG_V_CUT_L		// ������� ���������� ������� � ������ ��������� ���� LESS HALF
-		{0, 0, 0},													// 135	REG_V_CUT_M		// ������� ���������� ������� � ������ ��������� ���� MOST HALF
-		{0, INT16U_MAX, 0},											// 136	REG_V_SET_L		// ������� ��������� ��������� ���������� LESS HALF
-		{0, 3, 0},													// 137	REG_V_SET_M		// ������� ��������� ��������� ���������� MOST HALF
-		{0, INT16U_MAX, 0},											// 138	REG_I_CUT_L		// ������� ���� ������� � ������ ��������� ���������� LESS HALF
-		{0, 1, 0},													// 139	REG_I_CUT_M		// ������� ���� ������� � ������ ��������� ���������� MOST HALF
+		{DC_BUS_LV, PS2, DC_BUS_LV},												// 128
+		{Voltage, Current, Voltage},												// 129
+		{Pulse, Continuous, Pulse},													// 130
+		{PULSE_LENGH_MIN, PULSE_LENGH_MAX, PULSE_LENGH_DEF},						// 131
+		{0, 0, 0},																	// 132
+		{0, 0, 0},																	// 133
+		{0, 0, 0},																	// 134
+		{0, 0, 0},																	// 135
+		{0, 0, 0},																	// 136
+		{0, 0, 0},																	// 137
+		{0, 0, 0},																	// 138
+		{0, 0, 0},																	// 139
 		{0, 0, 0},																	// 140
 		{0, 0, 0},																	// 141
 		{0, 0, 0},																	// 142
@@ -159,9 +159,9 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 145
 		{0, 0, 0},																	// 146
 		{0, 0, 0},																	// 147
-		{0, MAX_DBG, 16},																	// 148
+		{0, 0, 0},																	// 148
 		{0, 0, 0},																	// 149
-		{NO, MAX_DBG, NO},															// 150
+		{0, INT16U_MAX, 0},															// 150
 		{0, 0, 0},																	// 151
 		{0, 0, 0},																	// 152
 		{0, 0, 0},																	// 153
@@ -171,8 +171,8 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 157
 		{0, 0, 0},																	// 158
 		{0, 0, 0},																	// 159
-		{0, INT16U_MAX, 0},															// 160
-		{0, INT16U_MAX, 0},															// 161
+		{0, 0, 0},																	// 160
+		{0, 0, 0},																	// 161
 		{0, 0, 0},																	// 162
 		{0, 0, 0},																	// 163
 		{0, 0, 0},																	// 164
@@ -201,6 +201,6 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 187
 		{0, 0, 0},																	// 188
 		{0, 0, 0},																	// 189
-		{0, 0, 0},																	// 190
+		{0, INT16U_MAX, 0},															// 190
 		{0, 0, 0}																	// 191
 };

@@ -56,6 +56,11 @@
 #define ADC_IHV_R2_DEF		3687
 #define ADC_IHV_R3_DEF		3687
 
+// в мс
+#define PULSE_LENGH_MIN			5
+#define PULSE_LENGH_MAX			100
+#define PULSE_LENGH_DEF			10
+
 // Types
 typedef struct __TableItemConstraint
 {

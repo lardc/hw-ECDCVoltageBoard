@@ -78,7 +78,7 @@ void DBGACT_Ctrls350V(bool State)
 
 void DBGACT_SelectRg()
 {
-	Int16U Range = DataTable[REG_DBG_STATE];
+	Int16U Range = DataTable[REG_DEBUG];
 	
 	switch (Range)
 	{
@@ -103,7 +103,7 @@ void DBGACT_SelectRg()
 
 void DBGACT_SelectVSensSrc()
 {
-	Int16U VSrc = DataTable[REG_DBG_STATE];
+	Int16U VSrc = DataTable[REG_DEBUG];
 	
 	switch (VSrc)
 	{
@@ -125,7 +125,7 @@ void DBGACT_SelectVSensSrc()
 
 void DBGACT_SelectISensSrc()
 {
-	Int16U ISrc = DataTable[REG_DBG_STATE];
+	Int16U ISrc = DataTable[REG_DEBUG];
 	
 	switch (ISrc)
 	{
@@ -141,7 +141,7 @@ void DBGACT_SelectISensSrc()
 
 void DBGACT_SelectLVCtrls()
 {
-	Int16U Range = DataTable[REG_DBG_STATE];
+	Int16U Range = DataTable[REG_DEBUG];
 	
 	switch (Range)
 	{
@@ -170,7 +170,7 @@ void DBGACT_SelectLVCtrls()
 
 void DBGACT_SelectHVCtrls()
 {
-	Int16U Range = DataTable[REG_DBG_STATE];
+	Int16U Range = DataTable[REG_DEBUG];
 	
 	switch (Range)
 	{
@@ -191,7 +191,7 @@ void DBGACT_SelectHVCtrls()
 
 void DBGACT_SelectVRange()
 {
-	Int16U Range = DataTable[REG_DBG_STATE];
+	Int16U Range = DataTable[REG_DEBUG];
 
 	switch (Range)
 	{
