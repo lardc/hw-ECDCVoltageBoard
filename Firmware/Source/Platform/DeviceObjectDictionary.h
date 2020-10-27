@@ -7,10 +7,6 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_START_PROCESS				100	// Страрт процесса формирования импульса
-#define ACT_STOP_PROCESS				101	// Остановка процесса формирования импульса
-
-//debug commands
 #define ACT_DBG_PULSE_SYNC1				50	// Одиночный импульс SYNC_1
 #define ACT_DBG_PULSE_SYNC2				51	// Одиночный импульс SYNC_2
 
@@ -35,6 +31,9 @@
 #define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
+
+#define ACT_START_PROCESS				100	// Страрт процесса формирования импульса
+#define ACT_STOP_PROCESS				101	// Остановка процесса формирования импульса
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -189,62 +188,6 @@
 
 // 118 - 127
 
-//калиброванные значения DAC для каждого диапазона напряжения
-#define DAC_V200_NULL		1
-#define DAC_V200_TOP		2
-#define DAC_2V00_NULL		3
-#define DAC_2V00_TOP		4
-#define DAC_20V0_NULL		5
-#define DAC_20V0_TOP		6
-#define DAC_270V_NULL		7
-#define DAC_270V_TOP		8
-
-//калиброванные значения ADC для каждого диапазона напряжения
-#define ADC_BLV_V200_NULL	10
-#define ADC_BLV_V200_TOP	11
-#define ADC_BLV_2V00_NULL	12
-#define ADC_BLV_2V00_TOP	13
-#define ADC_BLV_20V0_NULL	14
-#define ADC_BLV_20V0_TOP	15
-#define ADC_BHV_270V_NULL	16
-#define ADC_BHV_270V_TOP	17
-#define ADC_POT_V200_NULL	18
-#define ADC_POT_V200_TOP	19
-#define ADC_POT_2V00_NULL	20
-#define ADC_POT_2V00_TOP	21
-#define ADC_POT_20V0_NULL	22
-#define ADC_POT_20V0_TOP	23
-#define ADC_PHV_270V_NULL	24
-#define ADC_PHV_270V_TOP	25
-
-//калиброванные значения ADC для каждого диапазона тока
-#define ADC_ILV_R1_NULL	30
-#define ADC_ILV_R1_TOP	31
-#define ADC_ILV_R2_NULL	32
-#define ADC_ILV_R2_TOP	33
-#define ADC_ILV_R3_NULL	34
-#define ADC_ILV_R3_TOP	35
-#define ADC_ILV_R4_NULL	36
-#define ADC_ILV_R4_TOP	37
-#define ADC_IHV_R1_NULL	40
-#define ADC_IHV_R1_TOP	41
-#define ADC_IHV_R2_NULL	42
-#define ADC_IHV_R2_TOP	43
-#define ADC_IHV_R3_NULL	44
-#define ADC_IHV_R3_TOP	45
-#define VRANGE_20V0	46
-//калиброванные значения DAC для каждого диапазона тока
-#define DAC_110MA_LIMIT		50
-#define DAC_100MKA_NULL		51
-#define DAC_100MKA_TOP		52
-#define DAC_1MA_NULL		53
-#define DAC_1MA_TOP			54
-#define DAC_10MA_NULL		55
-#define DAC_10MA_TOP		56
-#define DAC_110MA_NULL		57
-#define DAC_110MA_TOP		58
-
-
 // Несохраняемые регистры чтения-записи
 #define DCV_REG_OUTPUT_LINE				128	// Линия подачи выходного напряжения
 #define DCV_REG_OUTPUT_TYPE				129	// Тип выхода
@@ -277,16 +220,10 @@
 
 #define DCV_REG_VOLTAGE_READY			205	// Флаг выхода на уставку напряжения
 
+#define REG_EP_LAST_POINTER				250	// Указатель на последий элемент быстрого логгирования
 
-#define REG_V_MEAS_L						200 // Регистр установки источника напряжения LESS HALF
-#define REG_V_MEAS_M						201 // Регистр установки источника напряжения MOST HALF
-#define REG_I_MEAS_L						202 // Регистр тока отсечки в режиме источника напряжения LESS HALF
-#define REG_I_MEAS_M						203 // Регистр тока отсечки в режиме источника напряжения MOST HALF
-//
-#define REG_DBG_SYNC1				251	// Регистр состояния внутреннейи линии SYNC1
-#define REG_DBG_SYNC2				252	// Регистр состояния внутреннейи линии SYNC2
-
-#define REG_EP_LAST_POINTER		250	// Указатель на последий элемент быстрого логгирования
+#define REG_DBG_SYNC1					251	// Регистр состояния внутреннейи линии SYNC1
+#define REG_DBG_SYNC2					252	// Регистр состояния внутреннейи линии SYNC2
 
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
