@@ -266,7 +266,7 @@ void CONTROL_PulseControl()
 					{
 						Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 						VB_SetLimitVIOutputs(&Config);
-						CONTROL_SetDeviceState(DS_InProcess, SS_PulseProcess);
+						CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitOutSet);
 					}
 				}
 				break;
@@ -293,6 +293,7 @@ void CONTROL_PulseControl()
 						if(CONTROL_TimeCounter > Timeout)
 						{
 							CONTROL_StartRegulator(false);
+							LL_SetStateExtLed(false);
 							LL_ResetDACOutputs();
 							CONTROL_SetDeviceState(DS_Ready, SS_None);
 						}
