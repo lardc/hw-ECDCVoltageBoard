@@ -8,6 +8,7 @@
 
 // Defines
 #define DAC_CHANNEL_B		BIT15
+#define CTRL_SIZE			(8 * 3)		// Три восьмибитных регистра
 
 // Variables
 //

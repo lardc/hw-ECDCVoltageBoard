@@ -18,37 +18,23 @@
 #define TIME_DBG_PULSE				1000	// Длительность отладочного импульса (в мс)
 #define TIME_TRANSIENT_DELAY		100		// Задержка коммутации и переходных процессов (в мс)
 
-//Технические параметры :
-//диапазоны напряжения, мВ
-#define VRANGE_0V20_MIN		40
-#define VRANGE_0V20_MAX		200
-#define VRANGE_2V00_MIN		180
-#define VRANGE_2V00_MAX		2000
-#define VRANGE_20V0_MIN		1800
-#define VRANGE_20V0_MAX		20000
-#define VRANGE_270V_MIN		18000
-#define VRANGE_270V_MAX		270000
-//диапазоны тока, мкА
-#define IRANGE_R1_MIN		8
-#define IRANGE_R1_MAX		100
-#define IRANGE_R2_MIN		80
-#define IRANGE_R2_MAX		1000
-#define IRANGE_R3_MIN		800
-#define IRANGE_R3_MAX		10000
-#define IRANGE_R4_MIN		8000
-#define IRANGE_R4_MAX		110000
+// Параметры выхода
+#define VB_VOUT_MIN					40			// в мВ
+#define VB_VOUT_MAX					270000		// в мВ
+#define VB_IOUT_MIN					8			// в мкА
+#define VB_IOUT_MAX					110000		// в мкА
 
 // Параметры АЦП, ЦАП
-#define DAC_MAX_RESOLUTION		0xFFF
-#define DAC_REF_VOLTAGE			5000		// в мВ
+#define DAC_MAX_RESOLUTION			0xFFF
+#define DAC_REF_VOLTAGE				5000		// в мВ
 
-#define ADC_MAX_RESOLUTION		0xFFF
-#define ADC_REF_VOLTAGE			3000		// в мВ
+#define ADC_MAX_RESOLUTION			0xFFF
+#define ADC_REF_VOLTAGE				3000		// в мВ
 
-#define ADC_AVG_COUNT			4
+#define ADC_AVG_COUNT				4
 
 // Параметры регулятора
-#define REGLTR_ERROR_I_SAT_H	10000
-#define REGLTR_PERIOD			TIMER2_uS
+#define REGLTR_ERROR_I_SAT_H		10000
+#define REGLTR_PERIOD				TIMER2_uS
 
 #endif //  __GLOBAL_H

@@ -1,5 +1,4 @@
 ﻿// Header
-#include <stdlib.h>
 #include "Controller.h"
 //
 // Includes
@@ -16,13 +15,6 @@
 #include "Diagnostic.h"
 #include "Constraints.h"
 #include "Measurement.h"
-
-#define sign(x) ((x)<0 ? -(1) : (1))
-
-#define EP_IMEASURE	1
-#define EP_VMEASURE	2
-#define EP_VERROR	3
-#define EP_IERROR	4
 
 // Types
 //

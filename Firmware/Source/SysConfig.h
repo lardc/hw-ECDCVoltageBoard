@@ -29,6 +29,11 @@
 // SPI
 #define SPI1_BAUDRATE_BITS				0x5			//101b:pClk/64	// Baud rate control
 #define SPI1_LSB_FIRST					false
-
 // ----------------------------------------------
+
+// ADC
+#define ADC_CHANEL_V					1			// Номер канала АЦП напряжения
+#define ADC_CHANEL_I					1			// Номер канала АЦП тока
+// ----------------------------------------------
+
 #endif // __SYSCONFIG_H

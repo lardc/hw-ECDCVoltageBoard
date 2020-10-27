@@ -7,65 +7,65 @@
 // Constants
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{0, 0, 0},										// 0
-		{0, DAC_MAX_VALUE, 0},							// 1	DAC_V200_NULL
-		{0, DAC_MAX_VALUE, DAC_V200_DEF},				// 2	DAC_V200_TOP
-		{0, DAC_MAX_VALUE, 0},							// 3	DAC_2V00_NULL
-		{0, DAC_MAX_VALUE, DAC_2V00_DEF},				// 4	DAC_2V00_TOP
-		{0, DAC_MAX_VALUE, 0},							// 5	DAC_20V0_NULL
-		{0, DAC_MAX_VALUE, DAC_20V0_DEF},				// 6	DAC_20V0_TOP
-		{0, DAC_MAX_VALUE, 0},							// 7	DAC_270V_NULL
-		{0, DAC_MAX_VALUE, DAC_270V_DEF},				// 8	DAC_270V_TOP
+		{0, 0, 0},							// 1	DAC_V200_NULL
+		{0, 0, DAC_V200_DEF},				// 2	DAC_V200_TOP
+		{0, 0, 0},							// 3	DAC_2V00_NULL
+		{0, 0, DAC_2V00_DEF},				// 4	DAC_2V00_TOP
+		{0, 0, 0},							// 5	DAC_20V0_NULL
+		{0, 0, DAC_20V0_DEF},				// 6	DAC_20V0_TOP
+		{0, 0, 0},							// 7	DAC_270V_NULL
+		{0, 0, DAC_270V_DEF},				// 8	DAC_270V_TOP
 
 		{0, 0, 0},										// 9	----
-		{0, ADC_MAX_VALUE, 0},							// 10	ADC_BLV_V200_NULL
-		{0, ADC_MAX_VALUE, ADC_BLV_V200_DEF},			// 11	ADC_BLV_V200_TOP
-		{0, ADC_MAX_VALUE, 0},							// 12	ADC_BLV_2V00_NULL
-		{0, ADC_MAX_VALUE, ADC_BLV_2V00_DEF},			// 13	ADC_BLV_2V00_TOP
-		{0, ADC_MAX_VALUE, 0},							// 14	ADC_BLV_20V0_NULL
-		{0, ADC_MAX_VALUE, ADC_BLV_20V0_DEF},			// 15	ADC_BLV_20V0_TOP
-		{0, ADC_MAX_VALUE, 0},							// 16	ADC_BHV_270V_NULL
-		{0, ADC_MAX_VALUE, ADC_BHV_270V_DEF},			// 17	ADC_BHV_270V_TOP
-		{0, ADC_MAX_VALUE, 0},							// 18	ADC_POT_V200_NULL
-		{0, ADC_MAX_VALUE, ADC_POT_V200_DEF},			// 19	ADC_POT_V200_TOP
-		{0, ADC_MAX_VALUE, 0},							// 20	ADC_POT_2V00_NULL
-		{0, ADC_MAX_VALUE, ADC_POT_2V00_DEF},			// 21	ADC_POT_2V00_TOP
-		{0, ADC_MAX_VALUE, 0},							// 22	ADC_POT_20V0_NULL
-		{0, ADC_MAX_VALUE, ADC_POT_20V0_DEF},			// 23	ADC_POT_20V0_TOP
-		{0, ADC_MAX_VALUE, 0},							// 24	ADC_PHV_270V_NULL
-		{0, ADC_MAX_VALUE, ADC_PHV_270V_DEF},			// 25	ADC_PHV_270V_TOP
+		{0, 0, 0},							// 10	ADC_BLV_V200_NULL
+		{0, 0, ADC_BLV_V200_DEF},			// 11	ADC_BLV_V200_TOP
+		{0, 0, 0},							// 12	ADC_BLV_2V00_NULL
+		{0, 0, ADC_BLV_2V00_DEF},			// 13	ADC_BLV_2V00_TOP
+		{0, 0, 0},							// 14	ADC_BLV_20V0_NULL
+		{0, 0, ADC_BLV_20V0_DEF},			// 15	ADC_BLV_20V0_TOP
+		{0, 0, 0},							// 16	ADC_BHV_270V_NULL
+		{0, 0, ADC_BHV_270V_DEF},			// 17	ADC_BHV_270V_TOP
+		{0, 0, 0},							// 18	ADC_POT_V200_NULL
+		{0, 0, ADC_POT_V200_DEF},			// 19	ADC_POT_V200_TOP
+		{0, 0, 0},							// 20	ADC_POT_2V00_NULL
+		{0, 0, ADC_POT_2V00_DEF},			// 21	ADC_POT_2V00_TOP
+		{0, 0, 0},							// 22	ADC_POT_20V0_NULL
+		{0, 0, ADC_POT_20V0_DEF},			// 23	ADC_POT_20V0_TOP
+		{0, 0, 0},							// 24	ADC_PHV_270V_NULL
+		{0, 0, ADC_PHV_270V_DEF},			// 25	ADC_PHV_270V_TOP
 		{0, 0, 0},										// 26
 		{0, 0, 0},										// 27
 		{0, 0, 0},										// 28
 		{0, 0, 0},										// 29
-		{0, ADC_MAX_VALUE, 0},							// 30	ADC_ILV_R1_NULL
-		{0, ADC_MAX_VALUE, ADC_ILV_R1_DEF},				// 31	ADC_ILV_R1_TOP
-		{0, ADC_MAX_VALUE, 0},							// 32	ADC_ILV_R2_NULL
-		{0, ADC_MAX_VALUE, ADC_ILV_R2_DEF},				// 33	ADC_ILV_R2_TOP
-		{0, ADC_MAX_VALUE, 0},							// 34	ADC_ILV_R3_NULL
-		{0, ADC_MAX_VALUE, ADC_ILV_R3_DEF},				// 35	ADC_ILV_R3_TOP
-		{0, ADC_MAX_VALUE, 0},							// 36	ADC_ILV_R4_NULL
-		{0, ADC_MAX_VALUE, ADC_ILV_R4_DEF},				// 37	ADC_ILV_R4_TOP
-		{0, ADC_MAX_VALUE, 0},							// 38
-		{0, ADC_MAX_VALUE, 0},							// 39
-		{0, ADC_MAX_VALUE, 0},							// 40	ADC_IHV_R1_NULL
-		{0, ADC_MAX_VALUE, ADC_IHV_R1_DEF},				// 41	ADC_IHV_R1_TOP
-		{0, ADC_MAX_VALUE, 0},							// 42	ADC_IHV_R2_NULL
-		{0, ADC_MAX_VALUE, ADC_IHV_R2_DEF},				// 43	ADC_IHV_R2_TOP
-		{0, ADC_MAX_VALUE, 0},							// 44	ADC_IHV_R3_NULL
-		{0, ADC_MAX_VALUE, ADC_IHV_R3_DEF},				// 45	ADC_IHV_R3_TOP
-		{0, INT16U_MAX, VRANGE_20V0_MAX},				// 46	VRANGE_20V0
+		{0, 0, 0},							// 30	ADC_ILV_R1_NULL
+		{0, 0, ADC_ILV_R1_DEF},				// 31	ADC_ILV_R1_TOP
+		{0, 0, 0},							// 32	ADC_ILV_R2_NULL
+		{0, 0, ADC_ILV_R2_DEF},				// 33	ADC_ILV_R2_TOP
+		{0, 0, 0},							// 34	ADC_ILV_R3_NULL
+		{0, 0, ADC_ILV_R3_DEF},				// 35	ADC_ILV_R3_TOP
+		{0, 0, 0},							// 36	ADC_ILV_R4_NULL
+		{0, 0, ADC_ILV_R4_DEF},				// 37	ADC_ILV_R4_TOP
+		{0, 0, 0},							// 38
+		{0, 0, 0},							// 39
+		{0, 0, 0},							// 40	ADC_IHV_R1_NULL
+		{0, 0, ADC_IHV_R1_DEF},				// 41	ADC_IHV_R1_TOP
+		{0, 0, 0},							// 42	ADC_IHV_R2_NULL
+		{0, 0, ADC_IHV_R2_DEF},				// 43	ADC_IHV_R2_TOP
+		{0, 0, 0},							// 44	ADC_IHV_R3_NULL
+		{0, 0, ADC_IHV_R3_DEF},				// 45	ADC_IHV_R3_TOP
+		{0, INT16U_MAX, 0},				// 46	VRANGE_20V0
 		{0, 0, 0},										// 47
 		{0, 0, 0},										// 48
 		{0, 0, 0},										// 49
 		{DAC_LIMIT_MIN, DAC_LIMIT_MAX, DAC_LIMIT_DEF},	// 50	DAC_110MA_LIMIT
-		{0, DAC_MAX_VALUE, 0},							// 51	DAC_100MKA_NULL
-		{0, DAC_MAX_VALUE, DAC_100MKA_DEF},				// 52	DAC_100MKA_TOP
-		{0, DAC_MAX_VALUE, 0},							// 53	DAC_1MA_NULL
-		{0, DAC_MAX_VALUE, DAC_1MA_DEF},				// 54	DAC_1MA_TOP
-		{0, DAC_MAX_VALUE, 0},							// 55	DAC_10MA_NULL
-		{0, DAC_MAX_VALUE, DAC_10MA_DEF},				// 56	DAC_10MA_TOP
-		{0, DAC_MAX_VALUE, 0},							// 57	DAC_110MA_NULL
-		{0, DAC_MAX_VALUE, DAC_110MA_DEF},				// 58	DAC_110MA_TOP
+		{0, 0, 0},							// 51	DAC_100MKA_NULL
+		{0, 0, DAC_100MKA_DEF},				// 52	DAC_100MKA_TOP
+		{0, 0, 0},							// 53	DAC_1MA_NULL
+		{0, 0, DAC_1MA_DEF},				// 54	DAC_1MA_TOP
+		{0, 0, 0},							// 55	DAC_10MA_NULL
+		{0, 0, DAC_10MA_DEF},				// 56	DAC_10MA_TOP
+		{0, 0, 0},							// 57	DAC_110MA_NULL
+		{0, 0, DAC_110MA_DEF},				// 58	DAC_110MA_TOP
 		{0, 0, 0},																	// 59
 		{0, 0, 0},																	// 60
 		{0, 0, 0},																	// 61

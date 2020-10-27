@@ -33,13 +33,13 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			
 		case ACT_DBG_IS_STATE_SYNC_1:
 			{
-				DataTable[REG_DBG_SYNC1] = DBGACT_ReadStateLineSync1();	//see DeviceObjectDictionary.h
+				DataTable[REG_DBG_SYNC1] = DBGACT_ReadStateLineSync1();
 			}
 			break;
 			
 		case ACT_DBG_IS_STATE_SYNC_2:
 			{
-				DataTable[REG_DBG_SYNC2] = DBGACT_ReadStateLineSync2();	//see DeviceObjectDictionary.h
+				DataTable[REG_DBG_SYNC2] = DBGACT_ReadStateLineSync2();
 			}
 			break;
 			

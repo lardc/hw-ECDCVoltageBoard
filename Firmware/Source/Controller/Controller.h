@@ -4,7 +4,6 @@
 // Include
 //
 #include "stdinc.h"
-#include "arm_math.h"
 
 // Types
 //
@@ -98,31 +97,6 @@ typedef enum __DCV_OutputMode
 	Continuous = 2
 } DCV_OutputMode;
 
-typedef enum __WorkMode
-{
-	WORK_MODE_OFF = 0,
-	WORK_MODE_VOLT,
-	WORK_MODE_CURR,
-} WorkMode;
-
-typedef enum __SrcType
-{
-	SRC_TYPE_NONE = 0,
-	SRC_TYPE_SINGLE,
-	SRC_TYPE_PERMANENT,
-} SrcType;
-
-typedef enum __OutLine
-{
-	OUT_LINE_NONE = 0,
-	OUT_LINE_PS1,
-	OUT_LINE_PS2,
-	OUT_LINE_CTRL1,
-	OUT_LINE_POT_CTRL,
-	OUT_LINE_BUS,
-	OUT_LINE_LAST = OUT_LINE_BUS
-} OutLine;
-
 typedef enum __Relay
 {
 	RELAY_BUS = 1,
@@ -136,23 +110,6 @@ typedef enum __Relay
 	RELAY_LV_HV_CTRL2
 } Relay;
 
-typedef enum __VoltageChannel
-{
-	CHANEL_NONE,
-	CHANEL_V200,
-	CHANEL_2V00,
-	CHANEL_20V0,
-	CHANEL_270V
-} VoltageChannel;
-
-typedef enum __CurrentChannel
-{
-	CHANEL_LV_R1,
-	CHANEL_LV_R2,
-	CHANEL_LV_R3,
-	CHANEL_LV_R4
-} CurrentChannel;
-
 typedef struct __ControllerConfig
 {
 	DCV_OutputLine OutputLine;
@@ -164,55 +121,11 @@ typedef struct __ControllerConfig
 	float HWCurrentLimit;
 	bool VoltageHighRange;
 	bool CurrentHighRange;
-
-	uint8_t WorkMode;
-	uint8_t OutLine;
-	uint8_t PulseType;
-	uint32_t CurrSet;
-	uint32_t VSet;
-	uint32_t VMeas;
-	uint32_t CurrMeas;;
-	uint32_t CurrCut;
-	uint32_t VCut;
-	uint64_t StartTime;
-	VoltageChannel VChanel;
-	CurrentChannel CurrChanel;
-	uint16_t VWant;
-	uint16_t VDac;
-	uint16_t VReal;
-	uint16_t CurrWant;
-	uint16_t CurrDac;
-	uint16_t CurrReal;
-	uint16_t VDacRegionSize;
-	uint16_t VAdcRegionSize;
-	uint16_t CurrDacRegionSize;
-	uint16_t CurrAdcRegionSize;
-	int16_t VError;
-	int16_t IError;
 } ControllerConfig, *pControllerConfig;
-
-// Defines
-//
-#define CTRL_SIZE ((LAST_CTRLS_NUM-1)/8+1)
-#define DAC_MAX_VALUE	4095
-#define ADC_MAX_VALUE	4095
-#define DAC_SELECT_CHV	(0<<15)
-#define DAC_SELECT_CHI	(1<<15)
-#define ADC_CHANEL_V	1
-#define ADC_CHANEL_I	1
-
-//�������� ������� ����������:����������:*��, ���:*���
-#define VB_VOUT_MIN		40
-#define VB_VOUT_MAX		270000
-#define VB_VOUT_ICUT	100000
-#define VB_IOUT_MIN		8
-#define VB_IOUT_MAX		110000
-#define VB_IOUT_VCUT	50000
 
 // Variables
 //
 extern volatile Int64U CONTROL_TimeCounter;
-extern Int64U CONTROL_LEDTimeout;
 
 // Functions
 //
