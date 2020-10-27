@@ -85,7 +85,12 @@ float MEASURE_Current()
 uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value, bool DACToCurrent)
 {
 	if(DACToCurrent)
-		Value *= ShuntResistance;
+	{
+		// Ток в мкА
+		// Сопротивление в Омах
+		// Напряжение ЦАП в мВ
+		Value *= ShuntResistance * 0.001;
+	}
 	float result = (Value / Storage.K + Storage.Offset) / DAC_REF_VOLTAGE * DAC_MAX_RESOLUTION;
 	return (result > 0) ? (uint16_t)result : 0;
 }
@@ -158,7 +163,12 @@ float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value, bool ADCT
 {
 	float tmp = (Value / ADC_MAX_RESOLUTION * ADC_REF_VOLTAGE + Storage.Offset) * Storage.K;
 	if(ADCToCurrent)
-		tmp /= ShuntResistance;
+	{
+		// Ток в мкА
+		// Сопротивление в Омах
+		// Напряжение АЦП в мВ
+		tmp = tmp * 1000 / ShuntResistance;
+	}
 	tmp = tmp * tmp * Storage.P2 + tmp * Storage.P1 + Storage.P0;
 	return (tmp > 0) ? tmp : 0;
 }
