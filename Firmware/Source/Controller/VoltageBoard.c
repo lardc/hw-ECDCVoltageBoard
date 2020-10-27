@@ -148,6 +148,23 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 }
 //------------------------------------------
 
+void VB_SetLimitVIOutputs(ControllerConfig *Config)
+{
+	// Режим формирования напряжения
+	if(Config->OutputType == Voltage)
+	{
+		// Низковольтный
+		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
+			MEASURE_WriteCurrentLV(Config->HWCurrentLimit);
+		else
+			MEASURE_WriteCurrentHV(Config->HWCurrentLimit);
+	}
+	// Режим формирования тока
+	else
+		MEASURE_WriteVoltageLV(DataTable[REG_V_RANGE3_LIMIT]);
+}
+//------------------------------------------
+
 void VB_RelayCommutation(ControllerConfig *Config)
 {
 	// all OFF
