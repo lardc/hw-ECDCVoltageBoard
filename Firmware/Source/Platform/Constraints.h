@@ -6,55 +6,48 @@
 #include "DataTable.h"
 #include "Controller.h"
 
-//Definitions
+// Definitions
 #define NO		0
 #define YES		1
-#define MAX_DBG	INT16U_MAX
-//CHIP physical range
-#define ADC_LEVEL_MAX		4095
-#define ADC_LEVEL_MIN		0
-#define DAC_LEVEL_MAX		4095
-#define DAC_LEVEL_MIN		0
 
-//V_DAC physical range
-#define DAC_V200_DEF		3725
-#define DAC_2V00_DEF		3725
-#define DAC_20V0_DEF		3725
-#define DAC_270V_DEF		3725
+// Границы диапазонов тока (мкА / мА)
+#define I_RANGE_MIN			1
+#define I_RANGE_MAX			10000
+// в мкА
+#define I_RANGE_DEF1		100
+#define I_RANGE_DEF2		1000
+#define I_RANGE_DEF3		10000
+// в мА
+#define I_RANGE_DEF4		110
 
-//I_DAC physical range "Current limiter"
-#define DAC_LIMIT_MIN		10
-#define DAC_LIMIT_MAX		2500
-#define DAC_LIMIT_DEF		2300
+// в Омах
+#define I_SHUNT_RES_MIN		1
+#define I_SHUNT_RES_MAX		INT16U_MAX
+#define I_SHUNT_RES_DEF		100
 
-//V_ADC physical range
-//Source:BUS_LV
-#define ADC_BLV_V200_DEF		3687
-#define ADC_BLV_2V00_DEF		3687
-#define ADC_BLV_20V0_DEF		3687
-//Source:BUS_HV
-#define ADC_BHV_270V_DEF		3687
-//Source:POT_LV
-#define ADC_POT_V200_DEF		3687
-#define ADC_POT_2V00_DEF		3687
-#define ADC_POT_20V0_DEF		3687
-//Source:POT_HV
-#define ADC_PHV_270V_DEF		3687
+// в %
+#define ILIM_MARGIN_MIN		1
+#define ILIM_MARGIN_MAX		50
+#define ILIM_MARGIN_DEF		20
 
-//CURR_DAC physical range
-#define DAC_100MKA_DEF			3680
-#define DAC_1MA_DEF				3680
-#define DAC_10MA_DEF			3680
-#define DAC_110MA_DEF			3680
+// Границы диапазонов напряжения (мВ / В)
+#define V_RANGE_MIN			1
+#define V_RANGE_MAX			30000
+// в мВ
+#define V_RANGE_DEF1		200
+#define V_RANGE_DEF2		2000
+#define V_RANGE_DEF3		20000
+// в В
+#define V_RANGE_DEF4		270
 
-//CURR_ADC physical range
-#define ADC_ILV_R1_DEF		3687
-#define ADC_ILV_R2_DEF		3687
-#define ADC_ILV_R3_DEF		3687
-#define ADC_ILV_R4_DEF		3687
-#define ADC_IHV_R1_DEF		3687
-#define ADC_IHV_R2_DEF		3687
-#define ADC_IHV_R3_DEF		3687
+#define KPI_MIN				0
+#define KPI_MAX				10000
+#define KPI_DEF				0
+
+// в (мА / мс) или (мВ / мс)
+#define RISE_RATE_MIN		1
+#define RISE_RATE_MAX		10000
+#define RISE_RATE_DEF		100
 
 // в мс
 #define PULSE_LENGH_MIN			5

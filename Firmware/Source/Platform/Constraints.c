@@ -1,130 +1,152 @@
-﻿// -----------------------------------------
-// Global definitions
-// ----------------------------------------
-// Header
+﻿// Header
 #include "Constraints.h"
 
 // Constants
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
-		{0, 0, 0},										// 0
-		{0, 0, 0},							// 1	DAC_V200_NULL
-		{0, 0, DAC_V200_DEF},				// 2	DAC_V200_TOP
-		{0, 0, 0},							// 3	DAC_2V00_NULL
-		{0, 0, DAC_2V00_DEF},				// 4	DAC_2V00_TOP
-		{0, 0, 0},							// 5	DAC_20V0_NULL
-		{0, 0, DAC_20V0_DEF},				// 6	DAC_20V0_TOP
-		{0, 0, 0},							// 7	DAC_270V_NULL
-		{0, 0, DAC_270V_DEF},				// 8	DAC_270V_TOP
+		{I_RANGE_MIN, I_RANGE_MAX, I_RANGE_DEF1},									// 0
+		{I_RANGE_MIN, I_RANGE_MAX, I_RANGE_DEF2},									// 1
+		{I_RANGE_MIN, I_RANGE_MAX, I_RANGE_DEF3},									// 2
+		{I_RANGE_MIN, I_RANGE_MAX, I_RANGE_DEF4},									// 3
 
-		{0, 0, 0},										// 9	----
-		{0, 0, 0},							// 10	ADC_BLV_V200_NULL
-		{0, 0, ADC_BLV_V200_DEF},			// 11	ADC_BLV_V200_TOP
-		{0, 0, 0},							// 12	ADC_BLV_2V00_NULL
-		{0, 0, ADC_BLV_2V00_DEF},			// 13	ADC_BLV_2V00_TOP
-		{0, 0, 0},							// 14	ADC_BLV_20V0_NULL
-		{0, 0, ADC_BLV_20V0_DEF},			// 15	ADC_BLV_20V0_TOP
-		{0, 0, 0},							// 16	ADC_BHV_270V_NULL
-		{0, 0, ADC_BHV_270V_DEF},			// 17	ADC_BHV_270V_TOP
-		{0, 0, 0},							// 18	ADC_POT_V200_NULL
-		{0, 0, ADC_POT_V200_DEF},			// 19	ADC_POT_V200_TOP
-		{0, 0, 0},							// 20	ADC_POT_2V00_NULL
-		{0, 0, ADC_POT_2V00_DEF},			// 21	ADC_POT_2V00_TOP
-		{0, 0, 0},							// 22	ADC_POT_20V0_NULL
-		{0, 0, ADC_POT_20V0_DEF},			// 23	ADC_POT_20V0_TOP
-		{0, 0, 0},							// 24	ADC_PHV_270V_NULL
-		{0, 0, ADC_PHV_270V_DEF},			// 25	ADC_PHV_270V_TOP
-		{0, 0, 0},										// 26
-		{0, 0, 0},										// 27
-		{0, 0, 0},										// 28
-		{0, 0, 0},										// 29
-		{0, 0, 0},							// 30	ADC_ILV_R1_NULL
-		{0, 0, ADC_ILV_R1_DEF},				// 31	ADC_ILV_R1_TOP
-		{0, 0, 0},							// 32	ADC_ILV_R2_NULL
-		{0, 0, ADC_ILV_R2_DEF},				// 33	ADC_ILV_R2_TOP
-		{0, 0, 0},							// 34	ADC_ILV_R3_NULL
-		{0, 0, ADC_ILV_R3_DEF},				// 35	ADC_ILV_R3_TOP
-		{0, 0, 0},							// 36	ADC_ILV_R4_NULL
-		{0, 0, ADC_ILV_R4_DEF},				// 37	ADC_ILV_R4_TOP
-		{0, 0, 0},							// 38
-		{0, 0, 0},							// 39
-		{0, 0, 0},							// 40	ADC_IHV_R1_NULL
-		{0, 0, ADC_IHV_R1_DEF},				// 41	ADC_IHV_R1_TOP
-		{0, 0, 0},							// 42	ADC_IHV_R2_NULL
-		{0, 0, ADC_IHV_R2_DEF},				// 43	ADC_IHV_R2_TOP
-		{0, 0, 0},							// 44	ADC_IHV_R3_NULL
-		{0, 0, ADC_IHV_R3_DEF},				// 45	ADC_IHV_R3_TOP
-		{0, INT16U_MAX, 0},				// 46	VRANGE_20V0
-		{0, 0, 0},										// 47
-		{0, 0, 0},										// 48
-		{0, 0, 0},										// 49
-		{DAC_LIMIT_MIN, DAC_LIMIT_MAX, DAC_LIMIT_DEF},	// 50	DAC_110MA_LIMIT
-		{0, 0, 0},							// 51	DAC_100MKA_NULL
-		{0, 0, DAC_100MKA_DEF},				// 52	DAC_100MKA_TOP
-		{0, 0, 0},							// 53	DAC_1MA_NULL
-		{0, 0, DAC_1MA_DEF},				// 54	DAC_1MA_TOP
-		{0, 0, 0},							// 55	DAC_10MA_NULL
-		{0, 0, DAC_10MA_DEF},				// 56	DAC_10MA_TOP
-		{0, 0, 0},							// 57	DAC_110MA_NULL
-		{0, 0, DAC_110MA_DEF},				// 58	DAC_110MA_TOP
-		{0, 0, 0},																	// 59
-		{0, 0, 0},																	// 60
-		{0, 0, 0},																	// 61
-		{0, 0, 0},																	// 62
-		{0, 0, 0},																	// 63
-		{0, 0, 0},																	// 64
-		{0, 0, 0},																	// 65
-		{0, 0, 0},																	// 66
-		{0, 0, 0},																	// 67
-		{0, 0, 0},																	// 68
-		{0, 0, 0},																	// 69
-		{0, 0, 0},																	// 70
-		{0, 0, 0},																	// 71
-		{0, 0, 0},																	// 72
-		{0, 0, 0},																	// 73
-		{0, 0, 0},																	// 74
-		{0, 0, 0},																	// 75
-		{0, 0, 0},																	// 76
-		{0, 0, 0},																	// 77
-		{0, 0, 0},																	// 78
-		{0, 0, 0},																	// 79
-		{0, 0, 0},																	// 80
-		{0, 0, 0},																	// 81
-		{0, 0, 0},																	// 82
-		{0, 0, 0},																	// 83
-		{0, 0, 0},																	// 84
-		{0, 0, 0},																	// 85
-		{0, 0, 0},																	// 86
-		{0, 0, 0},																	// 87
-		{0, 0, 0},																	// 88
-		{0, 0, 0},																	// 89
-		{0, 0, 0},																	// 90
-		{0, 0, 0},																	// 91
-		{0, 0, 0},																	// 92
-		{0, 0, 0},																	// 93
-		{0, 0, 0},																	// 94
-		{0, 0, 0},																	// 95
-		{0, 0, 0},																	// 96
-		{0, 0, 0},																	// 97
-		{0, 0, 0},																	// 98
-		{0, 0, 0},																	// 99
-		{0, 0, 0},																	// 100
-		{0, 0, 0},																	// 101
-		{0, 0, 0},																	// 102
-		{0, 0, 0},																	// 103
-		{0, 0, 0},																	// 104
-		{0, 0, 0},																	// 105
-		{0, 0, 0},																	// 106
-		{0, 0, 0},																	// 107
-		{0, 0, 0},																	// 108
-		{0, 0, 0},																	// 109
-		{0, 0, 0},																	// 110
-		{0, 0, 0},																	// 111
-		{0, 0, 0},																	// 112
-		{0, 0, 0},																	// 113
-		{0, 0, 0},																	// 114
-		{0, 0, 0},																	// 115
-		{0, 0, 0},																	// 116
-		{0, 0, 0},																	// 117
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 4
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 5
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 6
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 7
+
+		{1, INT16U_MAX, 1000},														// 8
+		{1, INT16U_MAX, 1000},														// 9
+		{0, INT16U_MAX, 0},															// 10
+
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 11
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 12
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 13
+		{I_SHUNT_RES_MIN, I_SHUNT_RES_MAX, I_SHUNT_RES_DEF},						// 14
+
+		{1, INT16U_MAX, 1000},														// 15
+		{1, INT16U_MAX, 1000},														// 16
+		{0, INT16U_MAX, 0},															// 17
+
+		{ILIM_MARGIN_MIN, ILIM_MARGIN_MAX, ILIM_MARGIN_DEF},						// 18
+		{0, 0, 0},																	// 19
+
+		{V_RANGE_MIN, V_RANGE_MAX, V_RANGE_DEF1},									// 20
+		{V_RANGE_MIN, V_RANGE_MAX, V_RANGE_DEF2},									// 21
+		{V_RANGE_MIN, V_RANGE_MAX, V_RANGE_DEF3},									// 22
+		{V_RANGE_MIN, V_RANGE_MAX, V_RANGE_DEF4},									// 23
+
+		{1, INT16U_MAX, 1000},														// 24
+		{1, INT16U_MAX, 1000},														// 25
+		{0, INT16U_MAX, 0},															// 26
+
+		{1, INT16U_MAX, 1000},														// 27
+		{1, INT16U_MAX, 1000},														// 28
+		{0, INT16U_MAX, 0},															// 29
+
+		{1, INT16U_MAX, 1000},														// 30
+		{1, INT16U_MAX, 1000},														// 31
+		{0, INT16U_MAX, 0},															// 32
+
+		{1, INT16U_MAX, 1000},														// 33
+		{1, INT16U_MAX, 1000},														// 34
+		{0, INT16U_MAX, 0},															// 35
+
+		{0, 0, 0},																	// 36
+		{0, 0, 0},																	// 37
+		{0, 0, 0},																	// 38
+		{0, 0, 0},																	// 39
+
+		{0, INT16U_MAX, 0},															// 40
+		{1, INT16U_MAX, 1000},														// 41
+		{0, INT16U_MAX, 0},															// 42
+		{1, INT16U_MAX, 1000},														// 43
+		{1, INT16U_MAX, 1000},														// 44
+		{0, INT16U_MAX, 0},															// 45
+
+		{0, INT16U_MAX, 0},															// 46
+		{1, INT16U_MAX, 1000},														// 47
+		{0, INT16U_MAX, 0},															// 48
+		{1, INT16U_MAX, 1000},														// 49
+		{1, INT16U_MAX, 1000},														// 50
+		{0, INT16U_MAX, 0},															// 51
+
+		{0, INT16U_MAX, 0},															// 52
+		{1, INT16U_MAX, 1000},														// 53
+		{0, INT16U_MAX, 0},															// 54
+		{1, INT16U_MAX, 1000},														// 55
+		{1, INT16U_MAX, 1000},														// 56
+		{0, INT16U_MAX, 0},															// 57
+
+		{0, INT16U_MAX, 0},															// 58
+		{1, INT16U_MAX, 1000},														// 59
+		{0, INT16U_MAX, 0},															// 60
+		{1, INT16U_MAX, 1000},														// 61
+		{1, INT16U_MAX, 1000},														// 62
+		{0, INT16U_MAX, 0},															// 63
+
+		{0, INT16U_MAX, 0},															// 64
+		{1, INT16U_MAX, 1000},														// 65
+		{0, INT16U_MAX, 0},															// 66
+		{1, INT16U_MAX, 1000},														// 67
+		{1, INT16U_MAX, 1000},														// 68
+		{0, INT16U_MAX, 0},															// 69
+
+		{0, INT16U_MAX, 0},															// 70
+		{1, INT16U_MAX, 1000},														// 71
+		{0, INT16U_MAX, 0},															// 72
+		{1, INT16U_MAX, 1000},														// 73
+		{1, INT16U_MAX, 1000},														// 74
+		{0, INT16U_MAX, 0},															// 75
+
+		{0, INT16U_MAX, 0},															// 76
+		{1, INT16U_MAX, 1000},														// 77
+		{0, INT16U_MAX, 0},															// 78
+		{1, INT16U_MAX, 1000},														// 79
+		{1, INT16U_MAX, 1000},														// 80
+		{0, INT16U_MAX, 0},															// 81
+
+		{0, INT16U_MAX, 0},															// 82
+		{1, INT16U_MAX, 1000},														// 83
+		{0, INT16U_MAX, 0},															// 84
+		{1, INT16U_MAX, 1000},														// 85
+		{1, INT16U_MAX, 1000},														// 86
+		{0, INT16U_MAX, 0},															// 87
+
+		{0, INT16U_MAX, 0},															// 88
+		{1, INT16U_MAX, 1000},														// 89
+		{0, INT16U_MAX, 0},															// 90
+		{1, INT16U_MAX, 1000},														// 91
+		{1, INT16U_MAX, 1000},														// 92
+		{0, INT16U_MAX, 0},															// 93
+
+		{0, INT16U_MAX, 0},															// 94
+		{1, INT16U_MAX, 1000},														// 95
+		{0, INT16U_MAX, 0},															// 96
+		{1, INT16U_MAX, 1000},														// 97
+		{1, INT16U_MAX, 1000},														// 98
+		{0, INT16U_MAX, 0},															// 99
+
+		{0, INT16U_MAX, 0},															// 100
+		{1, INT16U_MAX, 1000},														// 101
+		{0, INT16U_MAX, 0},															// 102
+		{1, INT16U_MAX, 1000},														// 103
+		{1, INT16U_MAX, 1000},														// 104
+		{0, INT16U_MAX, 0},															// 105
+
+		{0, INT16U_MAX, 0},															// 106
+		{1, INT16U_MAX, 1000},														// 107
+		{0, INT16U_MAX, 0},															// 108
+		{1, INT16U_MAX, 1000},														// 109
+		{1, INT16U_MAX, 1000},														// 110
+		{0, INT16U_MAX, 0},															// 111
+
+		{KPI_MIN, KPI_MAX, KPI_DEF},												// 112
+		{KPI_MIN, KPI_MAX, KPI_DEF},												// 113
+		{RISE_RATE_MIN, RISE_RATE_MAX, RISE_RATE_DEF},								// 114
+
+		{KPI_MIN, KPI_MAX, KPI_DEF},												// 115
+		{KPI_MIN, KPI_MAX, KPI_DEF},												// 116
+		{RISE_RATE_MIN, RISE_RATE_MAX, RISE_RATE_DEF},								// 117
+
 		{0, 0, 0},																	// 118
 		{0, 0, 0},																	// 119
 		{0, 0, 0},																	// 120
@@ -136,7 +158,6 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{0, 0, 0},																	// 126
 		{0, 0, 0}																	// 127
 };
-//Min;Max;Default;
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {
 		{DC_BUS_LV, PS2, DC_BUS_LV},												// 128
