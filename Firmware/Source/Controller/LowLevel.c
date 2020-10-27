@@ -164,6 +164,15 @@ void LL_WriteDACHV_Current(uint16_t Data)
 }
 //-----------------------------
 
+void LL_ResetDACOutputs()
+{
+	LL_WriteDACLV_Voltage(0);
+	LL_WriteDACLV_Current(0);
+	LL_WriteDACHV_Voltage(0);
+	LL_WriteDACHV_Current(0);
+}
+//-----------------------------
+
 void LL_SelectVOutMaxV200()
 {
 	LL_SetStateCtrls(LV_RANGE0, true);

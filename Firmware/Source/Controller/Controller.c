@@ -153,11 +153,7 @@ void CONTROL_ResetToDefaultState()
 
 void CONTROL_ResetHardware()
 {
-	LL_WriteDACLV_Voltage(0);
-	LL_WriteDACLV_Current(0);
-
-	LL_WriteDACHV_Voltage(0);
-	LL_WriteDACHV_Current(0);
+	LL_ResetDACOutputs();
 
 	LL_SetStateExtLed(false);
 	GPIO_SetState(GPIO_CS1, false);

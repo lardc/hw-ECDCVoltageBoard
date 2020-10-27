@@ -20,6 +20,8 @@ void LL_WriteDACLV_Current(uint16_t Data);
 void LL_WriteDACHV_Voltage(uint16_t Data);
 void LL_WriteDACHV_Current(uint16_t Data);
 
+void LL_ResetDACOutputs();
+
 void LL_ResetStateCtrls();
 void LL_SetStateCtrls(SetCtrls Pin, bool State);
 void LL_ResetStateRanges();
