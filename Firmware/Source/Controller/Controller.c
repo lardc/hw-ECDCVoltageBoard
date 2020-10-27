@@ -293,6 +293,7 @@ void CONTROL_PulseControl()
 						if(CONTROL_TimeCounter > Timeout)
 						{
 							CONTROL_StartRegulator(false);
+							LL_ResetDACOutputs();
 							CONTROL_SetDeviceState(DS_Ready, SS_None);
 						}
 					}
