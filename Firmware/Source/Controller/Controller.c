@@ -53,6 +53,7 @@ void CONTROL_ResetEPRegisters();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
 void CONTROL_PulseControl();
+void CONTROL_StartRegulator(bool State);
 
 // Functions
 //
@@ -210,7 +211,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 		case ACT_START_PROCESS:
 			{
-				if((CONTROL_State == DS_Ready) && (CONTROL_SubState == SS_None))
+				if(CONTROL_State == DS_Ready)
 				{
 					if(VB_CacheParameters(&Config))
 					{
@@ -253,13 +254,6 @@ void CONTROL_SwitchToFault(Int16U Reason)
 
 void CONTROL_PulseControl()
 {
-	int16_t TempValue;
-	int16_t VTempValue;
-	int16_t ITempValue;
-	int16_t VNewDac;
-	int16_t INewDac;
-	uint64_t Time;
-
 	static uint64_t Timeout = 0;
 
 	if(CONTROL_State == DS_InProcess)
@@ -268,7 +262,7 @@ void CONTROL_PulseControl()
 		{
 			case SS_PulsePrepare:
 				{
-					Timeout = CONTROL_TimeCounter + TIME_SWITCH_DELAY;
+					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 					VB_ConfigVIChannels(&Config);
 					CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitSwitch);
 				}
@@ -277,182 +271,39 @@ void CONTROL_PulseControl()
 			case SS_PulseWaitSwitch:
 				{
 					if(CONTROL_TimeCounter > Timeout)
+					{
+						Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
+						VB_SetLimitVIOutputs(&Config);
 						CONTROL_SetDeviceState(DS_InProcess, SS_PulseProcess);
+					}
+				}
+				break;
+
+			case SS_PulseWaitOutSet:
+				{
+					if(CONTROL_TimeCounter > Timeout)
+					{
+						if(Config.OutputMode == Pulse)
+							Timeout = CONTROL_TimeCounter + Config.PulseTime;
+						else
+							Timeout = 0;
+
+						CONTROL_StartRegulator(true);
+						CONTROL_SetDeviceState(DS_InProcess, SS_PulseProcess);
+					}
 				}
 				break;
 
 			case SS_PulseProcess:
 				{
-
-				}
-				break;
-
-			case SS_PulseStart:
-				{
-					Config.StartTime = CONTROL_TimeCounter;
-					switch (Config.WorkMode)
+					if(Timeout)
 					{
-						case WORK_MODE_VOLT:
-							// отключено LL_WriteDAC_LH(Config.VDac);
-							break;
-						case WORK_MODE_CURR:
-							// отключено LL_WriteDAC_LH(Config.CurrDac);
-							break;
-					}
-					//CONTROL_SetDeviceSubState(SS_PulseProcess);
-					Config.VError = 0;
-					Config.IError = 0;
-				}
-				break;
-			case SS_PulseProcess2:
-				{
-					//контроль длительности
-					if(Config.PulseTime)
-					{
-						Time = CONTROL_TimeCounter;
-						if(Time >= Config.StartTime)
+						if(CONTROL_TimeCounter > Timeout)
 						{
-							Time -= Config.StartTime;
-						}
-						else
-						{
-							Time = Config.StartTime - Time;
-						}
-						if(Time >= Config.PulseTime)
-						{
-
-							//CONTROL_SetDeviceSubState(SS_PulseStop);
+							CONTROL_StartRegulator(false);
+							CONTROL_SetDeviceState(DS_Ready, SS_None);
 						}
 					}
-					//регулятор напряжения
-					Config.VReal = MEASURE_Voltage();
-					VTempValue = Config.VWant - Config.VReal;
-					//масштабирование ошибки ADC->DAC
-					VTempValue = (VTempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
-					do
-					{
-						if(abs(VTempValue) > 4)
-						{
-							VTempValue /= 2;
-							break;
-						}
-						if(abs(VTempValue) > 0)
-						{
-							VTempValue = sign(VTempValue);
-							break;
-						}
-					}
-					while(0);
-					Config.VError += VTempValue;
-					if(abs(Config.VError) > DAC_MAX_VALUE)
-						Config.VError = sign(Config.VError) * DAC_MAX_VALUE;
-					VNewDac = Config.VDac + Config.VError;
-					//регулятор тока
-					Config.CurrReal = MEASURE_Current();
-					ITempValue = Config.CurrWant - Config.CurrReal;
-					//масштабирование ошибки ADC->DAC
-					ITempValue = (ITempValue * Config.VDacRegionSize) / Config.VAdcRegionSize;
-					do
-					{
-						if(abs(ITempValue) > 4)
-						{
-							ITempValue /= 2;
-							break;
-						}
-						if(abs(ITempValue) > 0)
-						{
-							ITempValue = sign(ITempValue);
-							break;
-						}
-					}
-					while(0);
-					Config.IError += ITempValue;
-					if(abs(Config.IError) > DAC_MAX_VALUE)
-						Config.IError = sign(Config.IError) * DAC_MAX_VALUE;
-					INewDac = Config.CurrDac + Config.IError;
-
-					//ограничение по току или напряжению
-					if(INewDac < VNewDac)
-					{
-						TempValue = INewDac;
-						Config.VError -= VTempValue;
-					}
-					else
-					{
-						TempValue = VNewDac;
-						Config.IError -= ITempValue;
-					}
-
-					if(TempValue < 0)
-					{
-						TempValue = 0;
-					}
-					if(TempValue > DAC_MAX_VALUE)
-					{
-						TempValue = DAC_MAX_VALUE;
-					}
-
-					//CONTROL_EpLog(Config.CurrReal, Config.IError, Config.VReal, Config.VError);
-					// отключено  LL_WriteDAC_LH(TempValue);
-				}
-				break;
-
-			case SS_PulseStop:
-				{
-					Config.CurrReal = MEASURE_Current();
-					switch (Config.CurrChanel)
-					{
-						case CHANEL_LV_R1:
-							Config.CurrMeas = (Config.CurrReal * IRANGE_R1_MAX) / DataTable[ADC_ILV_R1_TOP];
-							break;
-						case CHANEL_LV_R2:
-							Config.CurrMeas = (Config.CurrReal * IRANGE_R2_MAX) / DataTable[ADC_ILV_R2_TOP];
-							break;
-						case CHANEL_LV_R3:
-							Config.CurrMeas = (Config.CurrReal * IRANGE_R3_MAX) / DataTable[ADC_ILV_R3_TOP];
-							break;
-						case CHANEL_LV_R4:
-							Config.CurrMeas = (Config.CurrReal * IRANGE_R4_MAX) / DataTable[ADC_ILV_R4_TOP];
-							break;
-					}
-					Config.CurrMeas = Config.CurrReal;
-
-					Config.VReal = MEASURE_Current();
-					switch (Config.VChanel)
-					{
-						case CHANEL_V200:
-							Config.VMeas = (Config.VReal * VRANGE_0V20_MAX) / DataTable[ADC_BLV_V200_TOP];
-							break;
-						case CHANEL_2V00:
-							Config.VMeas = (Config.VReal * VRANGE_2V00_MAX) / DataTable[ADC_BLV_2V00_TOP];
-							break;
-						case CHANEL_20V0:
-							Config.VMeas = (Config.VReal * VRANGE_20V0_MAX) / DataTable[ADC_BLV_20V0_TOP];
-							break;
-						case CHANEL_NONE:
-						default:
-							break;
-					}
-
-					DT_Write32(REG_I_MEAS_L, REG_I_MEAS_M, Config.CurrMeas);
-					DT_Write32(REG_V_MEAS_L, REG_V_MEAS_M, Config.VMeas);
-					// отключено LL_WriteDAC_LH(0 | DAC_SELECT_CHV);
-					// отключено LL_WriteDAC_LH(0 | DAC_SELECT_CHI);
-
-					LL_SetStateExtLed(false);
-
-					//clean configuration
-					Config.WorkMode = WORK_MODE_OFF;
-					Config.PulseType = SRC_TYPE_NONE;
-					Config.PulseTime = 0;
-					Config.OutLine = OUT_LINE_NONE;
-					Config.CurrSet = 0;
-					Config.CurrCut = 0;
-					Config.VSet = 0;
-					Config.VCut = 0;
-					//VB_RelayCommutation(&Config);
-					//CONTROL_SetDeviceSubState(SS_None);
-					CONTROL_SetDeviceState(DS_Ready, 0);
 				}
 				break;
 
@@ -477,5 +328,11 @@ void CONTROL_UpdateWatchDog()
 {
 	if(BOOT_LOADER_VARIABLE != BOOT_LOADER_REQUEST)
 		IWDG_Refresh();
+}
+//------------------------------------------
+
+void CONTROL_StartRegulator(bool State)
+{
+	State ? TIM_Start(TIM2) : TIM_Stop(TIM2);
 }
 //------------------------------------------

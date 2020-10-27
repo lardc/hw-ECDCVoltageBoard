@@ -22,10 +22,8 @@ typedef enum __DeviceSubState
 	SS_None = 0,
 	SS_PulsePrepare,
 	SS_PulseWaitSwitch,
+	SS_PulseWaitOutSet,
 	SS_PulseProcess,
-	SS_PulseStart,
-	SS_PulseProcess2,
-	SS_PulseStop,
 } DeviceSubState;
 
 typedef enum __SetCtrls
