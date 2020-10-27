@@ -8,6 +8,8 @@
 #include "Global.h"
 #include "DataTable.h"
 #include "DeviceObjectDictionary.h"
+#include "Measurement.h"
+#include "Regulator.h"
 
 // Functions
 //
@@ -35,6 +37,13 @@ void TIM2_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM2))
 	{
+		float Voltage = MEASURE_Voltage();
+		float Current = MEASURE_Current();
+
+		REGULATOR_UpdateSampleValues(Voltage, Current);
+		RegulatorResult Result = REGULATOR_Cycle();
+		CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl);
+
 		TIM_StatusClear(TIM2);
 	}
 }
