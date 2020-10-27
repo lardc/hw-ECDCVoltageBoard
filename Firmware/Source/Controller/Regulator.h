@@ -5,11 +5,18 @@
 #include "stdinc.h"
 
 // Types
-typedef void (*FUNC_CallbackSetControl)(float Value);
+typedef uint16_t (*FUNC_CallbackSetControl)(float Value);
+
+typedef struct __RegulatorResult
+{
+	float Setpoint;
+	float Control;
+	uint16_t RawControl;
+} RegulatorResult, *pRegulatorResult;
 
 // Functions
 //
-void REGULATOR_Cycle();
+RegulatorResult REGULATOR_Cycle();
 void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_SetTargetMax(float TargetMaxValue);

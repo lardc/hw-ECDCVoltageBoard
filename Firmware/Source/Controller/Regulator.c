@@ -31,8 +31,10 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 
 // Functions
 //
-void REGULATOR_Cycle()
+RegulatorResult REGULATOR_Cycle()
 {
+	RegulatorResult result;
+
 	float ControlI = 0;
 	float Error = ActiveRegulator->TargetValuePrev - ActiveRegulator->SampleValue;
 
@@ -63,7 +65,11 @@ void REGULATOR_Cycle()
 		ActiveRegulator->TargetValue = ActiveRegulator->TargetMax;
 
 	// Применение значения
-	ActiveRegulator->SetControl(ActiveRegulator->Control);
+	result.RawControl = ActiveRegulator->SetControl(ActiveRegulator->Control);
+	result.Control = ActiveRegulator->Control;
+	result.Setpoint = ActiveRegulator->TargetValuePrev;
+
+	return result;
 }
 // ----------------------------------------
 
