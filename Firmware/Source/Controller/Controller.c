@@ -40,9 +40,7 @@ volatile Int16U CONTROL_Counter = 0;
 volatile DeviceState CONTROL_State = DS_None;
 volatile DeviceSubState CONTROL_SubState = SS_None;
 static Boolean CycleActive = false;
-
-ControllerConfig Config;
-
+static ControllerConfig Config;
 volatile Int64U CONTROL_TimeCounter = 0;
 
 // Forward functions
@@ -58,15 +56,14 @@ void CONTROL_PulseControl();
 
 // Functions
 //
-void CONTROL_EpLog(pControllerConfig ConfigPointer, float Current, float Voltage,
-		float Setpoint, float Control, uint16_t RawControl)
+void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl)
 {
 	static uint16_t ScopeLogStep = 0, LocalCounter = 0;
 	float ControlScale = 1;
 
 	// Выбор масштаба для данных регулятора
-	if((ConfigPointer->CurrentHighRange && ConfigPointer->OutputType == Current) ||
-		(ConfigPointer->VoltageHighRange && ConfigPointer->OutputType == Voltage))
+	if((Config.CurrentHighRange && Config.OutputType == Current) ||
+		(Config.VoltageHighRange && Config.OutputType == Voltage))
 	{
 		ControlScale = 0.001;
 	}
@@ -79,8 +76,8 @@ void CONTROL_EpLog(pControllerConfig ConfigPointer, float Current, float Voltage
 	{
 		ScopeLogStep = 0;
 
-		CONTROL_IMeasure[LocalCounter] = Current * (ConfigPointer->CurrentHighRange) ? 0.001 : 1;
-		CONTROL_VMeasure[LocalCounter] = Voltage * (ConfigPointer->VoltageHighRange) ? 0.001 : 1;
+		CONTROL_IMeasure[LocalCounter] = Current * (Config.CurrentHighRange) ? 0.001 : 1;
+		CONTROL_VMeasure[LocalCounter] = Voltage * (Config.VoltageHighRange) ? 0.001 : 1;
 		CONTROL_Setpoint[LocalCounter] = Setpoint * ControlScale;
 		CONTROL_Control[LocalCounter] = Control * ControlScale;
 		CONTROL_RawControl[LocalCounter] = RawControl;

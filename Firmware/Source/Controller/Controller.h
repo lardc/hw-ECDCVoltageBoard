@@ -221,7 +221,6 @@ extern Int64U CONTROL_LEDTimeout;
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
-void CONTROL_EpLog(pControllerConfig ConfigPointer, float Current, float Voltage,
-		float Setpoint, float Control, uint16_t RawControl);
+void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl);
 
 #endif // __CONTROLLER_H
