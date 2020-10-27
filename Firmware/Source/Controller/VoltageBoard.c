@@ -75,6 +75,7 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 			MEASURE_CacheConvertParametersV4();
 			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageHV);
 		}
+		REGULATOR_SetTargetMax(Config->VoltageSetpoint);
 	}
 	// Режим источника тока
 	else
@@ -145,7 +146,10 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 
 	// Режим источника тока
 	if(Config->OutputType == Current)
+	{
 		REGULATOR_ActivateCurrent(&MEASURE_WriteCurrentLV);
+		REGULATOR_SetTargetMax(Config->CurrentSetpoint);
+	}
 }
 //------------------------------------------
 
