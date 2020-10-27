@@ -103,27 +103,35 @@ uint16_t MEASURE_ConvertCurrentToDAC(float Value)
 }
 //------------------------------------------
 
-void MEASURE_WriteVoltageLV(float Value)
+uint16_t MEASURE_WriteVoltageLV(float Value)
 {
-	LL_WriteDACLV_Voltage(MEASURE_ConvertVoltageToDAC(Value));
+	uint16_t retval = MEASURE_ConvertVoltageToDAC(Value);
+	LL_WriteDACLV_Voltage(retval);
+	return retval;
 }
 //------------------------------------------
 
-void MEASURE_WriteVoltageHV(float Value)
+uint16_t MEASURE_WriteVoltageHV(float Value)
 {
-	LL_WriteDACHV_Voltage(MEASURE_ConvertVoltageToDAC(Value));
+	uint16_t retval = MEASURE_ConvertVoltageToDAC(Value);
+	LL_WriteDACHV_Voltage(retval);
+	return retval;
 }
 //------------------------------------------
 
-void MEASURE_WriteCurrentLV(float Value)
+uint16_t MEASURE_WriteCurrentLV(float Value)
 {
-	LL_WriteDACLV_Current(MEASURE_ConvertCurrentToDAC(Value));
+	uint16_t retval = MEASURE_ConvertCurrentToDAC(Value);
+	LL_WriteDACLV_Current(retval);
+	return retval;
 }
 //------------------------------------------
 
-void MEASURE_WriteCurrentHV(float Value)
+uint16_t MEASURE_WriteCurrentHV(float Value)
 {
-	LL_WriteDACHV_Current(MEASURE_ConvertCurrentToDAC(Value));
+	uint16_t retval = MEASURE_ConvertCurrentToDAC(Value);
+	LL_WriteDACHV_Current(retval);
+	return retval;
 }
 //------------------------------------------
 
