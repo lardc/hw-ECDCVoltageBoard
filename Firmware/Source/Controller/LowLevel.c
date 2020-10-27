@@ -3,7 +3,7 @@
 // Include
 #include "Board.h"
 #include "Delay.h"
-#include "Controller.h"
+#include "Global.h"
 #include <string.h>
 
 // Defines
@@ -128,6 +128,9 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 
 void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 {
+	if(Data > DAC_MAX_RESOLUTION)
+		Data = DAC_MAX_RESOLUTION;
+
 	GPIO_SetState(GPIO_DAC_CS, false);
 	SPI_WriteByte8b(SPI1, (Data >> 8) & 0xff);
 	SPI_WriteByte8b(SPI1, Data & 0xff);
