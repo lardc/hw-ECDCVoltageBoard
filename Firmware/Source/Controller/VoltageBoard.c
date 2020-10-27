@@ -31,9 +31,10 @@ bool VB_CacheParameters(ControllerConfig *Config)
 	bool result = true;
 	// ѕроверка границ тока и напр€жени€
 	result &= Config->VoltageSetpoint >= VB_VOUT_MIN && Config->VoltageSetpoint <= VB_VOUT_MAX;
-	result &= Config->VoltageSetpoint >= VB_IOUT_MIN && Config->CurrentSetpoint <= VB_IOUT_MAX;
+	result &= Config->CurrentSetpoint >= VB_IOUT_MIN && Config->CurrentSetpoint <= VB_IOUT_MAX;
 	// ѕровекра границы напр€жени€ дл€ режима источника тока
-	result &= Config->OutputType == Current && Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT];
+	if(Config->OutputType == Current)
+		result &= Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT];
 
 	return result;
 }
