@@ -138,6 +138,22 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 
+		case ACT_DBG_WRITE_DAC_LV_VOLTAGE:
+			LL_WriteDACLV_Voltage(DataTable[REG_DEBUG]);
+			break;
+
+		case ACT_DBG_WRITE_DAC_LV_CURRENT:
+			LL_WriteDACLV_Current(DataTable[REG_DEBUG]);
+			break;
+
+		case ACT_DBG_WRITE_DAC_HV_VOLTAGE:
+			LL_WriteDACHV_Voltage(DataTable[REG_DEBUG]);
+			break;
+
+		case ACT_DBG_WRITE_DAC_HV_CURRENT:
+			LL_WriteDACHV_Current(DataTable[REG_DEBUG]);
+			break;
+
 		default:
 			return false;
 	}

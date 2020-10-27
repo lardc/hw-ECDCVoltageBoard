@@ -31,6 +31,10 @@
 #define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
+#define ACT_DBG_WRITE_DAC_LV_VOLTAGE	74	// Запись в низковольтный ЦАП напряжения
+#define ACT_DBG_WRITE_DAC_LV_CURRENT	75	// Запись в низковольтный ЦАП тока
+#define ACT_DBG_WRITE_DAC_HV_VOLTAGE	76	// Запись в высоковольтный ЦАП напряжения
+#define ACT_DBG_WRITE_DAC_HV_CURRENT	77	// Запись в высоковольтный ЦАП тока
 
 #define ACT_START_PROCESS				100	// Страрт процесса формирования импульса
 #define ACT_STOP_PROCESS				101	// Остановка процесса формирования импульса
