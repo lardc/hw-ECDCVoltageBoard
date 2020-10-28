@@ -225,7 +225,12 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_InProcess)
 				{
-					//
+					// Нормальное завершение
+					if(CONTROL_SubState == SS_PulseProcess)
+						CONTROL_ForceRegulatorStop(PROBLEM_NONE);
+					// Принудительная остановка
+					else if(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection)
+						CONTROL_ForceRegulatorStop(PROBLEM_FORCED_STOP);
 				}
 				else
 					*pUserError = ERR_OPERATION_BLOCKED;

@@ -261,6 +261,7 @@
 #define PROBLEM_NONE					0
 #define PROBLEM_FOLLOWING_ERROR			1	// Ошибка регулирования
 #define PROBLEM_VI_LIMIT				2	// Превышение установленного лимита по току или напряжению
+#define PROBLEM_FORCED_STOP				3	// Принудительная остановка в некорректном подсостоянии
 
 //  Warning
 #define WARNING_NONE					0
