@@ -46,6 +46,7 @@ void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
 void CONTROL_PulseControl();
 void CONTROL_StartRegulator(bool State);
+bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent);
 
 // Functions
 //
@@ -329,6 +330,15 @@ void CONTROL_ForceRegulatorStop(uint16_t Problem)
 	LL_SetStateExtLed(false);
 
 	CONTROL_SetDeviceState(DS_InProcess, SS_RequestStop);
+}
+//------------------------------------------
+
+bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent)
+{
+	if(Config.OutputType == Voltage)
+		return SampledCurrent > Config.CurrentSetpoint;
+	else
+		return SampledVoltage > Config.VoltageSetpoint;
 }
 //------------------------------------------
 
