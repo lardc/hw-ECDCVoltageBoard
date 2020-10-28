@@ -294,6 +294,17 @@ void CONTROL_PulseControl()
 						if(CONTROL_TimeCounter > Timeout)
 							CONTROL_ForceRegulatorStop(PROBLEM_NONE);
 					}
+
+					float LastVoltage = REGULATOR_GetLastSampleVoltage();
+					float LastCurrent = REGULATOR_GetLastSampleCurrent();
+					if(CONTROL_ConfiguredLimitReached(LastVoltage, LastCurrent))
+						CONTROL_ForceRegulatorStop(PROBLEM_VI_LIMIT);
+				}
+				break;
+
+			case SS_RequestStop:
+				{
+
 				}
 				break;
 
