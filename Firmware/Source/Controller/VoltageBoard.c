@@ -35,7 +35,7 @@ bool VB_CacheParameters(ControllerConfig *Config)
 	result &= Config->VoltageSetpoint >= VB_VOUT_MIN && Config->VoltageSetpoint <= VB_VOUT_MAX;
 	result &= Config->CurrentSetpoint >= VB_IOUT_MIN && Config->CurrentSetpoint <= VB_IOUT_MAX;
 	// Провекра границы напряжения для режима источника тока
-	if(Config->OutputType == Current)
+	if(Config->OutputType == OT_Current)
 		result &= Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT];
 
 	return result;
@@ -45,7 +45,7 @@ bool VB_CacheParameters(ControllerConfig *Config)
 void VB_ConfigVoltageChannel(ControllerConfig *Config)
 {
 	// Режим источника напряжения
-	if(Config->OutputType == Voltage)
+	if(Config->OutputType == OT_Voltage)
 	{
 		// Параметры канала напряжения
 		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE1_LIMIT])
@@ -147,7 +147,7 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 	}
 
 	// Режим источника тока
-	if(Config->OutputType == Current)
+	if(Config->OutputType == OT_Current)
 	{
 		REGULATOR_ActivateCurrent(&MEASURE_WriteCurrentLV);
 		REGULATOR_SetTargetMax(Config->CurrentSetpoint);
@@ -158,7 +158,7 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 void VB_SetLimitVIOutputs(ControllerConfig *Config)
 {
 	// Режим формирования напряжения
-	if(Config->OutputType == Voltage)
+	if(Config->OutputType == OT_Voltage)
 	{
 		// Низковольтный
 		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])

@@ -276,7 +276,7 @@ void CONTROL_PulseControl()
 				{
 					if(CONTROL_TimeCounter > Timeout)
 					{
-						if(Config.OutputMode == Pulse)
+						if(Config.OutputMode == OM_Pulse)
 							Timeout = CONTROL_TimeCounter + Config.PulseTime;
 						else
 							Timeout = 0;
@@ -335,7 +335,7 @@ void CONTROL_ForceRegulatorStop(uint16_t Problem)
 
 bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent)
 {
-	if(Config.OutputType == Voltage)
+	if(Config.OutputType == OT_Voltage)
 		return SampledCurrent > Config.CurrentSetpoint;
 	else
 		return SampledVoltage > Config.VoltageSetpoint;

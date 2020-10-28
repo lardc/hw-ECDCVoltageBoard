@@ -88,14 +88,14 @@ typedef enum __DCV_OutputLine
 
 typedef enum __DCV_OutputType
 {
-	Voltage = 1,
-	Current = 2
+	OT_Voltage = 1,
+	OT_Current = 2
 } DCV_OutputType;
 
 typedef enum __DCV_OutputMode
 {
-	Pulse = 1,
-	Continuous = 2
+	OM_Pulse = 1,
+	OM_Continuous = 2
 } DCV_OutputMode;
 
 typedef enum __Relay

@@ -163,8 +163,8 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {
 		{DC_BUS_LV, PS2, DC_BUS_LV},												// 128
-		{Voltage, Current, Voltage},												// 129
-		{Pulse, Continuous, Pulse},													// 130
+		{OT_Voltage, OT_Current, OT_Voltage},										// 129
+		{OM_Pulse, OM_Continuous, OM_Pulse},										// 130
 		{PULSE_LENGH_MIN, PULSE_LENGH_MAX, PULSE_LENGH_DEF},						// 131
 		{0, 0, 0},																	// 132
 		{0, 0, 0},																	// 133
