@@ -59,6 +59,8 @@ bool LL_GetStateLineSync2()
 // Управление выходами CTRL
 void LL_UpdateStateCtrls()
 {
+	SPI_InvertClockPolarity(SPI1, false);
+
 	uint32_t i = CTRL_SIZE;
 	while(i--)
 		SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
@@ -96,6 +98,8 @@ void LL_SetStateCtrls(SetCtrls Pin, bool State)
 // Управление выходами RANGE
 void LL_UpdateStateRanges()
 {
+	SPI_InvertClockPolarity(SPI1, false);
+
 	GPIO_SetState(GPIO_SREG_CS, false);
 	SPI_WriteByte8b(SPI1, CONTROL_UnitRanges);
 	GPIO_SetState(GPIO_SREG_CS, true);
@@ -128,6 +132,8 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 
 void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 {
+	SPI_InvertClockPolarity(SPI1, true);
+
 	if(Data > DAC_MAX_RESOLUTION)
 		Data = DAC_MAX_RESOLUTION;
 
