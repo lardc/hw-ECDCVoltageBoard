@@ -291,12 +291,7 @@ void CONTROL_PulseControl()
 					if(Timeout)
 					{
 						if(CONTROL_TimeCounter > Timeout)
-						{
-							CONTROL_StartRegulator(false);
-							LL_SetStateExtLed(false);
-							LL_ResetDACOutputs();
-							CONTROL_SetDeviceState(DS_Ready, SS_None);
-						}
+							CONTROL_ForceRegulatorStop(PROBLEM_NONE);
 					}
 				}
 				break;
@@ -329,8 +324,10 @@ void CONTROL_ForceRegulatorStop(uint16_t Problem)
 {
 	Config.Problem = Problem;
 
-	LL_ResetDACOutputs();
 	CONTROL_StartRegulator(false);
+	LL_ResetDACOutputs();
+	LL_SetStateExtLed(false);
+
 	CONTROL_SetDeviceState(DS_InProcess, SS_RequestStop);
 }
 //------------------------------------------
