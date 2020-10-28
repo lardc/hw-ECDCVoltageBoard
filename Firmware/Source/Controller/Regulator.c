@@ -86,7 +86,7 @@ RegulatorResult REGULATOR_Cycle()
 	if(RelativeError <= ActiveRegulator->OutputReadyThreshold &&
 			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
 	{
-		DataTable[DCV_REG_VOLTAGE_READY] = 1;
+		DataTable[REG_VOLTAGE_READY] = 1;
 	}
 
 	// Формирование возвращаемого результата

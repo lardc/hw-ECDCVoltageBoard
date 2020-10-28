@@ -222,12 +222,12 @@
 #define REG_OP_RESULT					197	// Регистр результата операции
 #define REG_SUB_STATE					198	// Регистр вспомогательного состояния
 
-#define DCV_REG_CURRENT_RESULT			200	// Значение измерения тока (в мкА)
-#define DCV_REG_CURRENT_RESULT_32		201
-#define DCV_REG_VOLTAGE_RESULT			202	// Значение измерения напряжения (в мВ)
-#define DCV_REG_VOLTAGE_RESULT_32		203
+#define REG_CURRENT_RESULT				200	// Значение измерения тока (в мкА)
+#define REG_CURRENT_RESULT_32			201
+#define REG_VOLTAGE_RESULT				202	// Значение измерения напряжения (в мВ)
+#define REG_VOLTAGE_RESULT_32			203
 
-#define DCV_REG_VOLTAGE_READY			205	// Флаг выхода на уставку напряжения
+#define REG_VOLTAGE_READY				205	// Флаг выхода на уставку напряжения
 
 #define REG_EP_LAST_POINTER				250	// Указатель на последий элемент быстрого логгирования
 

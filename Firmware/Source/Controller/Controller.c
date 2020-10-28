@@ -15,6 +15,7 @@
 #include "Diagnostic.h"
 #include "Constraints.h"
 #include "Measurement.h"
+#include "Regulator.h"
 
 // Types
 //
@@ -127,10 +128,10 @@ void CONTROL_ResetEPRegisters()
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
 
-	DataTable[DCV_REG_CURRENT_RESULT] = 0;
-	DataTable[DCV_REG_CURRENT_RESULT_32] = 0;
-	DataTable[DCV_REG_VOLTAGE_RESULT] = 0;
-	DataTable[DCV_REG_VOLTAGE_RESULT_32] = 0;
+	DataTable[REG_CURRENT_RESULT] = 0;
+	DataTable[REG_CURRENT_RESULT_32] = 0;
+	DataTable[REG_VOLTAGE_RESULT] = 0;
+	DataTable[REG_VOLTAGE_RESULT_32] = 0;
 
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
@@ -304,7 +305,34 @@ void CONTROL_PulseControl()
 
 			case SS_RequestStop:
 				{
+					// Раскоммутация
+					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
+					CONTROL_SetDeviceState(DS_InProcess, SS_WaitDisconnection);
+				}
+				break;
 
+			case SS_WaitDisconnection:
+				{
+					if(CONTROL_TimeCounter > Timeout)
+					{
+						if(Config.Problem == PROBLEM_NONE)
+						{
+							DataTable[REG_OP_RESULT] = OPRESULT_OK;
+
+							float LastVoltage = REGULATOR_GetLastSampleVoltage();
+							float LastCurrent = REGULATOR_GetLastSampleCurrent();
+
+							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)LastVoltage);
+							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)LastCurrent);
+						}
+						else
+						{
+							DataTable[REG_PROBLEM] = Config.Problem;
+							DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+						}
+
+						CONTROL_SetDeviceState(DS_Ready, SS_None);
+					}
 				}
 				break;
 
