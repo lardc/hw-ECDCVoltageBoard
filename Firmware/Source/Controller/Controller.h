@@ -23,6 +23,7 @@ typedef enum __DeviceSubState
 	SS_PulseWaitSwitch,
 	SS_PulseWaitOutSet,
 	SS_PulseProcess,
+	SS_RequestStop
 } DeviceSubState;
 
 typedef enum __SetCtrls
@@ -121,6 +122,7 @@ typedef struct __ControllerConfig
 	float HWCurrentLimit;
 	bool VoltageHighRange;
 	bool CurrentHighRange;
+	uint16_t Problem;
 } ControllerConfig, *pControllerConfig;
 
 // Variables
@@ -132,6 +134,7 @@ extern volatile Int64U CONTROL_TimeCounter;
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
+void CONTROL_ForceRegulatorStop(uint16_t Problem);
 void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl);
 
 #endif // __CONTROLLER_H

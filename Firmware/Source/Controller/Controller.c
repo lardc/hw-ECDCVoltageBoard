@@ -325,6 +325,16 @@ void CONTROL_UpdateWatchDog()
 }
 //------------------------------------------
 
+void CONTROL_ForceRegulatorStop(uint16_t Problem)
+{
+	Config.Problem = Problem;
+
+	LL_ResetDACOutputs();
+	CONTROL_StartRegulator(false);
+	CONTROL_SetDeviceState(DS_InProcess, SS_RequestStop);
+}
+//------------------------------------------
+
 void CONTROL_StartRegulator(bool State)
 {
 	State ? TIM_Start(TIM2) : TIM_Stop(TIM2);
