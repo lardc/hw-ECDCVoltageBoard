@@ -115,3 +115,15 @@ void REGULATOR_UpdateSampleValues(float Voltage, float Current)
 	CurrentRegulator.SampleValue = Current;
 }
 // ----------------------------------------
+
+void REGULATOR_GetLastSampleVoltage()
+{
+	return VoltageRegulator.SampleValue;
+}
+// ----------------------------------------
+
+void REGULATOR_GetLastSampleCurrent()
+{
+	return CurrentRegulator.SampleValue;
+}
+// ----------------------------------------
