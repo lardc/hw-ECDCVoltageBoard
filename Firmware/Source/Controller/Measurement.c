@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include "Measurement.h"
 
 // Includes
@@ -86,9 +86,9 @@ uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value, bool D
 {
 	if(DACToCurrent)
 	{
-		// Ток в мкА
-		// Сопротивление в Омах
-		// Напряжение ЦАП в мВ
+		// РўРѕРє РІ РјРєРђ
+		// РЎРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ РІ РћРјР°С…
+		// РќР°РїСЂСЏР¶РµРЅРёРµ Р¦РђРџ РІ РјР’
 		Value *= ShuntResistance * 0.001;
 	}
 	float result = (Value / Storage.K + Storage.Offset) / DAC_REF_VOLTAGE * DAC_MAX_RESOLUTION;
@@ -164,9 +164,9 @@ float MEASURE_ConvertADCToX(ADCConvertParameters Storage, float Value, bool ADCT
 	float tmp = (Value / ADC_MAX_RESOLUTION * ADC_REF_VOLTAGE + Storage.Offset) * Storage.K;
 	if(ADCToCurrent)
 	{
-		// Ток в мкА
-		// Сопротивление в Омах
-		// Напряжение АЦП в мВ
+		// РўРѕРє РІ РјРєРђ
+		// РЎРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ РІ РћРјР°С…
+		// РќР°РїСЂСЏР¶РµРЅРёРµ РђР¦Рџ РІ РјР’
 		tmp = tmp * 1000 / ShuntResistance;
 	}
 	tmp = tmp * tmp * Storage.P2 + tmp * Storage.P1 + Storage.P0;

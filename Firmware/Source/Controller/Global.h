@@ -1,4 +1,4 @@
-#ifndef __GLOBAL_H
+п»ї#ifndef __GLOBAL_H
 #define __GLOBAL_H
 
 // Includes
@@ -6,34 +6,34 @@
 
 // Definitions
 // 
-#define	SCCI_TIMEOUT_TICKS			1000	// Таймаут интерфейса SCCI (в мс)
-#define EP_WRITE_COUNT				0		// Количество массивов для записи
-#define EP_COUNT					5		// Количество массивов для чтения
-#define ENABLE_LOCKING				FALSE	// Защита NV регистров паролем
-#define EP_SIZE						1000	// Размер буферов логгирования
+#define	SCCI_TIMEOUT_TICKS			1000	// РўР°Р№РјР°СѓС‚ РёРЅС‚РµСЂС„РµР№СЃР° SCCI (РІ РјСЃ)
+#define EP_WRITE_COUNT				0		// РљРѕР»РёС‡РµСЃС‚РІРѕ РјР°СЃСЃРёРІРѕРІ РґР»СЏ Р·Р°РїРёСЃРё
+#define EP_COUNT					5		// РљРѕР»РёС‡РµСЃС‚РІРѕ РјР°СЃСЃРёРІРѕРІ РґР»СЏ С‡С‚РµРЅРёСЏ
+#define ENABLE_LOCKING				FALSE	// Р—Р°С‰РёС‚Р° NV СЂРµРіРёСЃС‚СЂРѕРІ РїР°СЂРѕР»РµРј
+#define EP_SIZE						1000	// Р Р°Р·РјРµСЂ Р±СѓС„РµСЂРѕРІ Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ
 
-// Временные параметры
+// Р’СЂРµРјРµРЅРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 //
-#define TIME_LED_BLINK				500		// Мигание светодиодом (в мс)
-#define TIME_DBG_PULSE				1000	// Длительность отладочного импульса (в мс)
-#define TIME_TRANSIENT_DELAY		100		// Задержка коммутации и переходных процессов (в мс)
+#define TIME_LED_BLINK				500		// РњРёРіР°РЅРёРµ СЃРІРµС‚РѕРґРёРѕРґРѕРј (РІ РјСЃ)
+#define TIME_DBG_PULSE				1000	// Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РѕС‚Р»Р°РґРѕС‡РЅРѕРіРѕ РёРјРїСѓР»СЊСЃР° (РІ РјСЃ)
+#define TIME_TRANSIENT_DELAY		100		// Р—Р°РґРµСЂР¶РєР° РєРѕРјРјСѓС‚Р°С†РёРё Рё РїРµСЂРµС…РѕРґРЅС‹С… РїСЂРѕС†РµСЃСЃРѕРІ (РІ РјСЃ)
 
-// Параметры выхода
-#define VB_VOUT_MIN					40			// в мВ
-#define VB_VOUT_MAX					270000		// в мВ
-#define VB_IOUT_MIN					8			// в мкА
-#define VB_IOUT_MAX					110000		// в мкА
+// РџР°СЂР°РјРµС‚СЂС‹ РІС‹С…РѕРґР°
+#define VB_VOUT_MIN					40			// РІ РјР’
+#define VB_VOUT_MAX					270000		// РІ РјР’
+#define VB_IOUT_MIN					8			// РІ РјРєРђ
+#define VB_IOUT_MAX					110000		// РІ РјРєРђ
 
-// Параметры АЦП, ЦАП
+// РџР°СЂР°РјРµС‚СЂС‹ РђР¦Рџ, Р¦РђРџ
 #define DAC_MAX_RESOLUTION			0xFFF
-#define DAC_REF_VOLTAGE				5000		// в мВ
+#define DAC_REF_VOLTAGE				5000		// РІ РјР’
 
 #define ADC_MAX_RESOLUTION			0xFFF
-#define ADC_REF_VOLTAGE				3000		// в мВ
+#define ADC_REF_VOLTAGE				3000		// РІ РјР’
 
 #define ADC_AVG_COUNT				4
 
-// Параметры регулятора
+// РџР°СЂР°РјРµС‚СЂС‹ СЂРµРіСѓР»СЏС‚РѕСЂР°
 #define REGLTR_ERROR_I_SAT_H		10000
 #define REGLTR_PERIOD				TIMER2_uS
 

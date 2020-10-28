@@ -1,4 +1,4 @@
-#ifndef __VOLTAGE_BOARD_H
+﻿#ifndef __VOLTAGE_BOARD_H
 #define __VOLTAGE_BOARD_H
 
 #include "Controller.h"

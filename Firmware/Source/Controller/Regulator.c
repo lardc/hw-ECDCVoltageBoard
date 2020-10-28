@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include "Regulator.h"
 // Include
 #include "Global.h"
@@ -44,12 +44,12 @@ RegulatorResult REGULATOR_Cycle()
 	float Error = ActiveRegulator->TargetValuePrev - ActiveRegulator->SampleValue;
 	float RelativeError = Error / ActiveRegulator->TargetValuePrev;
 
-	// Расчёт интегральной ошибки
+	// Р Р°СЃС‡С‘С‚ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕР№ РѕС€РёР±РєРё
 	if(ActiveRegulator->Ki)
 	{
 		ActiveRegulator->ErrorI += Error;
 
-		// Проверка насыщения
+		// РџСЂРѕРІРµСЂРєР° РЅР°СЃС‹С‰РµРЅРёСЏ
 		if(fabsf(ActiveRegulator->ErrorI) > REGLTR_ERROR_I_SAT_H)
 			ActiveRegulator->ErrorI = (ActiveRegulator->ErrorI > 0) ? REGLTR_ERROR_I_SAT_H : -REGLTR_ERROR_I_SAT_H;
 
@@ -61,19 +61,19 @@ RegulatorResult REGULATOR_Cycle()
 		ControlI = 0;
 	}
 
-	// Корректировка управления
+	// РљРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° СѓРїСЂР°РІР»РµРЅРёСЏ
 	ActiveRegulator->Control = ActiveRegulator->TargetValue + Error * ActiveRegulator->Kp + ControlI;
 	ActiveRegulator->TargetValuePrev = ActiveRegulator->TargetValue;
 
-	// Обновление уставки
+	// РћР±РЅРѕРІР»РµРЅРёРµ СѓСЃС‚Р°РІРєРё
 	ActiveRegulator->TargetValue += ActiveRegulator->RiseRate;
 	if(ActiveRegulator->TargetValue > ActiveRegulator->TargetMax)
 		ActiveRegulator->TargetValue = ActiveRegulator->TargetMax;
 
-	// Применение значения
+	// РџСЂРёРјРµРЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ
 	uint16_t RawControl = ActiveRegulator->SetControl(ActiveRegulator->Control);
 
-	// Проверка срабатывания ошибки
+	// РџСЂРѕРІРµСЂРєР° СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ РѕС€РёР±РєРё
 	if(ActiveRegulator->FEActive)
 	{
 		if(RelativeError > ActiveRegulator->FEThreshold)
@@ -82,14 +82,14 @@ RegulatorResult REGULATOR_Cycle()
 			ActiveRegulator->FECounter = 0;
 	}
 
-	// Проверка условия готовности выхода
+	// РџСЂРѕРІРµСЂРєР° СѓСЃР»РѕРІРёСЏ РіРѕС‚РѕРІРЅРѕСЃС‚Рё РІС‹С…РѕРґР°
 	if(RelativeError <= ActiveRegulator->OutputReadyThreshold &&
 			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
 	{
 		DataTable[REG_VOLTAGE_READY] = 1;
 	}
 
-	// Формирование возвращаемого результата
+	// Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РІРѕР·РІСЂР°С‰Р°РµРјРѕРіРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°
 	result.RawControl = RawControl;
 	result.Control = ActiveRegulator->Control;
 	result.Setpoint = ActiveRegulator->TargetValuePrev;

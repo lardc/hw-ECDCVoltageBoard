@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include "VoltageBoard.h"
 
 // Includes
@@ -31,10 +31,10 @@ bool VB_CacheParameters(ControllerConfig *Config)
 	Config->CurrentHighRange = (Config->CurrentSetpoint > DataTable[REG_I_RANGE3_LIMIT]);
 
 	bool result = true;
-	// Проверка границ тока и напряжения
+	// РџСЂРѕРІРµСЂРєР° РіСЂР°РЅРёС† С‚РѕРєР° Рё РЅР°РїСЂСЏР¶РµРЅРёСЏ
 	result &= Config->VoltageSetpoint >= VB_VOUT_MIN && Config->VoltageSetpoint <= VB_VOUT_MAX;
 	result &= Config->CurrentSetpoint >= VB_IOUT_MIN && Config->CurrentSetpoint <= VB_IOUT_MAX;
-	// Провекра границы напряжения для режима источника тока
+	// РџСЂРѕРІРµРєСЂР° РіСЂР°РЅРёС†С‹ РЅР°РїСЂСЏР¶РµРЅРёСЏ РґР»СЏ СЂРµР¶РёРјР° РёСЃС‚РѕС‡РЅРёРєР° С‚РѕРєР°
 	if(Config->OutputType == OT_Current)
 		result &= Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT];
 
@@ -44,10 +44,10 @@ bool VB_CacheParameters(ControllerConfig *Config)
 
 void VB_ConfigVoltageChannel(ControllerConfig *Config)
 {
-	// Режим источника напряжения
+	// Р РµР¶РёРј РёСЃС‚РѕС‡РЅРёРєР° РЅР°РїСЂСЏР¶РµРЅРёСЏ
 	if(Config->OutputType == OT_Voltage)
 	{
-		// Параметры канала напряжения
+		// РџР°СЂР°РјРµС‚СЂС‹ РєР°РЅР°Р»Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ
 		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE1_LIMIT])
 		{
 			LL_SelectRgK12();
@@ -72,7 +72,7 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 		else
 		{
 			LL_SelectRg720K();
-			// (?) Фиктивное переключение низковольтного канала
+			// (?) Р¤РёРєС‚РёРІРЅРѕРµ РїРµСЂРµРєР»СЋС‡РµРЅРёРµ РЅРёР·РєРѕРІРѕР»СЊС‚РЅРѕРіРѕ РєР°РЅР°Р»Р°
 			LL_SelectVOutMax20V0();
 			MEASURE_CacheConvertParametersV4();
 			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageHV);
@@ -84,7 +84,7 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 		else
 			LL_SelectAdcSrcHV();
 	}
-	// Режим источника тока
+	// Р РµР¶РёРј РёСЃС‚РѕС‡РЅРёРєР° С‚РѕРєР°
 	else
 	{
 		LL_SelectRg720K();
@@ -157,7 +157,7 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 	else
 		LL_SelectAdcSrcIHV();
 
-	// Режим источника тока
+	// Р РµР¶РёРј РёСЃС‚РѕС‡РЅРёРєР° С‚РѕРєР°
 	if(Config->OutputType == OT_Current)
 	{
 		REGULATOR_ActivateCurrent(&MEASURE_WriteCurrentLV);
@@ -168,16 +168,16 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 
 void VB_SetLimitVIOutputs(ControllerConfig *Config)
 {
-	// Режим формирования напряжения
+	// Р РµР¶РёРј С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ
 	if(Config->OutputType == OT_Voltage)
 	{
-		// Низковольтный
+		// РќРёР·РєРѕРІРѕР»СЊС‚РЅС‹Р№
 		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
 			MEASURE_WriteCurrentLV(Config->HWCurrentLimit);
 		else
 			MEASURE_WriteCurrentHV(Config->HWCurrentLimit);
 	}
-	// Режим формирования тока
+	// Р РµР¶РёРј С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ С‚РѕРєР°
 	else
 		MEASURE_WriteVoltageLV(DataTable[REG_V_RANGE3_LIMIT]);
 }
