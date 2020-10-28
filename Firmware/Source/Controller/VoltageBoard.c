@@ -78,6 +78,11 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageHV);
 		}
 		REGULATOR_SetTargetMax(Config->VoltageSetpoint);
+
+		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
+			LL_SelectAdcSrcVLV();
+		else
+			LL_SelectAdcSrcHV();
 	}
 	// Режим источника тока
 	else
@@ -85,6 +90,7 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 		LL_SelectRg720K();
 		LL_SelectVOutMax20V0();
 		MEASURE_CacheConvertParametersV3();
+		LL_SelectAdcSrcVLV();
 	}
 }
 //------------------------------------------
@@ -145,6 +151,11 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 			 LL_SelectHV_R4();
 		}
 	}
+
+	if(LowVoltageMode)
+		LL_SelectAdcSrcILV();
+	else
+		LL_SelectAdcSrcIHV();
 
 	// Режим источника тока
 	if(Config->OutputType == OT_Current)
