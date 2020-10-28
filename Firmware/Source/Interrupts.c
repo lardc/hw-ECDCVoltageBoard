@@ -44,6 +44,9 @@ void TIM2_IRQHandler()
 		RegulatorResult Result = REGULATOR_Cycle();
 		CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl);
 
+		if(Result.FollowingError)
+			CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR);
+
 		TIM_StatusClear(TIM2);
 	}
 }

@@ -16,6 +16,8 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config);
 // Functions
 bool VB_CacheParameters(ControllerConfig *Config)
 {
+	Config->Problem = PROBLEM_NONE;
+
 	Config->OutputLine = DataTable[DCV_REG_OUTPUT_LINE];
 	Config->OutputType = DataTable[DCV_REG_OUTPUT_TYPE];
 	Config->OutputMode = DataTable[DCV_REG_OUTPUT_MODE];
