@@ -21,7 +21,7 @@ void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_SetTargetMax(float TargetMaxValue);
 void REGULATOR_UpdateSampleValues(float Voltage, float Current);
-void REGULATOR_GetLastSampleVoltage();
-void REGULATOR_GetLastSampleCurrent();
+float REGULATOR_GetLastSampleVoltage();
+float REGULATOR_GetLastSampleCurrent();
 
 #endif // __REGULATOR_H
