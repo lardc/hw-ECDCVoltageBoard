@@ -190,7 +190,13 @@
 #define REG_CURRENT_KI					116	// Интегральный коэффициент регулятора тока
 #define REG_CURRENT_RISE_RATE			117	// Скорость нарастания тока (мА / мс)
 
-// 118 - 127
+#define REG_OUTPUT_READY_THR			118	// Допустимая погрешность готовности выходного сигнала (в %)
+
+#define REG_ENABLE_FE					119	// Разрешение мониторинга FollowingError
+#define REG_FE_COUNTER_MAX				120	// Максимальное значение счётчика мониторинга FollowingError
+#define REG_FE_TRIG_LEVEL				121	// Уровень срабатывания FollowingError
+
+// 122 - 127
 
 // Несохраняемые регистры чтения-записи
 #define DCV_REG_OUTPUT_LINE				128	// Линия подачи выходного напряжения

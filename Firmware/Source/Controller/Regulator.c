@@ -18,6 +18,11 @@ typedef struct __RegulatorSettings
 	float Kp;
 	float Ki;
 	float Control;
+	float OutputReadyThreshold;
+	bool FEActive;
+	uint16_t FECounter;
+	uint16_t FECounterMax;
+	float FEThreshold;
 	FUNC_CallbackSetControl SetControl;
 } RegulatorSettings, *pRegulatorSettings;
 
@@ -37,6 +42,7 @@ RegulatorResult REGULATOR_Cycle()
 
 	float ControlI = 0;
 	float Error = ActiveRegulator->TargetValuePrev - ActiveRegulator->SampleValue;
+	float RelativeError = Error / ActiveRegulator->TargetValuePrev;
 
 	// Расчёт интегральной ошибки
 	if(ActiveRegulator->Ki)
@@ -65,9 +71,29 @@ RegulatorResult REGULATOR_Cycle()
 		ActiveRegulator->TargetValue = ActiveRegulator->TargetMax;
 
 	// Применение значения
-	result.RawControl = ActiveRegulator->SetControl(ActiveRegulator->Control);
+	uint16_t RawControl = ActiveRegulator->SetControl(ActiveRegulator->Control);
+
+	// Проверка срабатывания ошибки
+	if(ActiveRegulator->FEActive)
+	{
+		if(RelativeError > ActiveRegulator->FEThreshold)
+			ActiveRegulator->FECounter++;
+		else
+			ActiveRegulator->FECounter = 0;
+	}
+
+	// Проверка условия готовности выхода
+	if(RelativeError <= ActiveRegulator->OutputReadyThreshold &&
+			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
+	{
+		DataTable[DCV_REG_VOLTAGE_READY] = 1;
+	}
+
+	// Формирование возвращаемого результата
+	result.RawControl = RawControl;
 	result.Control = ActiveRegulator->Control;
 	result.Setpoint = ActiveRegulator->TargetValuePrev;
+	result.FollowingError = (ActiveRegulator->FECounter >= ActiveRegulator->FECounterMax);
 
 	return result;
 }
@@ -80,6 +106,13 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 	ActiveRegulator->Ki = (float)DataTable[RegI] / 1000;
 	ActiveRegulator->SetControl = ControlFunction;
 	ActiveRegulator->RiseRate = (float)DataTable[RiseRateReg] * REGLTR_PERIOD / 1000;
+
+	ActiveRegulator->OutputReadyThreshold = (float)DataTable[REG_OUTPUT_READY_THR] / 100;
+
+	ActiveRegulator->FEActive = DataTable[REG_ENABLE_FE];
+	ActiveRegulator->FECounter = 0;
+	ActiveRegulator->FECounterMax = DataTable[REG_FE_COUNTER_MAX];
+	ActiveRegulator->FEThreshold = (float)DataTable[REG_FE_TRIG_LEVEL] / 100;
 
 	ActiveRegulator->Control = 0;
 	ActiveRegulator->ErrorI = 0;

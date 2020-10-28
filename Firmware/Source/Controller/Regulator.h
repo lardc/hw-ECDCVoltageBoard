@@ -12,6 +12,7 @@ typedef struct __RegulatorResult
 	float Setpoint;
 	float Control;
 	uint16_t RawControl;
+	bool FollowingError;
 } RegulatorResult, *pRegulatorResult;
 
 // Functions

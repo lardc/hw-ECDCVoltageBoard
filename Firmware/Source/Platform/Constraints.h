@@ -50,9 +50,23 @@
 #define RISE_RATE_DEF		100
 
 // в мс
-#define PULSE_LENGH_MIN			5
-#define PULSE_LENGH_MAX			100
-#define PULSE_LENGH_DEF			10
+#define PULSE_LENGH_MIN		5
+#define PULSE_LENGH_MAX		500
+#define PULSE_LENGH_DEF		10
+
+// в %
+#define OUTPUT_READY_MIN	1
+#define OUTPUT_READY_MAX	10
+#define OUTPUT_READY_DEF	3
+
+#define FE_COUNTER_MIN		1
+#define FE_COUNTER_MAX		10
+#define FE_COUNTER_DEF		5
+
+// в %
+#define FE_TRIG_LEVEL_MIN	1
+#define FE_TRIG_LEVEL_MAX	30
+#define FE_TRIG_LEVEL_DEF	10
 
 // Types
 typedef struct __TableItemConstraint
