@@ -44,10 +44,10 @@ typedef enum __SetCtrls
 	RLC_CTRL2,				//@CS2.1	//PS1
 	RLC_CTRL3,				//@CS2.2	//PS2
 	RLC_CTRL4,				//@CS2.3	//CTRL1
-	RLC_CTRL5,				//@CS2.4	//POT
-	RLC_CTRL6,				//@CS2.5	//POT_CTRL
-	RLC_CTRL7,				//@CS2.6	//POT+ LV|LH
-	PT_SENS_EN,				//@CS2.7	//POT- LV|LH
+	RLC_CTRL5,				//@CS2.4	//
+	RLC_CTRL6,				//@CS2.5	//
+	PT_CTRL_SENS_EN,		//@CS2.6	//
+	PT_SENS_EN,				//@CS2.7	//
 //-2-
 	LV_HV_CTRL2,			//@CS3.0	//low: [LV-] connect, high: [HV-]
 	LV_HV_CTRL1,			//@CS3.1	//low: [LV+] connect, high: [HV+]
@@ -106,8 +106,7 @@ typedef enum __Relay
 	RELAY_PS2,
 	RELAY_CTRL,
 	RELAY_POT,
-	RELAY_POT_CTRLN,
-	RELAY_POT_CTRLP,
+	RELAY_POT_CTRL,
 	RELAY_LV_HV_CTRL1,
 	RELAY_LV_HV_CTRL2
 } Relay;

@@ -134,8 +134,8 @@ void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 {
 	SPI_InvertClockPolarity(SPI1, true);
 
-	if(Data > DAC_MAX_RESOLUTION)
-		Data = DAC_MAX_RESOLUTION;
+	if((Data&0xfff) > DAC_MAX_RESOLUTION)
+		Data = (Data&0x8000) | DAC_MAX_RESOLUTION;
 
 	GPIO_SetState(GPIO_DAC_CS, false);
 	SPI_WriteByte8b(SPI1, (Data >> 8) & 0xff);
@@ -257,6 +257,7 @@ void LL_SelectAdcSrcVLV()
 	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, false);
 	LL_SetStateCtrls(PT_SENS_EN, false);
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
 	//
 	LL_SetStateCtrls(LV_SENS_EN, true);
 }
@@ -267,6 +268,7 @@ void LL_SelectAdcSrcHV()
 	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, false);
 	LL_SetStateCtrls(PT_SENS_EN, false);
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
 	//
 	LL_SetStateCtrls(HV_SENS_EN, true);
 }
@@ -277,16 +279,29 @@ void LL_SelectAdcSrcPT()
 	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, false);
 	LL_SetStateCtrls(PT_SENS_EN, false);
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
 	//
 	LL_SetStateCtrls(PT_SENS_EN, true);
 }
 //-----------------------------
 
+void LL_SelectAdcSrcPTCtrl()
+{
+	LL_SetStateCtrls(LV_SENS_EN, false);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(PT_SENS_EN, false);
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
+	//
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, true);
+}
+//-----------------------------
+
 void LL_SelectAdcSrcNO()
 {
-	LL_SetStateCtrls(LV_SENS_EN, true);
-	LL_SetStateCtrls(HV_SENS_EN, true);
-	LL_SetStateCtrls(PT_SENS_EN, true);
+	LL_SetStateCtrls(LV_SENS_EN, false);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(PT_SENS_EN, false);
+	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
 }
 //-----------------------------
 
@@ -396,15 +411,9 @@ void LL_RelayCtrls(uint16_t Relay, bool State)
 			}
 			break;
 
-		case RELAY_POT_CTRLN:
+		case RELAY_POT_CTRL:
 			{
 				LL_SetStateCtrls(RLC_CTRL6, State);
-			}
-			break;
-
-		case RELAY_POT_CTRLP:
-			{
-				LL_SetStateCtrls(RLC_CTRL7, State);
 			}
 			break;
 

@@ -192,20 +192,21 @@ void VB_RelayCommutation(ControllerConfig *Config)
 	LL_RelayCtrls(RELAY_CTRL, false);
 
 	//POT_CTRL+-
-	LL_RelayCtrls(RELAY_POT_CTRLN, false);
-	LL_RelayCtrls(RELAY_POT_CTRLP, false);
+	LL_RelayCtrls(RELAY_POT_CTRL, false);
 
 	if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
 	{
 		LL_RelayCtrls(RELAY_LV_HV_CTRL1, false);
 		LL_RelayCtrls(RELAY_LV_HV_CTRL2, false);
 		LL_RelayCtrls(RELAY_POT, false);
+		LL_RelayCtrls(RELAY_POT_CTRL, false);
 	}
 	else
 	{
 		LL_RelayCtrls(RELAY_LV_HV_CTRL1, true);
 		LL_RelayCtrls(RELAY_LV_HV_CTRL2, true);
 		LL_RelayCtrls(RELAY_POT, true);
+		LL_RelayCtrls(RELAY_POT_CTRL, true);
 	}
 
 	LL_RelayCtrls(Config->OutputLine, true);

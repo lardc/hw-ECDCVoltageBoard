@@ -41,6 +41,7 @@ void LL_SelectRsNone();
 void LL_SelectAdcSrcVLV();
 void LL_SelectAdcSrcHV();
 void LL_SelectAdcSrcPT();
+void LL_SelectAdcSrcPTCtrl();
 void LL_SelectAdcSrcNO();
 
 void LL_SelectRgK12();
