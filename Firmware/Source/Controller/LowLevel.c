@@ -132,7 +132,7 @@ void LL_SetStateRanges(SetRanges Pin, bool State)
 
 void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 {
-	SPI_InvertClockPolarity(SPI1, true);
+	//SPI_InvertClockPolarity(SPI1, true);
 
 	if((Data&0xfff) > DAC_MAX_RESOLUTION)
 		Data = (Data&0x8000) | DAC_MAX_RESOLUTION;
@@ -144,9 +144,9 @@ void LL_WriteDACx(uint16_t Data, GPIO_PortPinSetting GPIO_LDACx)
 	DELAY_US(1);
 
 	GPIO_SetState(GPIO_LDACx, false);
-	DELAY_US(1);
+	DELAY_US(10);
 	GPIO_SetState(GPIO_LDACx, true);
-	DELAY_US(1);
+	DELAY_US(10);
 }
 //-----------------------------
 
