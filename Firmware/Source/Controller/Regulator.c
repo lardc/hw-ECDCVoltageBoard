@@ -29,8 +29,11 @@ typedef struct __RegulatorSettings
 // Variables
 static RegulatorSettings VoltageRegulator, CurrentRegulator;
 static pRegulatorSettings ActiveRegulator;
+static VIPair AverageResult[REGLTR_AVERAGE_RESULT_NUM];
+static uint16_t AverageCounter = 0;
 
 // Forward functions
+void REGULATOR_SaveSample(float Voltage, float Current);
 void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetControl ControlFunction,
 		uint16_t RegP, uint16_t RegI, uint16_t RiseRateReg);
 
@@ -119,6 +122,8 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 	ActiveRegulator->TargetValue = 0;
 	ActiveRegulator->TargetValuePrev = 0;
 	ActiveRegulator->TargetMax = 0;
+
+	AverageCounter = 0;
 }
 // ----------------------------------------
 
@@ -146,17 +151,37 @@ void REGULATOR_UpdateSampleValues(float Voltage, float Current)
 {
 	VoltageRegulator.SampleValue = Voltage;
 	CurrentRegulator.SampleValue = Current;
+
+	REGULATOR_SaveSample(Voltage, Current);
 }
 // ----------------------------------------
 
-float REGULATOR_GetLastSampleVoltage()
+VIPair REGULATOR_GetSampleResult()
 {
-	return VoltageRegulator.SampleValue;
+	VIPair Result;
+	float AvgVoltage = 0, AvgCurrent = 0;
+
+	for(uint16_t i = 0; i < AverageCounter; ++i)
+	{
+		AvgVoltage += AverageResult[i].Voltage;
+		AvgCurrent += AverageResult[i].Current;
+	}
+
+	Result.Voltage = AvgVoltage / AverageCounter;
+	Result.Current = AvgCurrent / AverageCounter;
+	return Result;
 }
 // ----------------------------------------
 
-float REGULATOR_GetLastSampleCurrent()
+void REGULATOR_SaveSample(float Voltage, float Current)
 {
-	return CurrentRegulator.SampleValue;
+	for(uint16_t i = (REGLTR_AVERAGE_RESULT_NUM - 1); i >= 1; --i)
+		AverageResult[i] = AverageResult[i - 1];
+
+	AverageResult[0].Voltage = Voltage;
+	AverageResult[0].Current = Current;
+
+	if(AverageCounter < REGLTR_AVERAGE_RESULT_NUM)
+		++AverageCounter;
 }
 // ----------------------------------------

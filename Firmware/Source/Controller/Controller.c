@@ -301,9 +301,8 @@ void CONTROL_PulseControl()
 							CONTROL_ForceRegulatorStop(PROBLEM_NONE);
 					}
 
-					float LastVoltage = REGULATOR_GetLastSampleVoltage();
-					float LastCurrent = REGULATOR_GetLastSampleCurrent();
-					if(CONTROL_ConfiguredLimitReached(LastVoltage, LastCurrent))
+					VIPair SampleResult = REGULATOR_GetSampleResult();
+					if(CONTROL_ConfiguredLimitReached(SampleResult.Voltage, SampleResult.Current))
 						CONTROL_ForceRegulatorStop(PROBLEM_VI_LIMIT);
 				}
 				break;
@@ -324,11 +323,9 @@ void CONTROL_PulseControl()
 						{
 							DataTable[REG_OP_RESULT] = OPRESULT_OK;
 
-							float LastVoltage = REGULATOR_GetLastSampleVoltage();
-							float LastCurrent = REGULATOR_GetLastSampleCurrent();
-
-							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)LastVoltage);
-							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)LastCurrent);
+							VIPair SampleResult = REGULATOR_GetSampleResult();
+							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)SampleResult.Voltage);
+							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)SampleResult.Current);
 						}
 						else
 						{

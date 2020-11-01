@@ -15,6 +15,12 @@ typedef struct __RegulatorResult
 	bool FollowingError;
 } RegulatorResult, *pRegulatorResult;
 
+typedef struct __VIPair
+{
+	float Voltage;
+	float Current;
+} VIPair, *pVIPair;
+
 // Functions
 //
 RegulatorResult REGULATOR_Cycle();
@@ -22,7 +28,6 @@ void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_SetTargetMax(float TargetMaxValue);
 void REGULATOR_UpdateSampleValues(float Voltage, float Current);
-float REGULATOR_GetLastSampleVoltage();
-float REGULATOR_GetLastSampleCurrent();
+VIPair REGULATOR_GetSampleResult();
 
 #endif // __REGULATOR_H
