@@ -17,6 +17,7 @@
 #define SENSOR_LV	1
 #define SENSOR_HV	2
 #define SENSOR_PT	3
+#define SENSOR_PT_CTRL	4
 
 #define SENSOR_I_LV	0
 #define SENSOR_I_HV	1

@@ -117,6 +117,7 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 		case ACT_DBG_SELECT_LV_CTRLS:
 			{
 				DBGACT_SelectLVCtrls();
+				DBGACT_SelectVRange();
 			}
 			break;
 

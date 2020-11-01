@@ -117,6 +117,9 @@ void DBGACT_SelectVSensSrc()
 		case SENSOR_PT:
 			LL_SelectAdcSrcPT();
 			break;
+		case SENSOR_PT_CTRL:
+			LL_SelectAdcSrcPTCtrl();
+			break;
 		case SENSOR_NO:
 			LL_SelectAdcSrcNO();
 			break;
