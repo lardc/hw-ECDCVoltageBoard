@@ -30,7 +30,8 @@ typedef struct __RegulatorSettings
 static RegulatorSettings VoltageRegulator, CurrentRegulator;
 static pRegulatorSettings ActiveRegulator;
 static VIPair AverageResult[REGLTR_AVERAGE_RESULT_NUM];
-static uint16_t AverageCounter = 0;
+static uint16_t AverageCounter, AverageResultCounter;
+static bool OutputReady;
 
 // Forward functions
 void REGULATOR_SaveSample(float Voltage, float Current);
@@ -85,12 +86,20 @@ RegulatorResult REGULATOR_Cycle()
 			ActiveRegulator->FECounter = 0;
 	}
 
-	// Проверка условия готовности выхода
+	// Проверка условия запуска усреднения
 	if(RelativeError <= ActiveRegulator->OutputReadyThreshold &&
 			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
 	{
-		DataTable[REG_VOLTAGE_READY] = 1;
+		OutputReady = true;
 	}
+
+	// Сбор результатов измерения
+	if(OutputReady && AverageResultCounter < REGLTR_AVERAGE_RESULT_NUM)
+		++AverageResultCounter;
+
+	// Проверка готовности значений
+	if(OutputReady && AverageResultCounter >= REGLTR_AVERAGE_RESULT_NUM)
+		DataTable[REG_VOLTAGE_READY] = 1;
 
 	// Формирование возвращаемого результата
 	result.RawControl = RawControl;
@@ -123,7 +132,8 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 	ActiveRegulator->TargetValuePrev = 0;
 	ActiveRegulator->TargetMax = 0;
 
-	AverageCounter = 0;
+	AverageCounter = AverageResultCounter = 0;
+	OutputReady = false;
 }
 // ----------------------------------------
 
