@@ -71,8 +71,8 @@ void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, 
 	{
 		ScopeLogStep = 0;
 
-		CONTROL_IMeasure[LocalCounter] = Current * (Config.CurrentHighRange) ? 0.001 : 1;
-		CONTROL_VMeasure[LocalCounter] = Voltage * (Config.VoltageHighRange) ? 0.001 : 1;
+		CONTROL_IMeasure[LocalCounter] = Current * ((Config.CurrentHighRange) ? 0.001 : 1);
+		CONTROL_VMeasure[LocalCounter] = Voltage * ((Config.VoltageHighRange) ? 0.001 : 1);
 		CONTROL_Setpoint[LocalCounter] = Setpoint * ControlScale;
 		CONTROL_Control[LocalCounter] = Control * ControlScale;
 		CONTROL_RawControl[LocalCounter] = RawControl;
