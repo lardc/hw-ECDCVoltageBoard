@@ -133,6 +133,8 @@ void CONTROL_ResetEPRegisters()
 	DataTable[REG_VOLTAGE_RESULT] = 0;
 	DataTable[REG_VOLTAGE_RESULT_32] = 0;
 
+	DataTable[REG_VOLTAGE_READY] = 0;
+
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 }
