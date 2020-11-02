@@ -44,10 +44,10 @@
 #define KPI_MAX				10000
 #define KPI_DEF				0
 
-// в (мА / мс) или (мВ / мс)
-#define RISE_RATE_MIN		1
-#define RISE_RATE_MAX		10000
-#define RISE_RATE_DEF		100
+// в мс х10
+#define RISE_FRONT_MIN		1
+#define RISE_FRONT_MAX		100
+#define RISE_FRONT_DEF		10
 
 // в мс
 #define PULSE_LENGH_MIN		5

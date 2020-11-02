@@ -141,11 +141,11 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 
 		{KPI_MIN, KPI_MAX, KPI_DEF},												// 112
 		{KPI_MIN, KPI_MAX, KPI_DEF},												// 113
-		{RISE_RATE_MIN, RISE_RATE_MAX, RISE_RATE_DEF},								// 114
+		{RISE_FRONT_MIN, RISE_FRONT_MAX, RISE_FRONT_DEF},							// 114
 
 		{KPI_MIN, KPI_MAX, KPI_DEF},												// 115
 		{KPI_MIN, KPI_MAX, KPI_DEF},												// 116
-		{RISE_RATE_MIN, RISE_RATE_MAX, RISE_RATE_DEF},								// 117
+		{RISE_FRONT_MIN, RISE_FRONT_MAX, RISE_FRONT_DEF},							// 117
 
 		{OUTPUT_READY_MIN, OUTPUT_READY_MAX, OUTPUT_READY_DEF},						// 118
 

@@ -10,7 +10,8 @@
 typedef struct __RegulatorSettings
 {
 	float TargetMax;
-	float RiseRate;
+	float RiseStep;
+	float RiseFrontLength;
 	float TargetValue;
 	float TargetValuePrev;
 	float SampleValue;
@@ -36,7 +37,7 @@ static bool OutputReady;
 // Forward functions
 void REGULATOR_SaveSample(float Voltage, float Current);
 void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetControl ControlFunction,
-		uint16_t RegP, uint16_t RegI, uint16_t RiseRateReg);
+		uint16_t RegP, uint16_t RegI, uint16_t RiseFrontReg);
 
 // Functions
 //
@@ -47,6 +48,10 @@ RegulatorResult REGULATOR_Cycle()
 	float ControlI = 0;
 	float Error = ActiveRegulator->TargetValuePrev - ActiveRegulator->SampleValue;
 	float RelativeError = Error / ActiveRegulator->TargetValuePrev;
+
+	// Настройка шага нарастания при первом запуске
+	if(ActiveRegulator->RiseStep == 0)
+		ActiveRegulator->RiseStep = (ActiveRegulator->TargetMax / ActiveRegulator->RiseFrontLength * REGLTR_PERIOD) / 1000;
 
 	// Расчёт интегральной ошибки
 	if(ActiveRegulator->Ki)
@@ -70,7 +75,7 @@ RegulatorResult REGULATOR_Cycle()
 	ActiveRegulator->TargetValuePrev = ActiveRegulator->TargetValue;
 
 	// Обновление уставки
-	ActiveRegulator->TargetValue += ActiveRegulator->RiseRate;
+	ActiveRegulator->TargetValue += ActiveRegulator->RiseStep;
 	if(ActiveRegulator->TargetValue > ActiveRegulator->TargetMax)
 		ActiveRegulator->TargetValue = ActiveRegulator->TargetMax;
 
@@ -112,12 +117,13 @@ RegulatorResult REGULATOR_Cycle()
 // ----------------------------------------
 
 void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetControl ControlFunction,
-		uint16_t RegP, uint16_t RegI, uint16_t RiseRateReg)
+		uint16_t RegP, uint16_t RegI, uint16_t RiseFrontReg)
 {
 	ActiveRegulator->Kp = (float)DataTable[RegP] / 1000;
 	ActiveRegulator->Ki = (float)DataTable[RegI] / 1000;
 	ActiveRegulator->SetControl = ControlFunction;
-	ActiveRegulator->RiseRate = (float)DataTable[RiseRateReg] * REGLTR_PERIOD / 1000;
+	ActiveRegulator->RiseFrontLength = (float)DataTable[RiseFrontReg] / 10;
+	ActiveRegulator->RiseStep = 0;
 
 	ActiveRegulator->OutputReadyThreshold = (float)DataTable[REG_OUTPUT_READY_THR] / 100;
 
@@ -140,14 +146,14 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction)
 {
 	ActiveRegulator = &VoltageRegulator;
-	REGULATOR_ActivateX(ActiveRegulator, ControlFunction, REG_VOLTAGE_KP, REG_VOLTAGE_KI, REG_VOLTAGE_RISE_RATE);
+	REGULATOR_ActivateX(ActiveRegulator, ControlFunction, REG_VOLTAGE_KP, REG_VOLTAGE_KI, REG_VOLTAGE_RISE_FRONT_LEN);
 }
 // ----------------------------------------
 
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction)
 {
 	ActiveRegulator = &CurrentRegulator;
-	REGULATOR_ActivateX(ActiveRegulator, ControlFunction, REG_CURRENT_KP, REG_CURRENT_KI, REG_CURRENT_RISE_RATE);
+	REGULATOR_ActivateX(ActiveRegulator, ControlFunction, REG_CURRENT_KP, REG_CURRENT_KI, REG_CURRENT_RISE_FRONT_LEN);
 }
 // ----------------------------------------
 
