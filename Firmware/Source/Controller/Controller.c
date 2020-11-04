@@ -57,10 +57,10 @@ void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, 
 	float ControlScale = 1;
 
 	// Выбор масштаба для данных регулятора
-	if((Config.CurrentHighRange && Config.OutputType == Current) ||
-		(Config.VoltageHighRange && Config.OutputType == Voltage))
+	if((Config.CurrentHighRange && Config.OutputType == OT_Current) ||
+		(Config.VoltageHighRange && Config.OutputType == OT_Voltage))
 	{
-		ControlScale = 0.001;
+		ControlScale = 0.1;
 	}
 
 	// Сброс локального счётчика в начале логгирования
@@ -71,8 +71,8 @@ void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, 
 	{
 		ScopeLogStep = 0;
 
-		CONTROL_IMeasure[LocalCounter] = Current * ((Config.CurrentHighRange) ? 0.001 : 1);
-		CONTROL_VMeasure[LocalCounter] = Voltage * ((Config.VoltageHighRange) ? 0.001 : 1);
+		CONTROL_IMeasure[LocalCounter] = Current * ((Config.CurrentHighRange) ? 0.1 : 1);
+		CONTROL_VMeasure[LocalCounter] = Voltage * ((Config.VoltageHighRange) ? 0.1 : 1);
 		CONTROL_Setpoint[LocalCounter] = Setpoint * ControlScale;
 		CONTROL_Control[LocalCounter] = Control * ControlScale;
 		CONTROL_RawControl[LocalCounter] = RawControl;
