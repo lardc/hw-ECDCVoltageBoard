@@ -92,7 +92,11 @@ uint16_t MEASURE_ConvertXToDAC(DACConvertParameters Storage, float Value, bool D
 		Value *= ShuntResistance * 0.001;
 	}
 	float result = (Value / Storage.K + Storage.Offset) / DAC_REF_VOLTAGE * DAC_MAX_RESOLUTION;
-	return (result > 0) ? (uint16_t)result : 0;
+
+	if(result > 0)
+		return ((result > DAC_MAX_RESOLUTION) ? DAC_MAX_RESOLUTION : result);
+	else
+		return 0;
 }
 //------------------------------------------
 
