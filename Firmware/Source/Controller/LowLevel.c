@@ -352,17 +352,17 @@ void LL_SelectHV_R1()
 
 void LL_SelectHV_R2()
 {
-	LL_SetStateRanges(HV_CTRL_RANGE_0, true);
+	LL_SetStateRanges(HV_CTRL_RANGE_0, false);
 	LL_SetStateRanges(HV_CTRL_RANGE_1, true);
-	LL_SetStateRanges(HV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(HV_CTRL_RANGE_2, true);
 }
 //-----------------------------
 
 void LL_SelectHV_R3()
 {
-	LL_SetStateRanges(HV_CTRL_RANGE_0, true);
+	LL_SetStateRanges(HV_CTRL_RANGE_0, false);
 	LL_SetStateRanges(HV_CTRL_RANGE_1, false);
-	LL_SetStateRanges(HV_CTRL_RANGE_2, false);
+	LL_SetStateRanges(HV_CTRL_RANGE_2, true);
 }
 //-----------------------------
 
