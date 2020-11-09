@@ -99,7 +99,9 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 {
 	bool LowVoltageMode = (Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT]);
 
-	if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE1_LIMIT])
+
+
+	if(Config->CurrentSetpoint <= DataTable[REG_I_RANGE1_LIMIT])
 	{
 		if(LowVoltageMode)
 		{
@@ -112,7 +114,7 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 			 LL_SelectHV_R1();
 		}
 	}
-	else if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE2_LIMIT])
+	else if(Config->CurrentSetpoint <= DataTable[REG_I_RANGE2_LIMIT])
 	{
 		if(LowVoltageMode)
 		{
@@ -125,7 +127,7 @@ void VB_ConfigCurrentChannel(ControllerConfig *Config)
 			 LL_SelectHV_R2();
 		}
 	}
-	else if(Config->HWCurrentLimit <= DataTable[REG_I_RANGE3_LIMIT])
+	else if(Config->CurrentSetpoint <= DataTable[REG_I_RANGE3_LIMIT])
 	{
 		if(LowVoltageMode)
 		{
