@@ -179,12 +179,12 @@ VIPair REGULATOR_GetSampleResult()
 
 	for(uint16_t i = 0; i < AverageCounter; ++i)
 	{
-		AvgVoltage += AverageResult[i].Voltage;
-		AvgCurrent += AverageResult[i].Current;
+		AvgVoltage += AverageResult[i].Voltage / AverageCounter;
+		AvgCurrent += AverageResult[i].Current / AverageCounter;
 	}
 
-	Result.Voltage = AvgVoltage / AverageCounter;
-	Result.Current = AvgCurrent / AverageCounter;
+	Result.Voltage = AvgVoltage;
+	Result.Current = AvgCurrent;
 	return Result;
 }
 // ----------------------------------------
