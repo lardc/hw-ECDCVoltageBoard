@@ -312,7 +312,11 @@ void CONTROL_PulseControl()
 
 			case SS_RequestStop:
 				{
-					// Раскоммутация
+					LL_ResetStateCtrls();
+					LL_ResetStateRanges();
+					LL_SetStateCtrls(HP_CTRL_350V, true);
+					LL_SetStateCtrls(EN_48V_CTRL, true);
+
 					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 					CONTROL_SetDeviceState(DS_InProcess, SS_WaitDisconnection);
 				}
