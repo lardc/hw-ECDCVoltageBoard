@@ -34,7 +34,7 @@
 #define ADC_AVG_COUNT				4
 
 // Параметры регулятора
-#define REGLTR_AVERAGE_RESULT_NUM	100			// Количество усреднений результата(32)
+#define REGLTR_AVERAGE_RESULT_NUM	(1000000 / (50 * REGLTR_PERIOD))	// Количество усреднений результата
 #define REGLTR_ERROR_I_SAT_H		10000
 #define REGLTR_PERIOD				TIMER2_uS
 

@@ -388,6 +388,15 @@ bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent)
 
 void CONTROL_StartRegulator(bool State)
 {
-	State ? TIM_Start(TIM2) : TIM_Stop(TIM2);
+	if(State)
+	{
+		IWDG_ConfigureSlowUpdate();
+		TIM_Start(TIM2);
+	}
+	else
+	{
+		TIM_Stop(TIM2);
+		IWDG_ConfigureFastUpdate();
+	}
 }
 //------------------------------------------
