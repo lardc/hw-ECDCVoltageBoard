@@ -35,7 +35,7 @@
 
 // Параметры регулятора
 #define REGLTR_AVERAGE_RESULT_NUM	(1000000 / (50 * REGLTR_PERIOD))	// Количество усреднений результата
-#define REGLTR_ERROR_I_SAT_H		10000
+#define REGLTR_ERROR_I_SAT_H		1000000
 #define REGLTR_PERIOD				TIMER2_uS
 
 #endif //  __GLOBAL_H
