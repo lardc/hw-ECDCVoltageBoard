@@ -72,17 +72,11 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 		else
 		{
 			LL_SelectRg720K();
-			// (?) Фиктивное переключение низковольтного канала
 			LL_SelectVOutMax20V0();
 			MEASURE_CacheConvertParametersV4();
 			REGULATOR_ActivateVoltage(&MEASURE_WriteVoltageHV);
 		}
 		REGULATOR_SetTargetMax(Config->VoltageSetpoint);
-
-		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
-			LL_SelectAdcSrcVLV();
-		else
-			LL_SelectAdcSrcHV();
 	}
 	// Режим источника тока
 	else
@@ -90,7 +84,6 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 		LL_SelectRg720K();
 		LL_SelectVOutMax20V0();
 		MEASURE_CacheConvertParametersV3();
-		LL_SelectAdcSrcVLV();
 	}
 }
 //------------------------------------------
@@ -98,8 +91,6 @@ void VB_ConfigVoltageChannel(ControllerConfig *Config)
 void VB_ConfigCurrentChannel(ControllerConfig *Config)
 {
 	bool LowVoltageMode = (Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT]);
-
-
 
 	if(Config->CurrentSetpoint <= DataTable[REG_I_RANGE1_LIMIT])
 	{
@@ -187,31 +178,53 @@ void VB_SetLimitVIOutputs(ControllerConfig *Config)
 
 void VB_RelayCommutation(ControllerConfig *Config)
 {
-	// all OFF
+	bool LowVoltageMode = (Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT]);
+
 	LL_RelayCtrls(RELAY_BUS, false);
 	LL_RelayCtrls(RELAY_PS1, false);
 	LL_RelayCtrls(RELAY_PS2, false);
 	LL_RelayCtrls(RELAY_CTRL, false);
 
-	//POT_CTRL+-
-	LL_RelayCtrls(RELAY_POT_CTRL, false);
-
-	if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
+	switch(Config->OutputLine)
 	{
-		LL_RelayCtrls(RELAY_LV_HV_CTRL1, false);
-		LL_RelayCtrls(RELAY_LV_HV_CTRL2, false);
-		LL_RelayCtrls(RELAY_POT, false);
-		LL_RelayCtrls(RELAY_POT_CTRL, false);
-	}
-	else
-	{
-		LL_RelayCtrls(RELAY_LV_HV_CTRL1, true);
-		LL_RelayCtrls(RELAY_LV_HV_CTRL2, true);
-		LL_RelayCtrls(RELAY_POT, true);
-		LL_RelayCtrls(RELAY_POT_CTRL, true);
+		case DC_BUS_LV:
+			{
+				LL_RelayCtrls(RELAY_BUS, true);
+				if(LowVoltageMode)
+					LL_SelectAdcSrc_LowVoltageBUS();
+			}
+			break;
+
+		case DC_CTRL:
+			{
+				LL_RelayCtrls(RELAY_CTRL, true);
+				if(LowVoltageMode)
+					LL_SelectAdcSrc_LowVoltageControl();
+			}
+			break;
+
+		case PS1:
+			{
+				LL_RelayCtrls(RELAY_PS1, true);
+				if(LowVoltageMode)
+					LL_SelectAdcSrc_LowVoltagePS();
+			}
+			break;
+
+		case PS2:
+			{
+				LL_RelayCtrls(RELAY_PS2, true);
+				if(LowVoltageMode)
+					LL_SelectAdcSrc_LowVoltagePS();
+			}
+			break;
+
+		default:
+			break;
 	}
 
-	LL_RelayCtrls(Config->OutputLine, true);
+	if(!LowVoltageMode)
+		LL_SelectAdcSrc_HighVoltage();
 }
 //------------------------------------------
 

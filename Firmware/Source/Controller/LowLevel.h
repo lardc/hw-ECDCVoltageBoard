@@ -38,11 +38,11 @@ void LL_SelectRsK27();
 void LL_SelectRsK020();
 void LL_SelectRsNone();
 
-void LL_SelectAdcSrcVLV();
-void LL_SelectAdcSrcHV();
-void LL_SelectAdcSrcPT();
-void LL_SelectAdcSrcPTCtrl();
-void LL_SelectAdcSrcNO();
+void LL_SelectAdcSrc_LowVoltagePS();
+void LL_SelectAdcSrc_LowVoltageControl();
+void LL_SelectAdcSrc_LowVoltageBUS();
+void LL_SelectAdcSrc_HighVoltage();
+void LL_SelectAdcSrc_Disconnect();
 
 void LL_SelectRgK12();
 void LL_SelectRg1K10();

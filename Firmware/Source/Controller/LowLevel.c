@@ -249,56 +249,88 @@ void LL_SelectRsNone()
 }
 //-----------------------------
 
-void LL_SelectAdcSrcVLV()
+void LL_SelectAdcSrc_LowVoltagePS()
 {
-	LL_SetStateCtrls(LV_SENS_EN, false);
-	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(PT_SENS_EN, false);
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
-	//
+	// Выбор внутреннего низковольтного источника потенциального сигнала твердотельными реле
 	LL_SetStateCtrls(LV_SENS_EN, true);
+	LL_SetStateCtrls(HV_SENS_EN, false);
+	LL_SetStateCtrls(POT_COMM_INPUT, false);
+
+	// Выбор низковольтного источника для подачи на выход механическими реле
+	LL_SetStateCtrls(LV_HV_CTRL1, false);
+	LL_SetStateCtrls(LV_HV_CTRL2, false);
+
+	// Отключение механических реле потенциальных входов
+	LL_SetStateCtrls(RLC_POT, false);
+	LL_SetStateCtrls(RLC_POT_CRL, false);
 }
 //-----------------------------
 
-void LL_SelectAdcSrcHV()
+void LL_SelectAdcSrc_LowVoltageX(bool IsControl)
 {
+	// Выбор внешнего низковольтного источника потенциального сигнала твердотельными реле
 	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(PT_SENS_EN, false);
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
-	//
+	LL_SetStateCtrls(POT_COMM_INPUT, true);
+
+	// Выбор низковольтного источника для подачи на выход механическими реле
+	LL_SetStateCtrls(LV_HV_CTRL1, false);
+	LL_SetStateCtrls(LV_HV_CTRL2, false);
+
+	// Включение механических реле потенциальных входов
+	if(IsControl)
+	{
+		LL_SetStateCtrls(RLC_POT, false);
+		LL_SetStateCtrls(RLC_POT_CRL, true);
+	}
+	else
+	{
+		LL_SetStateCtrls(RLC_POT, true);
+		LL_SetStateCtrls(RLC_POT_CRL, false);
+	}
+}
+//-----------------------------
+
+void LL_SelectAdcSrc_LowVoltageControl()
+{
+	LL_SelectAdcSrc_LowVoltageX(true);
+}
+//-----------------------------
+
+void LL_SelectAdcSrc_LowVoltageBUS()
+{
+	LL_SelectAdcSrc_LowVoltageX(false);
+}
+//-----------------------------
+
+void LL_SelectAdcSrc_HighVoltage()
+{
+	// Выбор внутреннего высоковольтного источника потенциального сигнала твердотельными реле
+	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, true);
+	LL_SetStateCtrls(POT_COMM_INPUT, false);
+
+	// Выбор высоковольтного источника для подачи на выход механическими реле
+	LL_SetStateCtrls(LV_HV_CTRL1, true);
+	LL_SetStateCtrls(LV_HV_CTRL2, true);
+
+	// Отключение механических реле потенциальных входов
+	LL_SetStateCtrls(RLC_POT, false);
+	LL_SetStateCtrls(RLC_POT_CRL, false);
 }
 //-----------------------------
 
-void LL_SelectAdcSrcPT()
+void LL_SelectAdcSrc_Disconnect()
 {
 	LL_SetStateCtrls(LV_SENS_EN, false);
 	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(PT_SENS_EN, false);
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
-	//
-	LL_SetStateCtrls(PT_SENS_EN, true);
-}
-//-----------------------------
+	LL_SetStateCtrls(POT_COMM_INPUT, false);
 
-void LL_SelectAdcSrcPTCtrl()
-{
-	LL_SetStateCtrls(LV_SENS_EN, false);
-	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(PT_SENS_EN, false);
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
-	//
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, true);
-}
-//-----------------------------
+	LL_SetStateCtrls(LV_HV_CTRL1, false);
+	LL_SetStateCtrls(LV_HV_CTRL2, false);
 
-void LL_SelectAdcSrcNO()
-{
-	LL_SetStateCtrls(LV_SENS_EN, false);
-	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(PT_SENS_EN, false);
-	LL_SetStateCtrls(PT_CTRL_SENS_EN, false);
+	LL_SetStateCtrls(RLC_POT, false);
+	LL_SetStateCtrls(RLC_POT_CRL, false);
 }
 //-----------------------------
 
@@ -402,28 +434,7 @@ void LL_RelayCtrls(uint16_t Relay, bool State)
 			}
 			break;
 
-		case RELAY_POT:
-			{
-				LL_SetStateCtrls(RLC_CTRL5, State);
-			}
-			break;
-
-		case RELAY_POT_CTRL:
-			{
-				LL_SetStateCtrls(RLC_CTRL6, State);
-			}
-			break;
-
-		case RELAY_LV_HV_CTRL1:
-			{
-				LL_SetStateCtrls(LV_HV_CTRL1, State);
-			}
-			break;
-
-		case RELAY_LV_HV_CTRL2:
-			{
-				LL_SetStateCtrls(LV_HV_CTRL2, State);
-			}
+		default:
 			break;
 	}
 }

@@ -109,19 +109,19 @@ void DBGACT_SelectVSensSrc()
 	switch (VSrc)
 	{
 		case SENSOR_LV:
-			LL_SelectAdcSrcVLV();
+			LL_SelectAdcSrc_LowVoltagePS();
 			break;
 		case SENSOR_HV:
-			LL_SelectAdcSrcHV();
+			LL_SelectAdcSrc_HighVoltage();
 			break;
 		case SENSOR_PT:
-			LL_SelectAdcSrcPT();
+			LL_SelectAdcSrc_LowVoltageBUS();
 			break;
 		case SENSOR_PT_CTRL:
-			LL_SelectAdcSrcPTCtrl();
+			LL_SelectAdcSrc_LowVoltageControl();
 			break;
 		case SENSOR_NO:
-			LL_SelectAdcSrcNO();
+			LL_SelectAdcSrc_Disconnect();
 			break;
 	}
 }
