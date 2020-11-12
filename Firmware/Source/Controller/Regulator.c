@@ -110,7 +110,8 @@ RegulatorResult REGULATOR_Cycle()
 	result.RawControl = RawControl;
 	result.Control = ActiveRegulator->Control;
 	result.Setpoint = ActiveRegulator->TargetValuePrev;
-	result.FollowingError = (ActiveRegulator->FECounter >= ActiveRegulator->FECounterMax);
+	result.FollowingError = (ActiveRegulator->FEActive &&
+			(ActiveRegulator->FECounter >= ActiveRegulator->FECounterMax));
 
 	return result;
 }
