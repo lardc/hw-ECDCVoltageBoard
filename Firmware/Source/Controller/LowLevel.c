@@ -322,15 +322,8 @@ void LL_SelectAdcSrc_HighVoltage()
 
 void LL_SelectAdcSrc_Disconnect()
 {
-	LL_SetStateCtrls(LV_SENS_EN, false);
-	LL_SetStateCtrls(HV_SENS_EN, false);
-	LL_SetStateCtrls(POT_COMM_INPUT, false);
-
-	LL_SetStateCtrls(LV_HV_CTRL1, false);
-	LL_SetStateCtrls(LV_HV_CTRL2, false);
-
-	LL_SetStateCtrls(RLC_POT, false);
-	LL_SetStateCtrls(RLC_POT_CRL, false);
+	// Отключение всей коммутации с замыканием входа на низковольтный источник
+	LL_SelectAdcSrc_LowVoltagePS();
 }
 //-----------------------------
 
@@ -403,6 +396,15 @@ void LL_SelectHV_R4()
 	LL_SetStateRanges(HV_CTRL_RANGE_0, false);
 	LL_SetStateRanges(HV_CTRL_RANGE_1, false);
 	LL_SetStateRanges(HV_CTRL_RANGE_2, false);
+}
+//-----------------------------
+
+void LL_RelayCtrlsDisconnect()
+{
+	LL_RelayCtrls(RELAY_BUS, false);
+	LL_RelayCtrls(RELAY_PS1, false);
+	LL_RelayCtrls(RELAY_PS2, false);
+	LL_RelayCtrls(RELAY_CTRL, false);
 }
 //-----------------------------
 

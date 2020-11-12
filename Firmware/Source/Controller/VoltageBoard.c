@@ -179,11 +179,7 @@ void VB_SetLimitVIOutputs(ControllerConfig *Config)
 void VB_RelayCommutation(ControllerConfig *Config)
 {
 	bool LowVoltageMode = (Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT]);
-
-	LL_RelayCtrls(RELAY_BUS, false);
-	LL_RelayCtrls(RELAY_PS1, false);
-	LL_RelayCtrls(RELAY_PS2, false);
-	LL_RelayCtrls(RELAY_CTRL, false);
+	LL_RelayCtrlsDisconnect();
 
 	switch(Config->OutputLine)
 	{

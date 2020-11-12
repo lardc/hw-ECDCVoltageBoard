@@ -55,6 +55,7 @@ void LL_SelectHV_R3();
 void LL_SelectHV_R4();
 
 void LL_RelayCtrls(uint16_t Relay, bool State);
+void LL_RelayCtrlsDisconnect();
 void LL_SelectAdcSrcILV();
 void LL_SelectAdcSrcIHV();
 
