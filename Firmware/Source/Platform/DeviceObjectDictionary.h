@@ -36,6 +36,9 @@
 #define ACT_DBG_WRITE_DAC_HV_VOLTAGE	76	// Запись в высоковольтный ЦАП напряжения
 #define ACT_DBG_WRITE_DAC_HV_CURRENT	77	// Запись в высоковольтный ЦАП тока
 
+#define ACT_DBG_RAW_CTRL_PIN_SET		78	// Установка пина сдвигового регистра управления
+#define ACT_DBG_RAW_CTRL_PIN_RESET		79	// Сброс пина сдвигового регистра управления
+
 #define ACT_START_PROCESS				100	// Страрт процесса формирования импульса
 #define ACT_STOP_PROCESS				101	// Остановка процесса формирования импульса
 

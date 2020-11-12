@@ -155,6 +155,14 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			LL_WriteDACHV_Current(DataTable[REG_DEBUG]);
 			break;
 
+		case ACT_DBG_RAW_CTRL_PIN_SET:
+			LL_SetStateCtrls(DataTable[REG_DEBUG], true);
+			break;
+
+		case ACT_DBG_RAW_CTRL_PIN_RESET:
+			LL_SetStateCtrls(DataTable[REG_DEBUG], false);
+			break;
+
 		default:
 			return false;
 	}
