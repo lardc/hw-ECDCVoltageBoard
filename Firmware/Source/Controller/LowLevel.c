@@ -8,7 +8,7 @@
 
 // Defines
 #define DAC_CHANNEL_B		BIT15
-#define CTRL_SIZE			(8 * 3)		// Три восьмибитных регистра
+#define CTRL_SIZE			3		// Три восьмибитных регистра
 
 // Variables
 //
@@ -61,9 +61,9 @@ void LL_UpdateStateCtrls()
 {
 	SPI_InvertClockPolarity(SPI1, false);
 
-	uint32_t i = CTRL_SIZE;
-	while(i--)
-		SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i]);
+	for(uint8_t i = CTRL_SIZE; i >= 1; i--)
+		SPI_WriteByte8b(SPI1, CONTROL_UnitCtrls[i - 1]);
+
 	GPIO_SetState(GPIO_RCK, true);
 	GPIO_SetState(GPIO_RCK, false);
 }
