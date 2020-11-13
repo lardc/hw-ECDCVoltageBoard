@@ -42,7 +42,7 @@ void TIM2_IRQHandler()
 			LL_HVPowerSupplyOutput(false);
 
 		// Задержка выключения Flyback
-		DELAY_US(100);
+		DELAY_US(REGLTR_FLYBACK_PAUSE);
 
 		float Voltage = MEASURE_Voltage();
 		float Current = MEASURE_Current();
