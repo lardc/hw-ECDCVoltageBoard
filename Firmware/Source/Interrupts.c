@@ -52,7 +52,10 @@ void TIM2_IRQHandler()
 
 		REGULATOR_UpdateSampleValues(Voltage, Current);
 		RegulatorResult Result = REGULATOR_Cycle();
-		CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl);
+		VIPair FilteredSample = REGULATOR_GetFilteredSampleResult();
+
+		CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl,
+				FilteredSample.Current, FilteredSample.Voltage);
 
 		if(Result.FollowingError)
 			CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR);

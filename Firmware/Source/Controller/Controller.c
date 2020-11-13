@@ -26,6 +26,8 @@ volatile Int16U CONTROL_VMeasure[EP_SIZE] = {0};
 volatile Int16U CONTROL_Setpoint[EP_SIZE] = {0};
 volatile Int16U CONTROL_Control[EP_SIZE] = {0};
 volatile Int16U CONTROL_RawControl[EP_SIZE] = {0};
+volatile Int16U CONTROL_IMeasureFiltered[EP_SIZE] = {0};
+volatile Int16U CONTROL_VMeasureFiltered[EP_SIZE] = {0};
 volatile Int16U CONTROL_Counter = 0;
 
 // Variables
@@ -51,7 +53,8 @@ bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent);
 
 // Functions
 //
-void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl)
+void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl,
+		float CurrentFiltered, float VoltageFiltered)
 {
 	static uint16_t ScopeLogStep = 0, LocalCounter = 0;
 	float ControlScale = 1;
@@ -76,6 +79,8 @@ void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, 
 		CONTROL_Setpoint[LocalCounter] = Setpoint * ControlScale;
 		CONTROL_Control[LocalCounter] = Control * ControlScale;
 		CONTROL_RawControl[LocalCounter] = RawControl;
+		CONTROL_IMeasureFiltered[LocalCounter] = CurrentFiltered * ((Config.CurrentHighRange) ? 0.1 : 1);
+		CONTROL_VMeasureFiltered[LocalCounter] = VoltageFiltered * ((Config.VoltageHighRange) ? 0.1 : 1);
 
 		// Сохранение указателя на последний элемент
 		DataTable[REG_EP_LAST_POINTER] = LocalCounter;
@@ -95,13 +100,13 @@ void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, 
 void CONTROL_Init()
 {
 	// Переменные для конфигурации EndPoint
-	Int16U EPIndexes[EP_COUNT] = {EP_I_MEASURE, EP_V_MEASURE, EP_SETPOINT, EP_CONTROL, EP_RAW_CONTROL};
-	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
+	Int16U EPIndexes[EP_COUNT] = {EP_I_MEASURE, EP_V_MEASURE, EP_SETPOINT, EP_CONTROL, EP_RAW_CONTROL, EP_I_MEASURE_FILT, EP_V_MEASURE_FILT};
+	Int16U EPSized[EP_COUNT] = {EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE, EP_SIZE};
 	// Сокращения
 	pInt16U cc = (pInt16U)&CONTROL_Counter;
-	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc, cc};
+	pInt16U EPCounters[EP_COUNT] = {cc, cc, cc, cc, cc, cc, cc};
 	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_IMeasure, (pInt16U)CONTROL_VMeasure, (pInt16U)CONTROL_Setpoint,
-			(pInt16U)CONTROL_Control, (pInt16U)CONTROL_RawControl};
+			(pInt16U)CONTROL_Control, (pInt16U)CONTROL_RawControl, (pInt16U)CONTROL_IMeasureFiltered, (pInt16U)CONTROL_VMeasureFiltered};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
@@ -309,7 +314,7 @@ void CONTROL_PulseControl()
 							CONTROL_ForceRegulatorStop(PROBLEM_NONE);
 					}
 
-					VIPair SampleResult = REGULATOR_GetSampleResult();
+					VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
 					if(CONTROL_ConfiguredLimitReached(SampleResult.Voltage, SampleResult.Current))
 						CONTROL_ForceRegulatorStop(PROBLEM_VI_LIMIT);
 				}
@@ -334,7 +339,7 @@ void CONTROL_PulseControl()
 						{
 							DataTable[REG_OP_RESULT] = OPRESULT_OK;
 
-							VIPair SampleResult = REGULATOR_GetSampleResult();
+							VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
 							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)SampleResult.Voltage);
 							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)SampleResult.Current);
 						}

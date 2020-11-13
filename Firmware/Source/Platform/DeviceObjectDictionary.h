@@ -256,6 +256,8 @@
 #define EP_SETPOINT						3	// Уставка
 #define EP_CONTROL						4	// Выход управления
 #define EP_RAW_CONTROL					5	// Сырой выход управления
+#define EP_I_MEASURE_FILT				6	// Измерение тока зафильтрованное
+#define EP_V_MEASURE_FILT				7	// Измерение напряжения зафильтрованное
 
 //  Fault and disable codes
 #define DF_NONE							0

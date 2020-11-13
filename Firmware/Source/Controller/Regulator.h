@@ -28,6 +28,6 @@ void REGULATOR_ActivateVoltage(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_ActivateCurrent(FUNC_CallbackSetControl ControlFunction);
 void REGULATOR_SetTargetMax(float TargetMaxValue);
 void REGULATOR_UpdateSampleValues(float Voltage, float Current);
-VIPair REGULATOR_GetSampleResult();
+VIPair REGULATOR_GetFilteredSampleResult();
 
 #endif // __REGULATOR_H

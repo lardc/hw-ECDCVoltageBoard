@@ -173,7 +173,7 @@ void REGULATOR_UpdateSampleValues(float Voltage, float Current)
 }
 // ----------------------------------------
 
-VIPair REGULATOR_GetSampleResult()
+VIPair REGULATOR_GetFilteredSampleResult()
 {
 	VIPair Result;
 	float AvgVoltage = 0, AvgCurrent = 0;
