@@ -46,8 +46,8 @@ RegulatorResult REGULATOR_Cycle()
 	RegulatorResult result;
 
 	float ControlI = 0;
-	float Error = ActiveRegulator->TargetValuePrev - ActiveRegulator->SampleValue;
-	float RelativeError = Error / ActiveRegulator->TargetValuePrev;
+	float Error = ActiveRegulator->SampleValue - ActiveRegulator->TargetValuePrev;
+	float AbsRelativeError = fabs(Error / ActiveRegulator->TargetValuePrev);
 
 	// Настройка шага нарастания при первом запуске
 	if(ActiveRegulator->RiseStep == 0)
@@ -85,14 +85,14 @@ RegulatorResult REGULATOR_Cycle()
 	// Проверка срабатывания ошибки
 	if(ActiveRegulator->FEActive)
 	{
-		if(RelativeError > ActiveRegulator->FEThreshold)
+		if(AbsRelativeError > ActiveRegulator->FEThreshold)
 			ActiveRegulator->FECounter++;
 		else
 			ActiveRegulator->FECounter = 0;
 	}
 
 	// Проверка условия запуска усреднения
-	if(RelativeError <= ActiveRegulator->OutputReadyThreshold &&
+	if(AbsRelativeError <= ActiveRegulator->OutputReadyThreshold &&
 			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
 	{
 		OutputReady = true;
