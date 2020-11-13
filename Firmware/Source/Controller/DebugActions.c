@@ -74,6 +74,7 @@ void DBGACT_Ctrls48V(bool State)
 void DBGACT_Ctrls350V(bool State)
 {
 	LL_SetStateCtrls(HP_CTRL_350V, State);
+	LL_HVPowerSupplyOutput(!State);
 }
 //-----------------------------
 

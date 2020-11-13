@@ -34,6 +34,7 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_RCK);
 	GPIO_InitPushPullOutput(GPIO_LED);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED);
+	GPIO_InitPushPullOutput(GPIO_HVPS_DISABLE);
 	
 	// Линия синхронизации (выходы)
 	GPIO_InitPushPullOutput(GPIO_SYNC1_OUT);

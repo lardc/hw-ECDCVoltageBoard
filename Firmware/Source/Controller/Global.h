@@ -17,6 +17,7 @@
 #define TIME_LED_BLINK				500		// Мигание светодиодом (в мс)
 #define TIME_DBG_PULSE				1000	// Длительность отладочного импульса (в мс)
 #define TIME_TRANSIENT_DELAY		100		// Задержка коммутации и переходных процессов (в мс)
+#define TIME_HV_RECHARGE			1000	// Время подзарядки высоковольтного источника
 
 // Параметры выхода
 #define VB_VOUT_MIN					40			// в мВ

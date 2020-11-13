@@ -10,6 +10,7 @@
 #include "DeviceObjectDictionary.h"
 #include "Measurement.h"
 #include "Regulator.h"
+#include "Delay.h"
 
 // Functions
 //
@@ -37,8 +38,17 @@ void TIM2_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM2))
 	{
+		if(CONTROL_IsHighVoltageOutput())
+			LL_HVPowerSupplyOutput(false);
+
+		// Задержка выключения Flyback
+		DELAY_US(100);
+
 		float Voltage = MEASURE_Voltage();
 		float Current = MEASURE_Current();
+
+		if(CONTROL_IsHighVoltageOutput())
+			LL_HVPowerSupplyOutput(true);
 
 		REGULATOR_UpdateSampleValues(Voltage, Current);
 		RegulatorResult Result = REGULATOR_Cycle();

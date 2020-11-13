@@ -157,7 +157,7 @@ void CONTROL_ResetHardware()
 	GPIO_SetState(GPIO_CS2, false);
 	GPIO_SetState(GPIO_CS3, false);
 
-	LL_SetStateCtrls(HP_CTRL_350V, true);
+	LL_HVPowerSupplyOutput(false);
 	LL_SetStateCtrls(EN_48V_CTRL, true);
 }
 //------------------------------------------
@@ -264,6 +264,9 @@ void CONTROL_PulseControl()
 		{
 			case SS_PulsePrepare:
 				{
+					if(CONTROL_IsHighVoltageOutput())
+						LL_HVPowerSupplyOutput(true);
+
 					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 					VB_ConfigVIChannels(&Config);
 					CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitSwitch);
@@ -274,7 +277,9 @@ void CONTROL_PulseControl()
 				{
 					if(CONTROL_TimeCounter > Timeout)
 					{
-						Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
+						Timeout = CONTROL_TimeCounter +
+								(CONTROL_IsHighVoltageOutput() ? TIME_HV_RECHARGE : TIME_TRANSIENT_DELAY);
+
 						VB_SetLimitVIOutputs(&Config);
 						CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitOutSet);
 					}
@@ -314,6 +319,7 @@ void CONTROL_PulseControl()
 				{
 					LL_SelectAdcSrc_Disconnect();
 					LL_RelayCtrlsDisconnect();
+					LL_HVPowerSupplyOutput(false);
 
 					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 					CONTROL_SetDeviceState(DS_InProcess, SS_WaitDisconnection);
@@ -400,5 +406,11 @@ void CONTROL_StartRegulator(bool State)
 		TIM_Stop(TIM2);
 		IWDG_ConfigureFastUpdate();
 	}
+}
+//------------------------------------------
+
+bool CONTROL_IsHighVoltageOutput()
+{
+	return Config.VoltageHighRange;
 }
 //------------------------------------------

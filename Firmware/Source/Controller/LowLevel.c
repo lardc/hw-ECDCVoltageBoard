@@ -56,6 +56,12 @@ bool LL_GetStateLineSync2()
 }
 //-----------------------------
 
+void LL_HVPowerSupplyOutput(bool State)
+{
+	GPIO_SetState(GPIO_HVPS_DISABLE, !State);
+}
+//-----------------------------
+
 // Управление выходами CTRL
 void LL_UpdateStateCtrls()
 {

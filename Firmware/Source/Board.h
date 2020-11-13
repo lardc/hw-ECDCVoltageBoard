@@ -17,17 +17,18 @@
 #include "ZwSPI.h"
 
 // Определения для выходных портов
-GPIO_PortPinSettingMacro GPIO_CS1 = {GPIOB, Pin_0};	//U4
-GPIO_PortPinSettingMacro GPIO_CS2 = {GPIOA, Pin_2};	//U2
-GPIO_PortPinSettingMacro GPIO_CS3 = {GPIOA, Pin_1};	//U3
-GPIO_PortPinSettingMacro GPIO_DAC_CS = {GPIOA, Pin_3};	//U3
-GPIO_PortPinSettingMacro GPIO_LDAC1 = {GPIOB, Pin_1};	//U35
-GPIO_PortPinSettingMacro GPIO_LDAC2 = {GPIOB, Pin_2};	//U29
-GPIO_PortPinSettingMacro GPIO_SREG_CS = {GPIOB, Pin_11};	//U5
-GPIO_PortPinSettingMacro GPIO_SREG_OE1 = {GPIOB, Pin_10};	//U5
-GPIO_PortPinSettingMacro GPIO_RCK = {GPIOA, Pin_6};	//U2, U3, U4
+GPIO_PortPinSettingMacro GPIO_CS1 = {GPIOB, Pin_0};
+GPIO_PortPinSettingMacro GPIO_CS2 = {GPIOA, Pin_2};
+GPIO_PortPinSettingMacro GPIO_CS3 = {GPIOA, Pin_1};
+GPIO_PortPinSettingMacro GPIO_DAC_CS = {GPIOA, Pin_3};
+GPIO_PortPinSettingMacro GPIO_LDAC1 = {GPIOB, Pin_1};
+GPIO_PortPinSettingMacro GPIO_LDAC2 = {GPIOB, Pin_2};
+GPIO_PortPinSettingMacro GPIO_SREG_CS = {GPIOB, Pin_11};
+GPIO_PortPinSettingMacro GPIO_SREG_OE1 = {GPIOB, Pin_10};
+GPIO_PortPinSettingMacro GPIO_RCK = {GPIOA, Pin_6};
 GPIO_PortPinSettingMacro GPIO_LED = {GPIOB, Pin_7};
 GPIO_PortPinSettingMacro GPIO_EXT_LED = {GPIOC, Pin_14};
+GPIO_PortPinSettingMacro GPIO_HVPS_DISABLE = {GPIOA, Pin_8};
 
 // Определения для линий синхронизации
 GPIO_PortPinSettingMacro GPIO_SYNC1_IN = {GPIOB, Pin_14};

@@ -13,6 +13,7 @@ void LL_SetStateLineSync1(bool State);
 void LL_SetStateLineSync2(bool State);
 bool LL_GetStateLineSync1();
 bool LL_GetStateLineSync2();
+void LL_HVPowerSupplyOutput(bool State);
 
 void LL_WriteDACLV_Voltage(uint16_t Data);
 void LL_WriteDACLV_Current(uint16_t Data);

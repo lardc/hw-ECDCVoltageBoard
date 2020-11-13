@@ -132,5 +132,6 @@ void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_ForceRegulatorStop(uint16_t Problem);
 void CONTROL_EpLog(float Current, float Voltage, float Setpoint, float Control, uint16_t RawControl);
+bool CONTROL_IsHighVoltageOutput();
 
 #endif // __CONTROLLER_H
