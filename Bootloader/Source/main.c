@@ -70,7 +70,10 @@ void ConfigGPIO()
 	
 	GPIO_Config(GPIOA, Pin_12, AltFn, PushPull, HighSpeed, NoPull); //PA12(CAN TX)
 	GPIO_AltFn(GPIOA, Pin_12, AltFn_9);
-	
+
+	// Запрет Flyback
+	GPIO_Config(GPIOA, Pin_8, Output, PushPull, HighSpeed, NoPull);
+	GPIO_Bit_Set(GPIOA, Pin_8);
 }
 //--------------------------------------------
 
