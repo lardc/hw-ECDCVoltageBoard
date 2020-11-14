@@ -164,6 +164,9 @@ void CONTROL_ResetHardware()
 
 	LL_HVPowerSupplyOutput(false);
 	LL_SetStateCtrls(EN_48V_CTRL, true);
+
+	// Обратная совместимость для непропатченных плат
+	LL_SetStateCtrls(HP_CTRL_350V, true);
 }
 //------------------------------------------
 
