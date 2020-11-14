@@ -129,6 +129,7 @@ extern volatile Int64U CONTROL_TimeCounter;
 //
 void CONTROL_Init();
 void CONTROL_Idle();
+bool CONTROL_IsInProcess();
 void CONTROL_UpdateWatchDog();
 void CONTROL_ForceRegulatorStop(uint16_t Problem);
 bool CONTROL_IsHighVoltageOutput();

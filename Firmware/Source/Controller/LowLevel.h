@@ -60,4 +60,8 @@ void LL_RelayCtrlsDisconnect();
 void LL_SelectAdcSrcILV();
 void LL_SelectAdcSrcIHV();
 
+void LL_InitTimerChannel1(TIM_TypeDef* TIMx, uint32_t TimerPeriod, uint32_t ChannelPeriod);
+bool LL_TimerChannel1IsInterrupt(TIM_TypeDef* TIMx);
+void LL_TimerChannel1InterruptClear(TIM_TypeDef* TIMx);
+
 #endif //__LOWLEVEL_H

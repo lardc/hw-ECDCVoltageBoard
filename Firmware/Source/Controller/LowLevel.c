@@ -465,3 +465,34 @@ void LL_SelectAdcSrcIHV()
 	LL_SetStateCtrls(HV_CUR_SENS_EN, true);
 }
 //-----------------------------
+
+void LL_InitTimerChannel1(TIM_TypeDef* TIMx, uint32_t TimerPeriod, uint32_t ChannelPeriod)
+{
+	// Установка времени срабатывания
+	TIMx->CCR1 = TIMx->ARR * ChannelPeriod / TimerPeriod;
+
+	// Разрешение сравнения CCR1 со счётчиком
+	TIMx->CCMR1 |= TIM_CCMR1_OC1M_0;
+
+	// Канал 1 настроен на выход
+	TIMx->CCMR1 &= ~TIM_CCMR1_CC1S;
+
+	// Разрешение прерывания
+	TIMx->DIER |= TIM_DIER_CC1IE;
+
+	// Включение канала 1
+	TIMx->CCER |= TIM_CCER_CC1E;
+}
+//-----------------------------
+
+bool LL_TimerChannel1IsInterrupt(TIM_TypeDef* TIMx)
+{
+	return (TIMx->SR & TIM_DIER_CC1IE);
+}
+//-----------------------------
+
+void LL_TimerChannel1InterruptClear(TIM_TypeDef* TIMx)
+{
+	TIMx->SR &= ~TIM_DIER_CC1IE;
+}
+//-----------------------------

@@ -419,3 +419,9 @@ bool CONTROL_IsHighVoltageOutput()
 	return Config.VoltageHighRange;
 }
 //------------------------------------------
+
+bool CONTROL_IsInProcess()
+{
+	return (CONTROL_State == DS_InProcess);
+}
+//------------------------------------------

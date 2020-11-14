@@ -1,7 +1,10 @@
 ﻿#include "InitConfig.h"
+
 #include "Board.h"
 #include "SysConfig.h"
 #include "BCCIxParams.h"
+#include "LowLevel.h"
+#include "Global.h"
 
 // Functions
 //
@@ -92,6 +95,8 @@ void INITCFG_ConfigTimer2()
 {
 	TIM_Clock_En(TIM_2);
 	TIM_Config(TIM2, SYSCLK, TIMER2_uS);
+	LL_InitTimerChannel1(TIM2, TIMER2_uS, REGLTR_FLYBACK_PAUSE);
+
 	TIM_Interupt(TIM2, 0, true);
 	// Приоритет прерывания ниже приоритета USART1
 	NVIC_SetPriority(TIM2_IRQn, 50);

@@ -36,29 +36,33 @@ void USB_LP_CAN_RX0_IRQHandler()
 
 void TIM2_IRQHandler()
 {
-	if(TIM_StatusCheck(TIM2))
+	if(LL_TimerChannel1IsInterrupt(TIM2))
+	{
+		if(CONTROL_IsInProcess())
+		{
+			float Voltage = MEASURE_Voltage();
+			float Current = MEASURE_Current();
+
+			if(CONTROL_IsHighVoltageOutput())
+				LL_HVPowerSupplyOutput(true);
+
+			REGULATOR_UpdateSampleValues(Voltage, Current);
+			RegulatorResult Result = REGULATOR_Cycle();
+			VIPair FilteredSample = REGULATOR_GetFilteredSampleResult();
+
+			CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl,
+					FilteredSample.Current, FilteredSample.Voltage);
+
+			if(Result.FollowingError)
+				CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR);
+		}
+
+		LL_TimerChannel1InterruptClear(TIM2);
+	}
+	else if(TIM_StatusCheck(TIM2))
 	{
 		if(CONTROL_IsHighVoltageOutput())
 			LL_HVPowerSupplyOutput(false);
-
-		// Задержка выключения Flyback
-		DELAY_US(REGLTR_FLYBACK_PAUSE);
-
-		float Voltage = MEASURE_Voltage();
-		float Current = MEASURE_Current();
-
-		if(CONTROL_IsHighVoltageOutput())
-			LL_HVPowerSupplyOutput(true);
-
-		REGULATOR_UpdateSampleValues(Voltage, Current);
-		RegulatorResult Result = REGULATOR_Cycle();
-		VIPair FilteredSample = REGULATOR_GetFilteredSampleResult();
-
-		CONTROL_EpLog(Current, Voltage, Result.Setpoint, Result.Control, Result.RawControl,
-				FilteredSample.Current, FilteredSample.Voltage);
-
-		if(Result.FollowingError)
-			CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR);
 
 		TIM_StatusClear(TIM2);
 	}
