@@ -71,7 +71,7 @@ RegulatorResult REGULATOR_Cycle()
 	}
 
 	// Корректировка управления
-	ActiveRegulator->Control = ActiveRegulator->TargetValue + Error * ActiveRegulator->Kp + ControlI;
+	ActiveRegulator->Control = ActiveRegulator->TargetValue - (Error * ActiveRegulator->Kp + ControlI);
 	ActiveRegulator->TargetValuePrev = ActiveRegulator->TargetValue;
 
 	// Обновление уставки
