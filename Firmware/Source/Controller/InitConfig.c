@@ -97,9 +97,7 @@ void INITCFG_ConfigTimer2()
 	TIM_Config(TIM2, SYSCLK, TIMER2_uS);
 	LL_InitTimerChannel1(TIM2, TIMER2_uS, REGLTR_FLYBACK_PAUSE);
 
-	TIM_Interupt(TIM2, 0, true);
-	// Приоритет прерывания ниже приоритета USART1
-	NVIC_SetPriority(TIM2_IRQn, 50);
+	TIM_Interupt(TIM2, 2, true);
 }
 //------------------------------------------------
 
@@ -107,7 +105,7 @@ void INITCFG_ConfigTimer7()
 {
 	TIM_Clock_En(TIM_7);
 	TIM_Config(TIM7, SYSCLK, TIMER7_uS);
-	TIM_Interupt(TIM7, 0, true);
+	TIM_Interupt(TIM7, 1, true);
 	TIM_Start(TIM7);
 }
 //------------------------------------------------
