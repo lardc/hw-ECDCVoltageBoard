@@ -60,7 +60,7 @@
 #define OUTPUT_READY_DEF	3
 
 #define FE_COUNTER_MIN		1
-#define FE_COUNTER_MAX		10
+#define FE_COUNTER_MAX		200
 #define FE_COUNTER_DEF		5
 
 // в %
