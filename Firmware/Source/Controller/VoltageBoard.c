@@ -168,7 +168,7 @@ void VB_SetLimitVIOutputs(ControllerConfig *Config)
 		if(Config->VoltageSetpoint <= DataTable[REG_V_RANGE3_LIMIT])
 			MEASURE_WriteCurrentLV(Config->HWCurrentLimit);
 		else
-			MEASURE_WriteCurrentHV(Config->HWCurrentLimit);
+			DataTable[REG_DIAG_IHV_DAC] = MEASURE_WriteCurrentHV(Config->HWCurrentLimit);
 	}
 	// Режим формирования тока
 	else
