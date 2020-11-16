@@ -244,8 +244,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 					else if(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection)
 						CONTROL_ForceRegulatorStop(PROBLEM_FORCED_STOP);
 				}
-				else
-					*pUserError = ERR_OPERATION_BLOCKED;
 			}
 			break;
 
