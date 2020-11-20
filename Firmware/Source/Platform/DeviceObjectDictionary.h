@@ -14,8 +14,8 @@
 #define ACT_DBG_IS_STATE_SYNC_2			55	// Состояние цепи SYNC_2
 #define ACT_DBG_PULSE_EXT_LED			56	// Одиночный импусль внешнего светодиода
 
-#define ACT_DBG_RELAY_ON				57	// Включение реле [REG_DBG_STATE]  //1..8
-#define ACT_DBG_RELAY_OFF				58	// Выключение реле [REG_DBG_STATE] //1..8
+#define ACT_DBG_RELAY_ON				57	// Включение реле
+#define ACT_DBG_RELAY_OFF				58	// Выключение реле
 
 #define ACT_DBG_LHVSELECT_LOW			59	// Подключение низковольтного источника
 #define ACT_DBG_LHVSELECT_HIGH			60	// Подключение высоковольтного источника
@@ -23,12 +23,12 @@
 #define ACT_DBG_CTRL48V_DISABLE			62	// Выключение источника 48В
 #define ACT_DBG_CTRL350V_ENABLE			63	// Включение источника 350В
 #define ACT_DBG_CTRL350V_DISABLE		64	// Выключение источника 350В
-#define ACT_DBG_SELECT_VHV_CTRLS		65	// Выбор диапазона измерения напряжения [REG_DBG_STATE] //1..4
-#define ACT_DBG_VSENS_SELECT_SRC		66	// Выбор источника для измерения напряжения [REG_DBG_STATE] //1:LV_SENS_EN, 2:HV_SENS_EN
-#define ACT_DBG_ISENS_SELECT_SRC		67	// Выбор источника для измерения тока [REG_DBG_STATE] //1:LV_CUR_SENS_EN, 2:HV_CUR_SENS_EN
+#define ACT_DBG_SELECT_VHV_CTRLS		65	// Выбор диапазона измерения напряжения
+#define ACT_DBG_VSENS_SELECT_SRC		66	// Выбор источника для измерения напряжения
+#define ACT_DBG_ISENS_SELECT_SRC		67	// Выбор источника для измерения тока
 
 #define ACT_DBG_SELECT_LV_CTRLS			70	// Выбор шунта
-#define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона ... напряжения
+#define ACT_DBG_SELECT_HV_CTRLS			71	// Выбор диапазона напряжения
 #define ACT_DBG_READ_ADC_ICH			72	// Измерение тока
 #define ACT_DBG_READ_ADC_VCH			73	// Измерение напряжения
 #define ACT_DBG_WRITE_DAC_LV_VOLTAGE	74	// Запись в низковольтный ЦАП напряжения
