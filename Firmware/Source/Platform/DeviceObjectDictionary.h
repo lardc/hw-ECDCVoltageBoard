@@ -225,7 +225,7 @@
 #define REG_OP_RESULT					197	// Регистр результата операции
 #define REG_SUB_STATE					198	// Регистр вспомогательного состояния
 
-#define REG_CURRENT_RESULT				200	// Значение измерения тока (в мкА)
+#define REG_CURRENT_RESULT				200	// Значение измерения тока (в мкА х100)
 #define REG_CURRENT_RESULT_32			201
 #define REG_VOLTAGE_RESULT				202	// Значение измерения напряжения (в мВ)
 #define REG_VOLTAGE_RESULT_32			203
