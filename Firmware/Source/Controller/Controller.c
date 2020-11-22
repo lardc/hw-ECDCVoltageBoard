@@ -344,7 +344,7 @@ void CONTROL_PulseControl()
 
 							VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
 							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)SampleResult.Voltage);
-							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)SampleResult.Current);
+							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)(SampleResult.Current * 100));
 						}
 						else
 						{
