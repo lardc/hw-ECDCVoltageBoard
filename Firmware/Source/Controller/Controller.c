@@ -264,6 +264,8 @@ void CONTROL_SwitchToFault(Int16U Reason)
 void CONTROL_PulseControl()
 {
 	static uint64_t Timeout = 0;
+	static VIPair LimitSampleResult = {0};
+	static bool LimitReached = false;
 
 	if(CONTROL_State == DS_InProcess)
 	{
@@ -274,6 +276,7 @@ void CONTROL_PulseControl()
 					if(CONTROL_IsHighVoltageOutput())
 						LL_HVPowerSupplyOutput(true);
 
+					LimitReached = false;
 					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
 					VB_ConfigVIChannels(&Config);
 					CONTROL_SetDeviceState(DS_InProcess, SS_PulseWaitSwitch);
@@ -316,9 +319,12 @@ void CONTROL_PulseControl()
 							CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_NONE);
 					}
 
-					VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
-					if(CONTROL_ConfiguredLimitReached(SampleResult.Voltage, SampleResult.Current))
+					LimitSampleResult = REGULATOR_GetFilteredSampleResult();
+					if(CONTROL_ConfiguredLimitReached(LimitSampleResult.Voltage, LimitSampleResult.Current))
+					{
+						LimitReached = true;
 						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_VI_LIMIT);
+					}
 				}
 				break;
 
@@ -341,7 +347,7 @@ void CONTROL_PulseControl()
 						{
 							DataTable[REG_OP_RESULT] = OPRESULT_OK;
 
-							VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
+							VIPair SampleResult = LimitReached ? LimitSampleResult : REGULATOR_GetFilteredSampleResult();
 							DT_Write32(REG_VOLTAGE_RESULT, REG_VOLTAGE_RESULT_32, (uint32_t)SampleResult.Voltage);
 							DT_Write32(REG_CURRENT_RESULT, REG_CURRENT_RESULT_32, (uint32_t)(SampleResult.Current * 100));
 						}
