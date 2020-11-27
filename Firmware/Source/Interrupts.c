@@ -54,7 +54,7 @@ void TIM2_IRQHandler()
 					FilteredSample.Current, FilteredSample.Voltage);
 
 			if(Result.FollowingError)
-				CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR);
+				CONTROL_ForceRegulatorStop(PROBLEM_FOLLOWING_ERROR, WARNING_NONE);
 		}
 
 		LL_TimerChannel1InterruptClear(TIM2);

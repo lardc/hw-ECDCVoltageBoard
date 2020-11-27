@@ -237,12 +237,11 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_InProcess)
 				{
-					// Нормальное завершение
-					if(CONTROL_SubState == SS_PulseProcess)
-						CONTROL_ForceRegulatorStop(PROBLEM_NONE);
-					// Принудительная остановка
-					else if(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection)
-						CONTROL_ForceRegulatorStop(PROBLEM_FORCED_STOP);
+					if(CONTROL_SubState == SS_PulseProcess ||
+							(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection))
+					{
+						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_FORCED_STOP);
+					}
 				}
 			}
 			break;
@@ -314,12 +313,12 @@ void CONTROL_PulseControl()
 					if(Timeout)
 					{
 						if(CONTROL_TimeCounter > Timeout)
-							CONTROL_ForceRegulatorStop(PROBLEM_NONE);
+							CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_NONE);
 					}
 
 					VIPair SampleResult = REGULATOR_GetFilteredSampleResult();
 					if(CONTROL_ConfiguredLimitReached(SampleResult.Voltage, SampleResult.Current))
-						CONTROL_ForceRegulatorStop(PROBLEM_VI_LIMIT);
+						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_VI_LIMIT);
 				}
 				break;
 
@@ -381,9 +380,10 @@ void CONTROL_UpdateWatchDog()
 }
 //------------------------------------------
 
-void CONTROL_ForceRegulatorStop(uint16_t Problem)
+void CONTROL_ForceRegulatorStop(uint16_t Problem, uint16_t Warning)
 {
 	Config.Problem = Problem;
+	DataTable[REG_WARNING] = Warning;
 
 	CONTROL_StartRegulator(false);
 	LL_ResetDACOutputs();
