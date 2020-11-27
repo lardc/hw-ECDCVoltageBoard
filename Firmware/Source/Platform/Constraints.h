@@ -51,7 +51,7 @@
 
 // в мс
 #define PULSE_LENGH_MIN		5
-#define PULSE_LENGH_MAX		500
+#define PULSE_LENGH_MAX		5000
 #define PULSE_LENGH_DEF		10
 
 // в %
