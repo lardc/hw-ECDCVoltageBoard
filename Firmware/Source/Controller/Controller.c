@@ -237,11 +237,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_InProcess)
 				{
-					if(CONTROL_SubState == SS_PulseProcess ||
-							(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection))
-					{
+					if(CONTROL_SubState == SS_PulseProcess)
+						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_NONE);
+					else if(CONTROL_SubState != SS_RequestStop && CONTROL_SubState != SS_WaitDisconnection)
 						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_FORCED_STOP);
-					}
 				}
 			}
 			break;
