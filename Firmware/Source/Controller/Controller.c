@@ -318,11 +318,14 @@ void CONTROL_PulseControl()
 							CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_NONE);
 					}
 
-					LimitSampleResult = REGULATOR_GetFilteredSampleResult();
-					if(CONTROL_ConfiguredLimitReached(LimitSampleResult.Voltage, LimitSampleResult.Current))
+					if(DataTable[REG_DIAG_DISABLE_VI_LIMIT] == 0)
 					{
-						LimitReached = true;
-						CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_VI_LIMIT);
+						LimitSampleResult = REGULATOR_GetFilteredSampleResult();
+						if(CONTROL_ConfiguredLimitReached(LimitSampleResult.Voltage, LimitSampleResult.Current))
+						{
+							LimitReached = true;
+							CONTROL_ForceRegulatorStop(PROBLEM_NONE, WARNING_VI_LIMIT);
+						}
 					}
 				}
 				break;
