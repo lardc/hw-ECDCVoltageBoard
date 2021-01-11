@@ -6,30 +6,8 @@
 #include "DeviceObjectDictionary.h"
 #include "math.h"
 
-// Types
-typedef struct __RegulatorSettings
-{
-	float TargetMax;
-	float RiseStep;
-	float RiseFrontLength;
-	float TargetValue;
-	float TargetValuePrev;
-	float SampleValue;
-	float ErrorI;
-	float Kp;
-	float Ki;
-	float Control;
-	float OutputReadyThreshold;
-	bool FEActive;
-	uint16_t FECounter;
-	uint16_t FECounterMax;
-	float FEThreshold;
-	FUNC_CallbackSetControl SetControl;
-} RegulatorSettings, *pRegulatorSettings;
-
 // Variables
 static RegulatorSettings VoltageRegulator, CurrentRegulator;
-static pRegulatorSettings ActiveRegulator;
 static VIPair AverageResult[REGLTR_AVERAGE_RESULT_NUM];
 static uint16_t AverageCounter, AverageResultCounter;
 static bool OutputReady;
@@ -96,6 +74,11 @@ RegulatorResult REGULATOR_Cycle()
 			ActiveRegulator->TargetValuePrev == ActiveRegulator->TargetMax)
 	{
 		OutputReady = true;
+
+		if(ActiveRegulator->CurrentCutoffCtrlDelayCounter < ActiveRegulator->CurrentCutoffCtrlDelayMax)
+			ActiveRegulator->CurrentCutoffCtrlDelayCounter++;
+		else
+			ActiveRegulator->CurrentCutOffEnabled = true;
 	}
 
 	// Сбор результатов измерения
@@ -132,6 +115,10 @@ void REGULATOR_ActivateX(pRegulatorSettings ActiveRegulator, FUNC_CallbackSetCon
 	ActiveRegulator->FECounter = 0;
 	ActiveRegulator->FECounterMax = DataTable[REG_FE_COUNTER_MAX];
 	ActiveRegulator->FEThreshold = (float)DataTable[REG_FE_TRIG_LEVEL] / 100;
+
+	ActiveRegulator->CurrentCutoffCtrlDelayMax = DataTable[REG_I_CUTTOF_CTRL_DEL] * 100 / TIMER2_uS;
+	ActiveRegulator->CurrentCutoffCtrlDelayCounter = 0;
+	ActiveRegulator->CurrentCutOffEnabled = false;
 
 	ActiveRegulator->Control = 0;
 	ActiveRegulator->ErrorI = 0;

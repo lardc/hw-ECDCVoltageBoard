@@ -68,6 +68,11 @@
 #define FE_TRIG_LEVEL_MAX	30
 #define FE_TRIG_LEVEL_DEF	10
 
+// мс
+#define I_CUTOFF_DELAY_MIN	0
+#define I_CUTOFF_DELAY_MAX	100
+#define I_CUTOFF_DELAY_DEF	10
+
 // Types
 typedef struct __TableItemConstraint
 {

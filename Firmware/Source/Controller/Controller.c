@@ -404,7 +404,12 @@ void CONTROL_ForceRegulatorStop(uint16_t Problem, uint16_t Warning)
 bool CONTROL_ConfiguredLimitReached(float SampledVoltage, float SampledCurrent)
 {
 	if(Config.OutputType == OT_Voltage)
-		return SampledCurrent > Config.CurrentSetpoint;
+	{
+		if(ActiveRegulator->CurrentCutOffEnabled || !DataTable[REG_I_CUTOFF_CTRL_DEL_EN])
+			return SampledCurrent > Config.CurrentSetpoint;
+		else
+			return false;
+	}
 	else
 		return SampledVoltage > Config.VoltageSetpoint;
 }

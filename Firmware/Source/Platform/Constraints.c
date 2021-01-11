@@ -50,8 +50,8 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{1, INT16U_MAX, 1000},														// 34
 		{0, INT16U_MAX, 0},															// 35
 
-		{0, 0, 0},																	// 36
-		{0, 0, 0},																	// 37
+		{I_CUTOFF_DELAY_MIN, I_CUTOFF_DELAY_MAX, I_CUTOFF_DELAY_DEF},				// 36
+		{NO, YES, NO},																// 37
 		{0, 0, 0},																	// 38
 		{0, 0, 0},																	// 39
 

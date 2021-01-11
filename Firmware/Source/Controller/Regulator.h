@@ -21,6 +21,33 @@ typedef struct __VIPair
 	float Current;
 } VIPair, *pVIPair;
 
+typedef struct __RegulatorSettings
+{
+	float TargetMax;
+	float RiseStep;
+	float RiseFrontLength;
+	float TargetValue;
+	float TargetValuePrev;
+	float SampleValue;
+	float ErrorI;
+	float Kp;
+	float Ki;
+	float Control;
+	float OutputReadyThreshold;
+	bool FEActive;
+	bool CurrentCutOffEnabled;
+	uint16_t CurrentCutoffCtrlDelayCounter;
+	uint16_t CurrentCutoffCtrlDelayMax;
+	uint16_t FECounter;
+	uint16_t FECounterMax;
+	float FEThreshold;
+	FUNC_CallbackSetControl SetControl;
+} RegulatorSettings, *pRegulatorSettings;
+
+// Variables
+//
+pRegulatorSettings ActiveRegulator;
+
 // Functions
 //
 RegulatorResult REGULATOR_Cycle();
